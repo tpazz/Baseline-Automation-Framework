@@ -1,4 +1,4 @@
-# Baseline-Serenity-Automation-Framework
+# Baseline-Automation-Framework
 
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
 * Gradle project
@@ -9,6 +9,7 @@
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/tree/main/src/test/java/org/example/cipher)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/webdriver/Setup.java)
+* [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium *driver.findElement(By)* or Serenity *@FindBy()* syntax 
 
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
