@@ -140,7 +140,7 @@ public class Setup extends PageObjectExtension {
 
     public boolean compareBrowserDriverVersion() {
         WebDriver webDriver;
-        System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY, "src/test/resources/webdriver/windows/chromedriver.exe");
+        System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY, "src/test/resources/webdriver/chrome/chromedriver.exe");
         Capabilities caps = DesiredCapabilities.chrome();
         webDriver = new ChromeDriver(caps);
         caps = ((RemoteWebDriver) webDriver).getCapabilities();
