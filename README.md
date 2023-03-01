@@ -9,7 +9,7 @@
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/tree/main/src/test/java/org/example/cipher)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/webdriver/Setup.java)
-* [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium *driver.findElement(By)* or Serenity *@FindBy()* syntax 
+* [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax. 
 
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
@@ -159,6 +159,23 @@ Catching the exception, on the other hand, gives you more control over the behav
 
 In general, using the ignoring method is preferred when dealing with unexpected or intermittent exceptions, while catching the exception is preferred when you need to handle specific exceptions in a customised manner. Ultimately, the choice between the two methods depends on the specific requirements and constraints of your use case, and the trade-offs between conciseness, readability, and control.
 
+---
+
+### Element Definition Good Practice
+
+<p align=center>
+<img width="650" alt="image" src="https://user-images.githubusercontent.com/36413640/222150711-a632cd15-0864-495d-8fb2-c6e705fd8c0c.png">
+</p>
+
+Using the [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool to convert elements into their respected locator forms is very useful for quickly defining WebElement Page Objects. 
+
+For instance, say you had an element with the following ID value: ```b11-Config_ButtonGroupItem_Dst_Barge```. In there you have some dynamic gibberish that will eventually fail if a full matching were to be used. Instead, find by CSS and use ```*=``` for partial matching and keep the static value so you end up with ```@FindBy(css = "[id*='Dst_Barge']")```.  
+
+With regards to interacting with a text-based element, it is much easier to ```findElementBy(By.xpath(//span[text()='someText']))```. Even easier, you can use the following methods I have provided in [Custom BasePageObject](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/base/PageObjectExtension.java) class:
+```Java
+locator = xPathBuilder("span", "text()", "someText");
+element = generateElement(locator);
+```
 ---
 
 ### Extending Serenity's Page Object Class
