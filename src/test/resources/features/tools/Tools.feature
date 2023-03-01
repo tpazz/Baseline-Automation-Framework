@@ -8,4 +8,4 @@ Feature: Tools
   @output_interactable_elements
   Scenario: Output Interactable Elements
     Given I am on a webpage 'https://google.com/'
-    Then output a list of all the interactable elements in 'Serenity' syntax
+    Then output a list of all the interactable elements in 'Serenity' syntax with 'Partial' matching

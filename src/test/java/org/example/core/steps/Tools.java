@@ -17,9 +17,10 @@ public class Tools {
         pageObjectExtension.navigateTo(webpage);
     }
 
-    @Then("output a list of all the interactable elements in {string} syntax")
-    public void outputAListOfAllTheInteractableElementsInSerenitySyntax(String syntax) {
-        elementParser.outputFindElementBy(syntax.equalsIgnoreCase("Serenity"));
+    @Then("output a list of all the interactable elements in {string} syntax with {string} matching")
+    public void outputAListOfAllTheInteractableElementsInSerenitySyntax(String syntax, String matching) {
+        elementParser.convertElementToLocator(syntax.equalsIgnoreCase("Serenity"),
+                matching.equalsIgnoreCase("Partial"));
     }
 
     @Given("I am using ChromeDriver")

@@ -1,27 +1,25 @@
 package org.example.tools.elementparser;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import org.example.core.base.PageObjectExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class ElementParser extends PageObjectExtension {
 
-    private boolean isInteractableElement(WebElement element) {
-        boolean isInteractable = false;
-        boolean allowsTextInput = false;
-        String tagName = element.getTagName();
-        if (tagName.equals("input") || tagName.equals("textarea"))
-            allowsTextInput = true;
-        String cursorStyle = element.getCssValue("cursor");
-        boolean changesCursor = cursorStyle.equals("pointer");
-        if (allowsTextInput || changesCursor)
-            isInteractable = true;
-        return isInteractable;
+    public void convertElementToLocator(boolean serenitySyntax, boolean substring) {
+        if (substring) outputWithSubstring(serenitySyntax);
+        else outputWithFullMatch(serenitySyntax);
     }
 
-    public void outputFindElementBy(boolean serenitySyntax) {
+    private boolean isInteractableElement(WebElement element) {
+        boolean interactable = false;
+        String tagName = element.getTagName();
+        if (tagName.equals("input") || tagName.equals("textarea") || tagName.equals("button") || tagName.equals("select"))
+            interactable = true;
+        return interactable;
+    }
+
+    public void outputWithFullMatch(boolean serenitySyntax) {
         elements = getDriver().findElements(By.cssSelector("*"));
         for (WebElement element : elements) {
             if (isInteractableElement(element)) {
@@ -60,7 +58,7 @@ public class ElementParser extends PageObjectExtension {
         }
     }
 
-    private void outputFindElementByWithRegex(boolean serenitySyntax) {
+    private void outputWithSubstring(boolean serenitySyntax) {
         elements = getDriver().findElements(By.cssSelector("*"));
         for (WebElement element : elements) {
             if (isInteractableElement(element)) {
