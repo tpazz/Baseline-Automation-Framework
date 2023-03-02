@@ -11,6 +11,15 @@
 * [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/webdriver/Setup.java)
 * [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax. 
 
+### Getting started
+
+1. Ensure you have both JAVA_HOME and PATH environment variables configured correctly for JDK 18 and Gradle respectively
+2. Clone the repository
+3. Open project in IDE of your choice (Intellij is recommended)
+4. Build the **Gradle** project
+5. Add a new Gradle configuration (e.g. ```clean test aggregate reports --info```)
+6. Smash the green arrow and Run! 
+
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
 
