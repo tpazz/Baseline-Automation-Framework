@@ -6,11 +6,11 @@
 * Log4j2
 * Java 1.8
 * Selenium 
-* [AES cipher capabilities](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/tree/main/src/test/java/org/example/cipher)
-* [Custom BasePageObject](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/base/PageObjectExtension.java) extension from Serenity's PageObject
-* [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
-* [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
-* [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/core/steps/ActionSteps.java) class that enables you to write automated scripts stright from Gherkin, without needing to create Page Object classes!
+* [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
+* [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
+* [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
+* [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
+* [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/ActionSteps.java) class that enables you to write automated scripts stright from Gherkin, without needing to create Page Object classes!
 
 ### Getting started
 
