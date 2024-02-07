@@ -176,7 +176,7 @@ public class ChromeDriverSetup {
 
     public static String getChromeDriverVersion(boolean fullVersion) {
         try {
-            Process process = Runtime.getRuntime().exec("src/test/resources/webdriver/chromedriver-win64/chromedriver.exe" + " --version");
+            Process process = Runtime.getRuntime().exec("src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe" + " --version");
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = reader.readLine();
             if (line != null) {
