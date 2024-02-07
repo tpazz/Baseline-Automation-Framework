@@ -5,7 +5,7 @@ public class Constants {
     // DIRECTORIES
     public static final String USER_HOME = System.getProperty("user.home");
     public static final String LOCAL_DOWNLOADS = USER_HOME + "\\Downloads\\";
-    public static final String PROJECT_RESOURCES_WINDOWS = "src\\test\\resources\\webdriver\\";
+    public static final String PROJECT_RESOURCES_WINDOWS = "src\\test\\resources\\webdriver\\windows\\";
 
     // OTHER URLS
     public static final String CHROME_DRIVER_API = "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json";
