@@ -1,18 +1,3 @@
-package org.example.core.base;
-
-public class Constants {
-
-    // DIRECTORIES
-    public static final String USER_HOME = System.getProperty("user.home");
-    public static final String LOCAL_DOWNLOADS = USER_HOME + "\\Downloads\\";
-    public static final String PROJECT_RESOURCES_WINDOWS = "src\\test\\resources\\webdriver\\windows\\";
-
-    // OTHER URLS
-    public static final String CHROME_DRIVER_API = "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json";
-    public static final String THE_INTERNET_HEROKU = "https://the-internet.herokuapp.com/";
-
-    // CREDENTIALS
-    public static final String USERNAME = "testUsername";
-    public static final String PASSWORD = "P5$$w0rd!";
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:52b9d36f8a40c8c9ea6cc66c2a630d2767fb614b5be5b0a0ebcd452b0201fefe
+size 731

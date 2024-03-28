@@ -1,23 +1,3 @@
-package org.example.core.pages;
-
-import org.example.core.base.PageObjectExtension;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import static org.example.core.base.PageObjectExtension.Action.*;
-
-public class TheInternet extends PageObjectExtension {
-
-    @FindBy(xpath = "//h1")
-    WebElement heading;
-
-    public void navigateToPage(String url) {
-        getDriver().get(url);
-        waitForPageLoadedJS();
-    }
-
-    public void verifyPage(String expected) {
-        actual = action(GET_TEXT, heading);
-        verify(expected, actual);
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:840b5ca4cb34002f1af06906a9c880dc8587e67a60cca79bd18d8ec2cf90dcae
+size 587

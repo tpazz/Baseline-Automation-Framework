@@ -1,21 +1,3 @@
-package org.example.core.steps;
-
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import org.example.core.base.PageObjectExtension;
-import org.example.tools.elementparser.ElementParser;
-
-public class Tools {
-
-    PageObjectExtension pageObjectExtension;
-
-    @Given("I am on a webpage {string}")
-    public void iAmOnAWebpage(String webpage) {
-        pageObjectExtension.navigateTo(webpage);
-    }
-
-    @Then("Initiate logging")
-    public void initiateTests() {
-        pageObjectExtension.startLogger();
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:846b8db7b478813be19ae18e0716f235d2790a09662b4a62e24f9eb32d74b3bf
+size 535

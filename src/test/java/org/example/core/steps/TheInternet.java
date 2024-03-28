@@ -1,23 +1,3 @@
-package org.example.core.steps;
-
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import org.example.core.base.PageObjectExtension;
-
-public class TheInternet {
-
-    org.example.core.pages.TheInternet theInternet;
-    PageObjectExtension pageObjectExtension;
-
-    @Given("I navigate to {string}")
-    public void navigateToURL(String url) {
-        theInternet.navigateToPage(url);
-    }
-
-    @Then("Verify the heading reads {string}")
-    public void verifyHeadingText(String expected) {
-        theInternet.verifyPage(expected);
-        pageObjectExtension.endLogger();
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:dab460339c46aba467efe0cdab5f3e1de50348fb513d1f6dd6a97fba5bcf6861
+size 600
