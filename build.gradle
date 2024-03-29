@@ -37,7 +37,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
 }
 
-test { maxParallelForks = 2 }
+test {
+    systemProperty("webdriver.chrome.driver", "src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe")
+    systemProperty("webdriver.edge.driver", "src/test/resources/webdriver/windows/edgedriver-win64/msedgedriver.exe")
+    systemProperty("webdriver.firefox.driver", "src/test/resources/webdriver/windows/firefoxdriver-win64/geckodriver.exe")
+
+    maxParallelForks = 2
+}
 
 gradle.startParameter.continueOnFailure = true
 test.finalizedBy(aggregate)
