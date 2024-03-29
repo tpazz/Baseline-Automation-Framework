@@ -1,11 +1,10 @@
 # Baseline-Automation-Framework
 
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
-* Gradle project
+* Self-contained Java + Gradle project
+* Selenium
 * Serenity with Cucumber
-* Log4j2
-* Java 1.8
-* Selenium 
+* Log4j 
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
@@ -14,12 +13,17 @@
 
 ### Getting started
 
-1. Ensure you have both JAVA_HOME and PATH environment variables configured correctly for JDK 18 and Gradle respectively
-2. Clone the repository
-3. Open project in IDE of your choice (Intellij is recommended)
-4. Build the **Gradle** project
-5. Add a new Gradle configuration (e.g. ```clean test aggregate reports --info```)
-6. Smash the green arrow and Run! 
+~~1. Ensure you have both JAVA_HOME and PATH environment variables configured correctly for JDK 18 and Gradle respectively~~ 
+This project is fully self-contained! (Except for having the actual Browser you'll be using for testing installed). So you don't have to worry about installing the correct JDK or Gradle version...
+1. Clone the repository
+2. Open project in IDE of your choice (Intellij is recommended)
+3. Build the **Gradle** project
+4. Add a new Gradle configuration (e.g. ```clean test aggregate reports --info```)
+5. Smash the green arrow and Run!
+
+**OR** Run tests directly from the command line:
+1. Navigate to the root of the project
+2. Enter: `gradlew.bat <arguments>` (Windows) or `./gradlew <arguments>` (Linux) For example, `gradlew.bat clean test aggregate reports`
 
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
@@ -244,3 +248,9 @@ These are just a few examples of how to use the step definitions. The syntax to 
 
  And I enter [text] in the active element
 ```
+
+---
+
+### Troubleshooting
+* Make sure that your **webdriver** version is compatible with your **browser** version
+* Webdriver executables must go in `src/test/resources/webdriver/windows/<browser>/<driver>.exe
