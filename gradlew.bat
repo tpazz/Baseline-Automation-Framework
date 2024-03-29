@@ -38,7 +38,7 @@ set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome
 
-set JAVA_HOME=C:\Users\thepa\.jdks\corretto-11.0.22
+set JAVA_HOME=jdk
 set JAVA_EXE=%JAVA_HOME%\bin\java.exe
 %JAVA_EXE% -version >NUL 2>&1
 if "%ERRORLEVEL%" == "0" goto execute
@@ -52,7 +52,7 @@ echo location of your Java installation.
 goto fail
 
 :findJavaFromJavaHome
-set JAVA_HOME=C:\Users\thepa\.jdks\corretto-11.0.22
+set JAVA_HOME=jdk
 set JAVA_EXE=%JAVA_HOME%\bin\java.exe
 
 if exist "%JAVA_EXE%" goto execute
