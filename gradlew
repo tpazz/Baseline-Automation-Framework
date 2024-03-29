@@ -87,8 +87,8 @@ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Assuming JDK folder is in the same directory as the script
 JAVA_HOME_LOC="$SCRIPT_DIR/jdk-linux"
-export JAVA_HOME=$JAVA_HOME_LOC
-export PATH=$PATH:$JAVA_HOME_LOC/bin
+export JAVA_HOME="$JAVA_HOME_LOC"
+export PATH="$PATH:$JAVA_HOME_LOC/bin"
 
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
