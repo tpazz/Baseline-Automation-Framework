@@ -39,7 +39,7 @@ dependencies {
 test {
     systemProperty('webdriver.chrome.driver', 'src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe')
     systemProperty('webdriver.edge.driver', 'src/test/resources/webdriver/windows/edgedriver-win64/msedgedriver.exe')
-    systemProperty('webdriver.firefox.driver', 'src/test/resources/webdriver/windows/firefoxdriver-win64/geckodriver.exe')
+    systemProperty('webdriver.gecko.driver', 'src/test/resources/webdriver/windows/firefoxdriver-win64/geckodriver.exe')
     maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
 }
 

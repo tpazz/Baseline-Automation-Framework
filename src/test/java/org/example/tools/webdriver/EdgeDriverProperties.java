@@ -13,7 +13,7 @@ public class EdgeDriverProperties implements DriverSource {
     @Override
     public WebDriver newDriver() {
         EdgeOptions edgeOptions = new EdgeOptions();
-        List<String> args = Arrays.asList("inprivate", "headless");
+        List<String> args = Arrays.asList("inprivate", "headless", "start-maximized");
         Map<String, Object> map = new HashMap<>();
         map.put("args", args);
         edgeOptions.setCapability("ms:edgeOptions", map);
