@@ -84,14 +84,14 @@ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Assuming JDK folder is in the same directory as the script
-JAVA_HOME="$SCRIPT_DIR/jdk"
+JAVA_HOME="$SCRIPT_DIR/jdk-linux"
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
         JAVACMD="$JAVA_HOME/jre/sh/java"
     else
-        JAVACMD="$JAVA_HOME/bin/java.exe"
+        JAVACMD="$JAVA_HOME/bin/java"
     fi
     if [ ! -x "$JAVACMD" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
