@@ -90,14 +90,18 @@ JAVA_HOME_LOC="$SCRIPT_DIR/jdk-linux"
 export JAVA_HOME="$JAVA_HOME_LOC"
 export PATH="$PATH:$JAVA_HOME_LOC/bin"
 
+chmod +x $JAVA_HOME/bin/java
+
+die() {
+  echo "$1" >&2
+  exit 1
+}
+
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
-    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
-        # IBM's JDK on AIX uses strange locations for the executables
-        JAVACMD="$JAVA_HOME/jre/sh/java"
-    else
+    if [ -x "$JAVA_HOME/bin/java" ] ; then
         JAVACMD="$JAVA_HOME/bin/java"
-    fi
+    else
     if [ ! -x "$JAVACMD" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
 
