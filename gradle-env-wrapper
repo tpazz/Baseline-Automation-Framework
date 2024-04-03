@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Determine the script's directory (similar to your original approach)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+# Set JAVA_HOME relative to this script's location
+export JAVA_HOME="$SCRIPT_DIR/jdk-linux"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Optionally, print JAVA_HOME and java version for debugging
+echo "Using JAVA_HOME: $JAVA_HOME"
+java -version
+
+# Now, delegate the call to the actual Gradle wrapper script
+# Pass all the arguments received by this wrapper script to the gradlew script
+"$SCRIPT_DIR/gradlew" "$@"
+
+# You might want to capture gradlew's exit code and exit with it
+exit_code=$?
+exit $exit_code
