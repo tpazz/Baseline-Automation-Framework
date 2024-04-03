@@ -15,6 +15,8 @@
 
 ~~1. Ensure you have both JAVA_HOME and PATH environment variables configured correctly for JDK 18 and Gradle respectively~~ 
 This project is fully self-contained! (Except for having the actual Browser you'll be using for testing installed). So you don't have to worry about installing the correct JDK or Gradle version...
+
+**Recommended** - Run tests from IntelliJ IDE:
 1. Clone the repository
 2. Open project in IDE of your choice (Intellij is recommended)
 3. Build the **Gradle** project
@@ -23,7 +25,7 @@ This project is fully self-contained! (Except for having the actual Browser you'
 
 **OR** Run tests directly from the command line:
 1. Navigate to the root of the project
-2. Enter: `gradlew.bat <arguments>` (Windows) or `./gradlew <arguments>` (Linux) For example, `gradlew.bat clean test aggregate reports`
+2. Enter: `gradlew.bat <arguments>` (Windows) or `./gradlew <arguments>` (Linux, you might need to `chmod +x gradlew` before executing it) For example, `gradlew.bat clean test aggregate reports --info` 
 
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
