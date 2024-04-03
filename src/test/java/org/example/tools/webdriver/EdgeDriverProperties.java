@@ -16,7 +16,8 @@ public class EdgeDriverProperties implements DriverSource {
         List<String> args = Arrays.asList("inprivate", "headless", "start-maximized");
         Map<String, Object> map = new HashMap<>();
         map.put("args", args);
-        edgeOptions.setCapability("ms:edgeOptions", map);
+        map.put("binary", "src/test/resources/browser/linux/edge/opt/microsoft/msedge/msedge");
+	edgeOptions.setCapability("ms:edgeOptions", map);
         return new EdgeDriver(edgeOptions);
     }
 

@@ -37,13 +37,29 @@ dependencies {
 }
 
 test {
-    systemProperty('webdriver.chrome.driver', 'src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe')
-    systemProperty('webdriver.edge.driver', 'src/test/resources/webdriver/windows/edgedriver-win64/msedgedriver.exe')
-    //systemProperty('webdriver.gecko.driver', 'src/test/resources/webdriver/windows/firefoxdriver-win64/geckodriver.exe')
-    //systemProperty('webdriver.chrome.driver', 'src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe')
-    //systemProperty('webdriver.edge.driver', 'src/test/resources/webdriver/windows/edgedriver-win64/msedgedriver.exe')
-    systemProperty('webdriver.gecko.driver', 'src/test/resources/webdriver/linux/geckodriver-lin64/geckodriver')
-
+    if ((System.getProperty('os.name').toLowerCase()).contains('linux')) {
+	    if (driver == 'chrome') {
+		systemProperty('webdriver.driver','chrome')
+		systemProperty('webdriver.chrome.driver', 'src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver')
+		systemProperty('webdriver.chrome.binary', 'src/test/resources/browser/linux/chrome/opt/google/chrome/chrome')
+		//systemProperty('webdriver.chrome.driver', 'src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe')
+		systemProperty('chrome.switches','--incognito;--start-maximized')
+		systemProperty('headless.mode',true)     
+	    } else if (driver == 'firefox') {
+		systemProperty('webdriver.driver','firefox')
+		systemProperty('webdriver.gecko.driver', 'src/test/resources/webdriver/linux/geckodriver-lin64/geckodriver')
+		//systemProperty('webdriver.gecko.driver', 'src/test/resources/webdriver/windows/firefoxdriver-win64/geckodriver.exe')
+		systemProperty('webdriver.firefox.bin', 'src/test/resources/browser/linux/firefox/firefox')
+		systemProperty('gecko.firefox.options','{"args": ["-private","-headless"]}') 
+	    } else if (driver == 'edge') {
+		systemProperty('webdriver.driver','provided')
+		systemProperty('webdriver.edge.driver', 'src/test/resources/webdriver/linux/edgedriver-lin64/msedgedriver')        
+		systemProperty('webdriver.provided.type','mydriver')
+		systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.EdgeDriverProperties')
+		//systemProperty('webdriver.edge.driver', 'src/test/resources/webdriver/windows/edgedriver-win64/msedgedriver.exe')
+		//systemProperty('webdriver.edge.binary', 'src/test/resources/browser/linux/edge/opt/microsoft/msedge/msedge')     
+	    } 
+    }      
     maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
 }
 
