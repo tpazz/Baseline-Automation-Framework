@@ -84,12 +84,11 @@ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
 
 
-#SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+DRIVER_DIR="$SCRIPT_DIR/src/test/resources/webdriver/linux/"
+#chmod +x "$DRIVER_DIR/geckodriver-lin64/geckodriver"
+
 ## Assuming JDK folder is in the same directory as the script
-#JAVA_HOME_LOC="$SCRIPT_DIR/jdk-linux"
-#export JAVA_HOME="$JAVA_HOME_LOC"
-#export PATH="$PATH:$JAVA_HOME_LOC/bin"
-#chmod +x $JAVA_HOME/bin/java
 
 die() {
   echo "$1" >&2
