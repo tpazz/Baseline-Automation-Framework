@@ -10,22 +10,44 @@
 * [Automated Download and Install of ChromeDriver](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
 * [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
 * [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/ActionSteps.java) class that enables you to write automated scripts stright from Gherkin, without needing to create Page Object classes!
+---
 
 ### Getting started
-
-~~1. Ensure you have both JAVA_HOME and PATH environment variables configured correctly for JDK 18 and Gradle respectively~~ 
-This project is fully self-contained! (Except for having the actual Browser you'll be using for testing installed). So you don't have to worry about installing the correct JDK or Gradle version...
 
 **Recommended** - Run tests from IntelliJ IDE:
 1. Clone the repository
 2. Open project in IDE of your choice (Intellij is recommended)
 3. Build the **Gradle** project
-4. Add a new Gradle configuration (e.g. ```clean test aggregate reports --info```)
-5. Smash the green arrow and Run!
+4. Add a new Gradle configuration, specifying the operating system and driver you wish to use for executing the suite (e.g. ```clean test aggregate reports --info -Pos=windows -Pdriver=chrome```)
+5. Run!
 
-**OR** Run tests directly from the command line:
-1. Navigate to the root of the project
-2. Enter: `gradlew.bat <arguments>` (Windows) or `./gradlew <arguments>` (Linux, you might need to `chmod +x gradlew` before executing it) For example, `gradlew.bat clean test aggregate reports --info` 
+**OR** Run tests directly from the command line using provided gradle wrapper scripts:
+#### Windows 
+1. Clone the project
+2. Enter: `gradlew.bat <arguments> -Pos=<YOUR OPERATING SYSTEM> -pdriver=<DESIRED DRIVER>` 
+
+#### Linux
+You may need to `sudo chmod -R 755 Baseline-Automation-Framework` beforehand...
+1. Clone the project
+2. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=<YOUR OPERATING SYSTEM> -Pdriver=<DESIRED DRIVER>`
+
+#### Mac
+Coming soon...
+
+---
+### Compatibility 
+This Baseline Automation Suite has been built to be as self-contained as possible, with JDK's, environment variables, browser installations, webdriver installations and automated webdriver management included so you don't have to manually configure any settings or download Web Drivers whenever your browser gets updated. However, due to the nature of some browsers and operating systems, there are some limitations.
+
+|         | Project copy of Chrome | Project copy of Edge | Project copy of Firefox | Chromedriver compatibility auto-install | MSEdgeDriver compatibility auto-install | Geckodriver compatibility auto-install | Checks for system Chrome installation | Checks for system Edge installation | Checks for system Firefox installation |
+|---------|------------------------|----------------------|-------------------------|-----------------------------------------|-----------------------------------------|----------------------------------------|---------------------------------------|-------------------------------------|----------------------------------------|
+| Windows | YES                    | NO                   | YES                     | YES                                     | YES                                     | NO                                     | YES                                   | YES                                 | YES                                    |
+| Linux   | YES                    | YES                  | YES                     | YES                                     | YES                                     | NO                                     | YES                                   | NO                                  | YES                                    |
+| Mac     | TBC                    | TBC                  | TBC                     | TBC                                     | TBC                                     | TBC                                    | TBC                                   | TBC                                 | TBC                                    |
+
+Because there is no ***easy*** way to detect local installations of browsers on Linux based systems, the automation suite will use the packaged browsers included in the repository. Below you can see the flow of how the drivers are updated.
+
+![image](https://github.com/tpazz/Baseline-Automation-Framework/assets/36413640/da8da302-4066-4206-958d-6afe82a5035b)
+
 
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
