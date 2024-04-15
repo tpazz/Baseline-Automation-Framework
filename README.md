@@ -4,7 +4,7 @@
 * Self-contained Java + Gradle project
 * Selenium
 * Serenity with Cucumber
-* Log4j 
+* Logging 
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
@@ -48,7 +48,7 @@ Because there is no ***easy*** way to detect local installations of browsers on 
 
 ![image](https://github.com/tpazz/Baseline-Automation-Framework/assets/36413640/da8da302-4066-4206-958d-6afe82a5035b)
 
-
+---
 ### The key to make your Selenium tests more robust 
 * Use explicit waits: Instead of using the default implicit wait, use explicit waits to tell the test to wait for a certain condition to be met before proceeding. This will make your tests less prone to flakiness caused by elements taking longer to load than expected.
 
@@ -277,4 +277,7 @@ These are just a few examples of how to use the step definitions. The syntax to 
 
 ### Troubleshooting
 * Make sure that your **webdriver** version is compatible with your **browser** version
-* Webdriver executables must go in `src/test/resources/webdriver/windows/<browser>/<driver>.exe
+* Make sure that you have enough memory to execute the tests (can be set with `javaMaxHeapSize` in `build.gradle`)
+* Make sure that you are not exceeding maximum cores when parallel testing (`maxParallelForks` in `build.gradle`)
+* Make sure that you have correctly labelled your features with `@tags`, and specifying these tags in the `CucumberOptions` for each runner
+* Webdriver executables must go in `src/test/resources/webdriver/<os>/<browser>/<driver>`
