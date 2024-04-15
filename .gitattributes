@@ -1,4 +1,6 @@
 jdk/** filter=lfs diff=lfs merge=lfs -text
 jdk-linux/** filter=lfs diff=lfs merge=lfs -text
 src/test/resources/browser/** filter=lfs diff=lfs merge=lfs -text
+src/test/resources/jdks/** filter=lfs diff=lfs merge=lfs -text
+src/test/resources/webdriver/** filter=lfs diff=lfs merge=lfs -text
 src/test/resources/jdks/linux/** filter=lfs diff=lfs merge=lfs -text
