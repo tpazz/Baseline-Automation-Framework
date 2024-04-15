@@ -24,12 +24,12 @@
 **OR** Run tests directly from the command line using provided gradle wrapper scripts:
 #### Windows 
 1. Clone the project
-2. Enter: `gradlew.bat <arguments> -Pos=<YOUR OPERATING SYSTEM> -pdriver=<DESIRED DRIVER>` 
+2. Enter: `gradlew.bat <arguments> -Pos=windows -pdriver=<DESIRED DRIVER>` 
 
 #### Linux
 You may need to `sudo chmod -R 755 Baseline-Automation-Framework` beforehand...
 1. Clone the project
-2. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=<YOUR OPERATING SYSTEM> -Pdriver=<DESIRED DRIVER>`
+2. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<DESIRED DRIVER>`
 
 #### Mac
 Coming soon...
