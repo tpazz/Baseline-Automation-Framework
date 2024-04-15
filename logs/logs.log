@@ -1,0 +1,6 @@
+2024-04-15 17:30:52,363 INFO o.e.c.b.PageObjectExtension [Test worker] *************************Google Chrome 122.0.6261.94 
+2024-04-15 17:30:52,599 INFO o.e.c.b.PageObjectExtension [Test worker] Chrome Browser version: 122.0.6261.94
+2024-04-15 17:30:52,600 INFO o.e.c.b.PageObjectExtension [Test worker] Chromedriver version: 122.0.6168.0
+2024-04-15 17:30:52,601 INFO o.e.c.b.PageObjectExtension [Test worker] Driver versions are compatible!
+2024-04-15 17:30:58,607 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-04-15 17:30:58,613 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~

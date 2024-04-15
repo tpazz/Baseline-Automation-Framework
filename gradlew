@@ -84,8 +84,8 @@ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
 
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-DRIVER_DIR="$SCRIPT_DIR/src/test/resources/webdriver/linux/"
+#SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+#DRIVER_DIR="$SCRIPT_DIR/src/test/resources/webdriver/linux/"
 #chmod +x "$DRIVER_DIR/geckodriver-lin64/geckodriver"
 
 ## Assuming JDK folder is in the same directory as the script
