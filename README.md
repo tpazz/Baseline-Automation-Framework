@@ -7,7 +7,7 @@
 * Logging 
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
-* [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/ChromeDriverSetup.java)
+* [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
 * [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
 * [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/ActionSteps.java) class that enables you to write automated scripts stright from Gherkin, without needing to create Page Object classes!
 ---
@@ -27,7 +27,7 @@
 2. Enter: `gradlew.bat <arguments> -Pos=windows -pdriver=<DESIRED DRIVER>` 
 
 #### Linux
-You may need to `sudo chmod -R 755 Baseline-Automation-Framework` beforehand...
+You may need to `sudo chmod -R 755 Baseline-Automation-Framework` beforehand, or `chmod +x gradle-env-wrapper-linux && chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver && chmod +x src/test/resources/jdks/linux/bin/*`
 1. Clone the project
 2. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<DESIRED DRIVER>`
 
