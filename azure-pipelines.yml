@@ -3,8 +3,13 @@ pool:
   vmImage: 'windows-2019'
 jobs:
 - job: Windows
+
   steps:
   - task: CmdLine@2
+    inputs:
+      script: 'systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"'
+  - task: CmdLine@2
+  
     displayName: Chrome Test on Windows
     inputs:
       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
@@ -26,6 +31,8 @@ jobs:
     inputs:
       script: |
         chmod +x gradle-env-wrapper-linux
+
+        chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
         
         chmod +x src/test/resources/jdks/linux/bin/*
   - task: CmdLine@2
