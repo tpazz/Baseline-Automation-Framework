@@ -1,10 +1,9 @@
 trigger: none
 
-jobs:
-- job: Windows
-  pool:
-    vmImage: 'windows-latest'
-  steps:
+
+pool:
+  vmImage: 'windows-latest'
+steps:
   - task: CmdLine@2
     displayName: Chrome Test on Windows
     inputs:
