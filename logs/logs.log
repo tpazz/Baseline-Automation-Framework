@@ -1,6 +1,8 @@
-2024-04-15 17:30:52,363 INFO o.e.c.b.PageObjectExtension [Test worker] *************************Google Chrome 122.0.6261.94 
-2024-04-15 17:30:52,599 INFO o.e.c.b.PageObjectExtension [Test worker] Chrome Browser version: 122.0.6261.94
-2024-04-15 17:30:52,600 INFO o.e.c.b.PageObjectExtension [Test worker] Chromedriver version: 122.0.6168.0
-2024-04-15 17:30:52,601 INFO o.e.c.b.PageObjectExtension [Test worker] Driver versions are compatible!
-2024-04-15 17:30:58,607 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-04-15 17:30:58,613 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~
+2024-04-16 15:47:47,639 WARN o.e.c.b.PageObjectExtension [Test worker] Cannot find installation of Chrome on system. Attempting Project installation...
+2024-04-16 15:47:47,832 INFO o.e.c.b.PageObjectExtension [Test worker] Project Chrome installation found! (123.0.6312.88)
+2024-04-16 15:47:47,871 INFO o.e.c.b.PageObjectExtension [Test worker] Chrome Browser version: 123.0.6312.88
+2024-04-16 15:47:47,871 INFO o.e.c.b.PageObjectExtension [Test worker] Chromedriver version: 123.0.6262.0
+2024-04-16 15:47:47,871 INFO o.e.c.b.PageObjectExtension [Test worker] Driver versions are compatible!
+2024-04-16 15:47:47,957 INFO o.e.c.b.PageObjectExtension [Test worker] Local Chrome installation found! (123.0.6312.122)
+2024-04-16 15:47:54,906 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-04-16 15:47:54,908 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~
