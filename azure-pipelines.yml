@@ -1,8 +1,9 @@
----
+
 pool:
   vmImage: 'windows-2019'
-
-steps:
+jobs:
+- job: Windows
+  steps:
   - task: CmdLine@2
     displayName: Chrome Test on Windows
     inputs:
@@ -16,28 +17,27 @@ steps:
     inputs:
       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
 
-# - job: Linux
-#   dependsOn: Windows
-#   pool:
-#     vmImage: 'ubuntu-latest'
-#   steps:
-#   - task: CmdLine@2
-#     displayName: Setting executable permissions
-#     inputs:
-#       script: |
-#         chmod +x gradle-env-wrapper-linux
+- job: Linux
+  dependsOn: Windows
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: CmdLine@2
+    displayName: Setting executable permissions
+    inputs:
+      script: |
+        chmod +x gradle-env-wrapper-linux
         
-#         chmod +x src/test/resources/jdks/linux/bin/*
-#   - task: CmdLine@2
-#     displayName: Chrome Test on Linux
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
-#   - task: CmdLine@2
-#     displayName: Firefox test on Linux
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
-#   - task: CmdLine@2
-#     displayName: Edge test on Linux
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
-...
+        chmod +x src/test/resources/jdks/linux/bin/*
+  - task: CmdLine@2
+    displayName: Chrome Test on Linux
+    inputs:
+      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
+  - task: CmdLine@2
+    displayName: Firefox test on Linux
+    inputs:
+      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
+  - task: CmdLine@2
+    displayName: Edge test on Linux
+    inputs:
+      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
