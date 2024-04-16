@@ -18,7 +18,6 @@ jobs:
       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
 
 - job: Linux
-  dependsOn: Windows
   pool:
     vmImage: 'ubuntu-latest'
   steps:
