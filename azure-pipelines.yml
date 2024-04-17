@@ -9,6 +9,9 @@ jobs:
     inputs:
       script: 'systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"'
   - task: CmdLine@2
+    inputs:
+      script: '"D:\a\1\s\src\test\resources\jdks\windows\bin\java.exe" -version'
+  - task: CmdLine@2
   
     displayName: Chrome Test on Windows
     inputs:
