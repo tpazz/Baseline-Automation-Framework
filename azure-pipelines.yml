@@ -20,7 +20,7 @@ jobs:
 
 - job: Linux
   pool:
-    vmImage: 'Local Linux'
+    name: 'Local Linux'
   steps:
   - task: CmdLine@2
     displayName: Setting executable permissions
