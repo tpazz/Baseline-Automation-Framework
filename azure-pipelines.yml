@@ -7,6 +7,10 @@ jobs:
   steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: true
+  - script: |
+      git lfs fetch
+      git lfs pull
+    displayName: git-lfs
   - task: JavaToolInstaller@0
     inputs:
       versionSpec: '11'
