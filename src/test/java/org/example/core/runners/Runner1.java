@@ -5,5 +5,11 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features="src/test/resources/features/", glue="org.example", tags = "@basic_test")
+@CucumberOptions(
+        features="src/test/resources/features/",
+        glue="org.example",
+        plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json",
+                "junit:target/cucumber-reports/Cucumber.xml",
+                "html:target/cucumber-reports"},
+        tags = "@basic_test")
 public class Runner1 {}

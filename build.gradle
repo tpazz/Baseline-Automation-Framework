@@ -33,9 +33,75 @@ dependencies {
     implementation('org.assertj:assertj-core:3.8.0')
     implementation(group: 'org.json', name: 'json', version: '20090211')
     implementation('com.google.code.gson:gson:2.8.9')
+    testImplementation('org.hamcrest:hamcrest-library:2.2')
+}
+
+task importJunitResultsToXrayCloud() {
+    description 'Imports Junit test results to Xray Test Management for Jira Cloud.'
+    dependsOn 'test'
+
+    def xrayApiBaseUrl = 'https://xray.cloud.getxray.app/api/v2'
+    // the following variables can be defined locally or in gradle.properties
+    //  - clientId, clientSecret
+    //  - reportFormat, projectKey version, revision, testPlanKey, testExecKey, testEnvironment
+
+    def reportFile = "target/cucumber-reports/Cucumber.json"
+
+    doLast {
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                ignoreExitValue = true
+                commandLine 'curl', '-H','"Content-Type:application/json"', '-X','POST', '--data', "\"{\\\"client_id\\\":\\\"${clientId}\\\",\\\"client_secret\\\": \\\"${clientSecret}\\\" }\"", "${xrayApiBaseUrl}/authenticate"
+                standardOutput = os
+            }
+            if (result.getExitValue() != 0) {
+                println result
+            } else {
+                def token = os.toString().replaceAll("\"","")
+                println "Authenticated with Xray!"
+
+                new ByteArrayOutputStream().withStream { os2 ->
+                    def result2 = exec {
+                        ignoreExitValue = true
+
+                        def url = "${xrayApiBaseUrl}/import/execution/${reportFormat}?"
+                        if (projectKey?.trim()) {
+                            url += "&projectKey=${projectKey}"
+                        }
+                        if (version?.trim()) {
+                            url += "&fixVersion=${version}"
+                        }
+                        if (revision?.trim()) {
+                            url += "&revision=${revision}"
+                        }
+                        if (testPlanKey?.trim()) {
+                            url += "&testPlanKey=${testPlanKey}"
+                        }
+                        if (testExecKey?.trim()) {
+                            url += "&testExecKey=${testExecKey}"
+                        }
+                        if (testEnvironment?.trim()) {
+                            url += "&testEnvironments=${testEnvironment}"
+                        }
+
+                        commandLine 'curl', '--silent', '--fail-with-body', '-H','Content-Type: application/json', '-X','POST', '-H', "Authorization: Bearer ${token}", '--data', "@${reportFile}", url
+                        standardOutput = os2
+                    }
+                    if (result2.getExitValue() != 0) {
+                        println "ERROR: problem importing results to Xray"
+                        println os2.toString()
+                    } else {
+                        println "Resuls imported to Xray!"
+                        println os2.toString()
+                    }
+                }
+            }
+        }
+    }
 }
 
 test {
+    ignoreFailures = true
     systemProperty('webdriver.driver','provided')
     systemProperty('webdriver.provided.type','mydriver')
     //String driver = "";
@@ -70,7 +136,7 @@ test {
                     break
             }
             break
-        maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
+            maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
     }
 }
 
