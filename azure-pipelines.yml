@@ -3,7 +3,7 @@
 jobs:
 - job: Windows
   pool:
-    vmImage: 'windows-latest'
+    name: 'Local Windows'
   steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: true
