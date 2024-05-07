@@ -10,8 +10,8 @@ jobs:
       versionSpec: '11'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'LocalDirectory'
-      jdkFile: '($Build.ArtifactStagingDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
-      jdkDestinationDirectory: '\src\test\resources\jdks\windows'
+      jdkFile: '$(Build.ArtifactStagingDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
+      jdkDestinationDirectory: '$(Build.ArtifactStagingDirectory)\src\test\resources\jdks\windows'
   - task: Gradle@3
     displayName: Gradle Task Test - Chrome Test on Windows
     inputs:
