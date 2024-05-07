@@ -7,8 +7,8 @@ jobs:
   steps:
   - script: |
       git fetch --all
-      git checkout master 
-      git pull origin master
+      git checkout 8198a24 
+      
     displayName: 'Ensure latest repository state'  
   - task: JavaToolInstaller@0
     inputs:
