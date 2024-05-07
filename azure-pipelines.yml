@@ -5,28 +5,25 @@ jobs:
   pool:
     name: 'Local Windows'
   steps:
-  - script: |
-      git fetch --all
-      git checkout 8198a24 
-      
-    displayName: 'Ensure latest repository state'  
-  - task: JavaToolInstaller@0
-    inputs:
-      versionSpec: '11'
-      jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'LocalDirectory'
-      jdkFile: '$(Build.SourcesDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
-      jdkDestinationDirectory: '$(Build.SourcesDirectory)\src\test\resources\jdks\azure'
-  - task: Gradle@3
-    displayName: Gradle Task Test - Chrome Test on Windows
-    inputs:
-      gradleWrapperFile: 'gradlew'
-      tasks: 'build'
-      publishJUnitResults: true
-      testResultsFiles: '**/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      sonarQubeRunAnalysis: false
-      spotBugsAnalysis: false
+  - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+    lfs: true
+  # - task: JavaToolInstaller@0
+  #   inputs:
+  #     versionSpec: '11'
+  #     jdkArchitectureOption: 'x64'
+  #     jdkSourceOption: 'LocalDirectory'
+  #     jdkFile: '$(Build.SourcesDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
+  #     jdkDestinationDirectory: '$(Build.SourcesDirectory)\src\test\resources\jdks\azure'
+  # - task: Gradle@3
+  #   displayName: Gradle Task Test - Chrome Test on Windows
+  #   inputs:
+  #     gradleWrapperFile: 'gradlew'
+  #     tasks: 'build'
+  #     publishJUnitResults: true
+  #     testResultsFiles: '**/TEST-*.xml'
+  #     javaHomeOption: 'JDKVersion'
+  #     sonarQubeRunAnalysis: false
+  #     spotBugsAnalysis: false
   - task: CmdLine@2
     displayName: Command Line Test - Chrome Test on Windows
     inputs:
