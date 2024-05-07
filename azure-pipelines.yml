@@ -5,6 +5,11 @@ jobs:
   pool:
     name: 'Local Windows'
   steps:
+  - script: |
+      git fetch --all
+      git checkout main 
+      git pull origin main
+    displayName: 'Ensure latest repository state'  
   - task: JavaToolInstaller@0
     inputs:
       versionSpec: '11'
