@@ -5,41 +5,58 @@ jobs:
   pool:
     name: 'Local Windows'
   steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '11'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'LocalDirectory'
+      jdkFile: '\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
+      jdkDestinationDirectory: '\src\test\resources\jdks\windows'
+  - task: Gradle@3
+    displayName: Gradle Task Test - Chrome Test on Windows
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'build'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      sonarQubeRunAnalysis: false
+      spotBugsAnalysis: false
   - task: CmdLine@2
-    displayName: Chrome Test on Windows
+    displayName: Command Line Test - Chrome Test on Windows
     inputs:
       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
-  - task: CmdLine@2
-    displayName: Firefox Test on Windows
-    inputs:
-      script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox'
-  - task: CmdLine@2
-    displayName: Edge Test on Windows
-    inputs:
-      script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
+#   - task: CmdLine@2
+#     displayName: Firefox Test on Windows
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox'
+#   - task: CmdLine@2
+#     displayName: Edge Test on Windows
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
 
-- job: Linux
-  pool:
-    name: 'Local Linux'
-  steps:
-  - task: CmdLine@2
-    displayName: Setting executable permissions
-    inputs:
-      script: |
-        chmod +x gradle-env-wrapper-linux
+# - job: Linux
+#   pool:
+#     name: 'Local Linux'
+#   steps:
+#   - task: CmdLine@2
+#     displayName: Setting executable permissions
+#     inputs:
+#       script: |
+#         chmod +x gradle-env-wrapper-linux
 
-        chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
+#         chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
         
-        chmod +x src/test/resources/jdks/linux/bin/*
-  - task: CmdLine@2
-    displayName: Chrome Test on Linux
-    inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
-  - task: CmdLine@2
-    displayName: Firefox test on Linux
-    inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
-  - task: CmdLine@2
-    displayName: Edge test on Linux
-    inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
+#         chmod +x src/test/resources/jdks/linux/bin/*
+#   - task: CmdLine@2
+#     displayName: Chrome Test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
+#   - task: CmdLine@2
+#     displayName: Firefox test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
+#   - task: CmdLine@2
+#     displayName: Edge test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
