@@ -7,13 +7,13 @@ jobs:
   steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: true
-  # - task: JavaToolInstaller@0
-  #   inputs:
-  #     versionSpec: '11'
-  #     jdkArchitectureOption: 'x64'
-  #     jdkSourceOption: 'LocalDirectory'
-  #     jdkFile: '$(Build.SourcesDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
-  #     jdkDestinationDirectory: '$(Build.SourcesDirectory)\src\test\resources\jdks\azure'
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '11'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'LocalDirectory'
+      jdkFile: '$(Build.SourcesDirectory)\src\test\resources\jdks\OpenJDK11U-jdk_x64_windows_hotspot_11.0.23_9.zip'
+      jdkDestinationDirectory: '$(Build.SourcesDirectory)\src\test\resources\jdks\azure'
   # - task: Gradle@3
   #   displayName: Gradle Task Test - Chrome Test on Windows
   #   inputs:
