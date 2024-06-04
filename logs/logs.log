@@ -1,8 +1,73 @@
-2024-05-07 15:02:02,137 WARN o.e.c.b.PageObjectExtension [Test worker] Cannot find installation of Chrome on system. Attempting Project installation...
-2024-05-07 15:02:02,296 INFO o.e.c.b.PageObjectExtension [Test worker] Project Chrome installation found! (123.0.6312.88)
-2024-05-07 15:02:02,515 INFO o.e.c.b.PageObjectExtension [Test worker] Chrome Browser version: 123.0.6312.88
-2024-05-07 15:02:02,515 INFO o.e.c.b.PageObjectExtension [Test worker] Chromedriver version: 123.0.6262.0
-2024-05-07 15:02:02,516 INFO o.e.c.b.PageObjectExtension [Test worker] Driver versions are compatible!
-2024-05-07 15:02:02,606 INFO o.e.c.b.PageObjectExtension [Test worker] Local Chrome installation found! (124.0.6367.119)
-2024-05-07 15:02:08,981 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-05-07 15:02:08,983 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~
+2024-06-04 19:38:48,839 INFO o.e.c.b.PageObjectExtension [Test worker] 
+
+
+
+Version=126.0.1.8912
+
+
+
+
+
+
+
+2024-06-04 19:38:48,852 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
+2024-06-04 19:38:48,983 INFO o.e.c.b.PageObjectExtension [Test worker] 
+
+
+
+Version=126.0.1.8912
+
+
+
+
+
+
+
+2024-06-04 19:38:49,040 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.33.0 (a80e5fd61076 2023-04-02 18:31 +0000)
+
+The source code of this program is available from
+testing/geckodriver in https://hg.mozilla.org/mozilla-central.
+
+This program is subject to the terms of the Mozilla Public License 2.0.
+You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.
+2024-06-04 19:38:49,041 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 126.0.1.8912
+2024-06-04 19:38:49,041 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.33.0
+2024-06-04 19:38:49,043 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
+2024-06-04 19:38:54,806 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-04 19:38:54,808 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~
+2024-06-04 19:38:56,509 INFO o.e.c.b.PageObjectExtension [Test worker] 
+
+
+
+Version=126.0.1.8912
+
+
+
+
+
+
+
+2024-06-04 19:38:56,510 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
+2024-06-04 19:38:56,632 INFO o.e.c.b.PageObjectExtension [Test worker] 
+
+
+
+Version=126.0.1.8912
+
+
+
+
+
+
+
+2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.33.0 (a80e5fd61076 2023-04-02 18:31 +0000)
+
+The source code of this program is available from
+testing/geckodriver in https://hg.mozilla.org/mozilla-central.
+
+This program is subject to the terms of the Mozilla Public License 2.0.
+You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.
+2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 126.0.1.8912
+2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.33.0
+2024-06-04 19:38:56,671 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
+2024-06-04 19:39:03,014 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***

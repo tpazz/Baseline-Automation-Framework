@@ -10,10 +10,10 @@ public class FireFoxDriverProperties implements DriverSource {
     @Override
     public WebDriver newDriver() {
         FirefoxOptions firefoxOptions = new FirefoxOptions();
+        try { FireFoxDriverSetup.main("Linux", firefoxOptions); }
+        catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.gecko.driver", "src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver");
         firefoxOptions.addArguments("-private", "-headless");
-            if (FireFoxDriverSetup.checkLocalInstallation("Linux") == null)
-                firefoxOptions.setBinary("src/test/resources/browser/linux/firefox/firefox");
         return new FirefoxDriver(firefoxOptions);
     }
 

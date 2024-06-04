@@ -3,29 +3,42 @@ package org.example.tools.webdriver.setup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.core.base.PageObjectExtension;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.*;
 import java.util.stream.Collectors;
 
-public class FireFoxDriverSetup {
+public class FireFoxDriverSetup extends Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
 
-    public static void main(String[] args) {
-        try {
-            File directory = new File("C:\\Program Files\\Mozilla Firefox");
-            String[] command = {"cmd", "/C", "firefox -v|more"};
-            ProcessBuilder builder = new ProcessBuilder(command);
-            builder.directory(directory);
-            Process process = builder.start();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    logger.info("Firefox detected! " + line);
-                }
+    public static void main(String os, FirefoxOptions fo) throws Exception {
+        String firefoxBrowserVersion;
+        String geckoDriverVersion;
+        if (checkLocalInstallation(os) == null) {
+            logger.info("No local installation of Firefox found. Checking project installation...");
+            if (checkProjectInstallation(os) == null) {
+                logger.info("No project installation of Firefox found. Please download Firefox!");
+                return;
+            } else {
+                logger.info("Project installation found! Setting binary to project location...");
+                setBinary(os,fo);
+                firefoxBrowserVersion = checkProjectInstallation(os);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            logger.info("Local Firefox installation found!");
+            firefoxBrowserVersion = checkLocalInstallation(os);
+        }
+        geckoDriverVersion = getGeckoDriverVersion(os);
+        logger.info("Firefox Browser version: " + firefoxBrowserVersion);
+        logger.info("Geckodriver version: " + geckoDriverVersion);
+        logger.warn("If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases");
+    }
+
+    private static void setBinary(String os, FirefoxOptions fo) {
+        switch (os) {
+            case "Windows": fo.setBinary("src/test/resources/browser/windows/firefox/firefox.exe"); break;
+            case "Linux": fo.setBinary("src/test/resources/browser/linux/firefox/firefox"); break;
         }
     }
 
@@ -49,129 +62,69 @@ public class FireFoxDriverSetup {
         return line;
     }
 
-    public static String checkProjectInstallation(String os) {
+    public static String getGeckoDriverVersion(String os) throws Exception {
         switch (os) {
             case "Windows": {
-                try {
-                    String currentWorkingDir = System.getProperty("user.dir");
-                    String correctedPath = currentWorkingDir.replace("\\", "\\\\");
-                    String[] command = {"cmd", "/C", "wmic datafile where name=\"" + correctedPath + "\\\\src\\\\test\\\\resources\\\\browser\\\\windows\\\\firefox\\\\firefox.exe\" get Version /value"};
-                    ProcessBuilder builder = new ProcessBuilder(command);
-                    Process process = builder.start();
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                        // Collect all lines into a single String
-                        String result = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-                        if (result.contains("Version")) {
-                            String[] version = result.split("=");
-                            logger.info("Project Firefox installation detected!");
-                            return version[1].trim();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            } break;
-            case "Linux": {
-                try {
-                    Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", "src/test/resources/browser/linux/firefox/firefox -version"});
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String result = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-                    String prefix = "Mozilla Firefox ";
-                    int startIndex = result.indexOf(prefix);
-
-                    if (startIndex != -1) {
-                        // Move the start index to the beginning of the version number
-                        startIndex += prefix.length();
-
-                        // Find the end of the version number assuming it ends with a space or newline
-                        int endIndex = result.indexOf(" ", startIndex);
-                        if (endIndex == -1) { // If no space is found, try a newline
-                            endIndex = result.indexOf("\n", startIndex);
-                        }
-                        if (endIndex == -1) { // If neither space nor newline is found, assume end of string
-                            endIndex = result.length();
-                        }
-
-                        // Extract the version number
-                        String version = result.substring(startIndex, endIndex);
-                        System.out.println("Extracted Version Number: " + version);
-                        return version;
-                    } else {
-                        logger.warn("Local Chrome installation NOT FOUND!");
-                        return null;
-                    }
-                } catch (IOException e) {
-                    logger.warn("Cannot find installation of Chrome on system. Attempting Project installation...");
-                    return null;
-                }
+                terminal = "cmd";
+                flag = "/C";
+                command = "src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\geckodriver-win64\\\\geckodriver.exe --version";
+                result = executeCommand(terminal,flag,command);
+                return extractGeckoDriverVersion(result);
             }
-            case "Mac": {
-
-            } break;
+            case "Linux": {
+                terminal = "bash";
+                flag = "-c";
+                command = "src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver -version";
+                result = executeCommand(terminal,flag,result);
+                return extractGeckoDriverVersion(result);
+            }
         }
-
         return null;
     }
 
-    public static String checkLocalInstallation(String os) {
+    private static String extractGeckoDriverVersion(String result) {
+        return result.split(" ")[1];
+    }
+
+    public static String checkProjectInstallation(String os) throws Exception {
         switch (os) {
             case "Windows": {
-                try {
-                    String[] command = {"cmd", "/C", "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox\\\\firefox.exe\" get Version /value"};
-                    ProcessBuilder builder = new ProcessBuilder(command);
-                    Process process = builder.start();
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                        // Collect all lines into a single String
-                        String result = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-                        if (result.contains("Version")) {
-                            String[] version = result.split("=");
-                            logger.info("Local Firefox installation detected!");
-                            return version[1].trim();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            } break;
-            case "Linux": {
-                try {
-                    Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", "/usr/lib/firefox/firefox -version"});
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String result = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-                    String prefix = "Mozilla Firefox ";
-                    int startIndex = result.indexOf(prefix);
-
-                    if (startIndex != -1) {
-                        // Move the start index to the beginning of the version number
-                        startIndex += prefix.length();
-
-                        // Find the end of the version number assuming it ends with a space or newline
-                        int endIndex = result.indexOf(" ", startIndex);
-                        if (endIndex == -1) { // If no space is found, try a newline
-                            endIndex = result.indexOf("\n", startIndex);
-                        }
-                        if (endIndex == -1) { // If neither space nor newline is found, assume end of string
-                            endIndex = result.length();
-                        }
-
-                        // Extract the version number
-                        String version = result.substring(startIndex, endIndex);
-                        System.out.println("Extracted Version Number: " + version);
-                        return version;
-                    } else {
-                        logger.warn("Local Chrome installation NOT FOUND!");
-                        return null;
-                    }
-                } catch (IOException e) {
-                    logger.warn("Cannot find installation of Chrome on system. Attempting Project installation...");
-                    return null;
-                }
+                String currentWorkingDir = System.getProperty("user.dir");
+                String correctedPath = currentWorkingDir.replace("\\", "\\\\");
+                terminal = "cmd";
+                flag = "/C";
+                command = "wmic datafile where name=\"" + correctedPath + "\\\\src\\\\test\\\\resources\\\\browser\\\\windows\\\\firefox\\\\firefox.exe\" get Version /value";
+                result = executeCommand(terminal,flag,command);
+                return extractWindowsBrowserVersion(result, "Version");
             }
-            case "Mac": {} break;
+            case "Linux": {
+                terminal = "bash";
+                flag = "-c";
+                command = "src/test/resources/browser/linux/firefox/firefox -version";
+                result = executeCommand(terminal,flag,command);
+                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+            }
         }
+        return null;
+    }
 
+    public static String checkLocalInstallation(String os) throws Exception {
+        switch (os) {
+            case "Windows": {
+                terminal = "cmd";
+                flag = "/C";
+                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox\\\\firefox.exe\" get Version /value";
+                result = executeCommand(terminal,flag,command);
+                return extractWindowsBrowserVersion(result, "Version");
+            }
+            case "Linux": {
+                terminal = "bash";
+                flag = "-c";
+                command = "/usr/lib/firefox/firefox -version";
+                result = executeCommand(terminal,flag,command);
+                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+            }
+        }
         return null;
     }
 

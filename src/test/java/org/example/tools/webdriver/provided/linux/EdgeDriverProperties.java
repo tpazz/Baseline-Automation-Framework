@@ -14,14 +14,13 @@ public class EdgeDriverProperties implements DriverSource {
     @Override
     public WebDriver newDriver() {
         EdgeOptions edgeOptions = new EdgeOptions();
-        EdgeDriverSetup.main("Linux");
+        Map<String, Object> map = new HashMap<>();
+        try { EdgeDriverSetup.main("Linux", map); }
+        catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.edge.driver", "src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver");
         List<String> args = Arrays.asList("inprivate", "headless", "start-maximized");
-        Map<String, Object> map = new HashMap<>();
         map.put("args", args);
 	    edgeOptions.setCapability("ms:edgeOptions", map);
-        //if (EdgeDriverWindowsSetup.checkLocalInstallation("Linux") == null)
-        map.put("binary", "src/test/resources/browser/linux/edge/opt/microsoft/msedge/msedge");
         return new EdgeDriver(edgeOptions);
     }
 

@@ -101,7 +101,7 @@ task importJunitResultsToXrayCloud() {
 }
 
 test {
-    ignoreFailures = true
+    ignoreFailures = true // keep this enabled for Xray upload
     systemProperty('webdriver.driver','provided')
     systemProperty('webdriver.provided.type','mydriver')
     //String driver = "";

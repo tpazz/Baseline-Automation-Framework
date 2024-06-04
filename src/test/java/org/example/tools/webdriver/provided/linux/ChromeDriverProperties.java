@@ -15,17 +15,10 @@ public class ChromeDriverProperties implements DriverSource {
 
     @Override
     public WebDriver newDriver() {
-        ChromeDriverSetup.main("Linux");
         ChromeOptions chromeOptions = new ChromeOptions();
+        try { ChromeDriverSetup.main("Linux", chromeOptions); }
+        catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver");
-        if (ChromeDriverSetup.checkLocalInstallation("Linux") == null) {
-            if (ChromeDriverSetup.checkProjectInstallation("Linux") != null) {
-                logger.info("Setting binary path to Project Chrome Installation");
-                chromeOptions.setBinary("src/test/resources/browser/windows/chrome/Application/chrome.exe");
-            } else {
-                logger.error("Could not find local or project Chrome installed.");
-            }
-        }
         chromeOptions.addArguments("--incognito", "--start-maximised", "--headless");
         return new ChromeDriver(chromeOptions);
     }
