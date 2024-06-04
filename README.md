@@ -240,7 +240,8 @@ Combining modularity and readability into test cases/scenarios is key for test s
 * Scenarios are broken down into individual, concise test step interactions 
 * Web elements are not created in any statement
 * something refers to the particular field/context of the test step, for example:
-   * Given I enter “Test Account” into the username field 
+   * Given I enter “Test Account” into the username field
+   * When I select the 4th "Add User" button 
    * Then verify “Account Created” is displayed on the popup
 
 ##### Interactions
