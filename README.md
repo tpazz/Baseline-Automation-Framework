@@ -4,7 +4,8 @@
 * Self-contained Java + Gradle project
 * Selenium
 * Serenity with Cucumber
-* Logging 
+* Logging
+* Parallel Testing 
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
@@ -228,6 +229,16 @@ A good place to start is by thinking what methods you wished were in the Base Ob
 * Global & reusable methods
 
 I have created my very own extension of this class that you are more than welcome to use and edit for your testing needs. So, instead of extending from Selenium’s Page Object when creating a class for a page, extend from this [Base Page Object](https://github.com/tpazz/Baseline-Serenity-Automation-Framework/blob/main/src/test/java/org/example/base/PageObjectExtension.java). It then essentially becomes one big library with everything you need. 
+
+---
+
+### Parallel Testing 
+It is very easy to enable parallel testing:
+* Navigate to [```build.gradle```](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/build.gradle)
+* Set the ```maxParallelForks``` value to the number of parallel processes you wish to execute (cannot exceed number of cores on system)
+* Create additional unique [Runner](https://github.com/tpazz/Baseline-Automation-Framework/tree/master/src/test/java/org/example/core/runners) classes to match the number of parallel forks in the previous step
+* Assign each runner a different ```@tag``` (this will be the set of tests each runner will execute)
+* Ensure you have a gradle configuration for running the test suite (e.g. ```clean test aggregate reports --info -Pos=windows -Pdriver=chrome```)
 
 ---
 
