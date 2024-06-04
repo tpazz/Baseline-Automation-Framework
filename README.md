@@ -251,7 +251,7 @@ Combining modularity and readability into test cases/scenarios is key for test s
 <keyword> I select "12/12/2026" in the something Date field
 <keyword> I select "dropdown_option" from the something dropdown menu
 <keyword> I select the "button" button (if and only if the button is unique on the page)
-<keyword> I select the “button” button 
+<keyword> I select the nth "button" button 
 <keyword> I select "field"
 <keyword> I select the "radio_option" radio button
 <keyword> I select the "checkbox_option" checkbox <keyword> I confirm the Javascript alert
