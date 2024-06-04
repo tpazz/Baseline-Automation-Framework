@@ -4,7 +4,8 @@
 * Self-contained Java + Gradle project
 * Selenium
 * Serenity with Cucumber
-* Logging 
+* Logging
+* Parallel Testing 
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
@@ -231,47 +232,104 @@ I have created my very own extension of this class that you are more than welcom
 
 ---
 
-### ActionSteps Class
+### Parallel Testing 
+It is very easy to enable parallel testing:
+* Navigate to [```build.gradle```](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/build.gradle)
+* Set the ```maxParallelForks``` value to the number of parallel processes you wish to execute (cannot exceed number of cores on system)
+* Create additional unique [Runner](https://github.com/tpazz/Baseline-Automation-Framework/tree/master/src/test/java/org/example/core/runners) classes to match the number of parallel forks in the previous step
+* Assign each runner a different ```@tag``` (this will be the set of tests each runner will execute)
+* Ensure you have a gradle configuration for running the test suite (e.g. ```clean test aggregate reports --info -Pos=windows -Pdriver=chrome```)
 
-The [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/main/src/test/java/org/example/core/steps/ActionSteps.java) class enables you to write test scripts without ever needing to leave the feature file. Very useful for quickly building a set of scenarios that is very scalable, but does not look as pretty from a natrual language perspective. The idea is to provide all locator and interaction type with the step definition:
+---
 
+### Gherkin Test Case Standards
+Combining modularity and readability into test cases/scenarios is key for test suite maintenance. I have designed the following Gherkin Standards that I would like to coin as CPNL and GSP:
+
+#### CPNL (Common Precise Natural Language)
+* Recommended for testing off Acceptance Criteria on User Stories
+* Less robust / higher readability / modular 
+* Scenarios are broken down into individual, concise test step interactions 
+* Web elements are not created in any statement
+* something refers to the particular field/context of the test step, for example:
+   * Given I enter “Test Account” into the username field
+   * When I select the 4th "Add User" button 
+   * Then verify “Account Created” is displayed on the popup
+
+##### Interactions
 ```Gherkin
- Given I am on the "https://the-internet.herokuapp.com" page
- And I select "Add/Remove Elements"
+<keyword> I am logged in as "user"
+<keyword> I navigate to the "page" page
+<keyword> I enter "text" into the something field
+<keyword> I select "12/12/2026" in the something Date field
+<keyword> I select "dropdown_option" from the something dropdown menu
+<keyword> I select the "button" button (if and only if the button is unique on the page)
+<keyword> I select the nth "button" button 
+<keyword> I select "field"
+<keyword> I select the "radio_option" radio button
+<keyword> I select the "checkbox_option" checkbox <keyword> I confirm the Javascript alert
+<keyword> I cancel the Javascript alert
+<keyword> I enter "prompt_text" into the Javascript alert prompt
+```
+##### Assertions
+```Gherkin
+<keyword> verify the title of the page is "title"
+<keyword> verify the error message displays "error_message"
+<keyword> verify the confirmation message displays "message"
+<keyword> verify I am taken to the "page" page
+<keyword> verify "text" is displayed on the something
+<keyword> verify the something table displays the following columns
+  | UserID | Username | DoB |
+<keyword> verify the something table displays the following records
+  | 012345 | testuser | 20/05/2000 |
+``` 
+#### GSP (Gherkin Scripted Parameters) 
+* Recommended for more generic user journeys that do not need to be mapped to User Stories 
+* Create test scripts on the fly by parameterising web element information through Gherkin
+* Page Object class not required 
+* Faster implementation 
+* Generates web elements with each interaction 
+* More robust / less readable / modular
+
+##### Interactions
+```Gherkin 
+<keyword> I am on the [url] page
+<keyword> I select [descriptive text if [text] is not selected, or actual text that will be used for [text]]
+  | [text] [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument |
+<keyword> I select [button that contains value anywhere in its element tree] button
+<keyword> I select [dropdown option] from the [descriptive text] dropdown
+  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+<keyword> I enter [text] in the [descriptive text] field
+  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+<keyword> I enter [text] in the active element
+```
+##### Assertions
+```Gherkin
+<keyword> verify the following text is displayed on the page
+  | [element_type] | [text] |
+<keyword> verify a partial match of the following text is displayed on the page
+  | [element_type] | [text] |
+```
+##### Examples
+```Gherkin 
+<keyword> I am on the "https://the-internet.herokuapp.com" page
+<keyword> I select "Add/Remove Elements"
    | linkText | Add/Remove Elements |
- And I select "Add Button"
+<keyword> I select "Add Button"
    | text | a |
- And I select "Option 1" from the "Options dropdown"
-   | xpath | //a[text()='Add/Remove Elements'] |
- And I enter "testuser1" in the "username" field
-   | xpath | //div[@id='username'] |
- And I enter "password123!" in the "password" field
-   | id | pass |
- And I select "Continue" button
- Then verify the following text is displayed on the page
-   | button | Delete |
+<keyword> I select "Option 1" from the "Options dropdown"
+  | xpath | //a[text()='Add/Remove Elements'] |
+<keyword> I enter "testuser1" in the "username" field
+  | xpath | //div[@id='username'] |
+<keyword> I enter "password123!" in the "password" field
+  | id | pass |
+<keyword> I select "Continue" button
+<keyword> verify the following text is displayed on the page
+  | button | Delete |
 ```
-These are just a few examples of how to use the step definitions. The syntax to use this style of writing test scenarios can be loosely defined as:
-```Gherkin
- And I select [descriptive text if [text] is not selected, or actual text that will be used for [text]]
-   | [text] [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument |
 
- And I select [button that contains value anywhere in its element tree] button
+##### [Step Class required for mapping the test steps](Baseline-Automation-Framework/src/test/java/org/example/core/steps/ActionSteps.java) 
 
- And I select [dropdown option] from the [descriptive text] dropdown
-   | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
-
- And I enter [text] in the [descriptive text] field
-   | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument]
-
- And verify the following text is displayed on the page
-   | [element_type] | [text] |
-
- And verify a partial match of the following text is displayed on the page
-   | [element_type] | [text] |
-
- And I enter [text] in the active element
-```
+By following these standards, there will be no ambiguity between stakeholders, and test steps will be natrually modular and reusable. Of course, these predefined test steps will not cover all possible scenarios, but they will cover the vast majority of interactions and assertions that are needed for front-end testing. 
 
 ---
 
