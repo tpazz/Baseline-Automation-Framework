@@ -250,37 +250,78 @@ Combining modularity and readability into test cases/scenarios is key for test s
 * Less robust / higher readability / modular 
 * Scenarios are broken down into individual, concise test step interactions 
 * Web elements are not created in any statement
-* something refers to the particular field/context of the test step, for example:
-   * Given I enter “Test Account” into the username field
-   * When I select the 4th "Add User" button 
-   * Then verify “Account Created” is displayed on the popup
 
 ##### Interactions
 ```Gherkin
-<keyword> I am logged in as "user"
-<keyword> I navigate to the "page" page
-<keyword> I enter "text" into the something field
-<keyword> I select "12/12/2026" in the something Date field
-<keyword> I select "dropdown_option" from the something dropdown menu
-<keyword> I select the "button" button (if and only if the button is unique on the page)
-<keyword> I select the nth "button" button 
-<keyword> I select "field"
-<keyword> I select the "radio_option" radio button
-<keyword> I select the "checkbox_option" checkbox <keyword> I confirm the Javascript alert
+<keyword> I am logged in as "[user]"
+    Given I am logged in as "Caseworker"
+
+<keyword> I navigate to the "[page]" page
+      And I navigate to the "Dashboard" page
+
+<keyword> I enter "[text]" into the [field_name] field
+      And I enter "Test User" into the Username field
+
+<keyword> I select "[date]" in the [date_field_name] date field
+      And I select "12/12/2024" in the Date of Birth date field
+
+<keyword> I select "[dropdown_option]" from the [dropdown_field_name] dropdown menu
+      And I select "Option 1" from the Options dropdown menu
+
+<keyword> I select the "[button]" button 
+      And I select the "Submit Details" button
+
+<keyword> I select the "[button]" button [context]
+      And I select the "Update" button next to Test User
+
+<keyword> I select "[field]"
+      And I select "Update"
+
+<keyword> I select "[field]" [context]
+      And I select "Delete User" next to Test User
+
+<keyword> I select the "[radio_option]" [radio_button] radio button
+      And I select the "True" Current Address radio button
+
+<keyword> I select the "[checkbox_option]" checkbox
+      And I select the "Receive Notifications" checkbox
+
+<keyword> I confirm the Javascript alert
+      And I confirm the Javascript alert
+
 <keyword> I cancel the Javascript alert
-<keyword> I enter "prompt_text" into the Javascript alert prompt
+      And I confirm the Javascript alert
+
+<keyword> I enter "[prompt_text]" into the Javascript alert prompt
+      And I enter "Test Comment" into the Javascript alert prompt
+
+<keyword> I upload "[file_name]" via the "[button]" button
+      And I upload "placeholder.jpg" via the "Upload Attachment" button
 ```
 ##### Assertions
 ```Gherkin
-<keyword> verify the title of the page is "title"
-<keyword> verify the error message displays "error_message"
-<keyword> verify the confirmation message displays "message"
-<keyword> verify I am taken to the "page" page
-<keyword> verify "text" is displayed on the something
-<keyword> verify the something table displays the following columns
-  | UserID | Username | DoB |
-<keyword> verify the something table displays the following records
-  | 012345 | testuser | 20/05/2000 |
+<keyword> verify the title of the page is "[title]"
+     Then verify the title of the page is "Dashboard"
+
+<keyword> verify the error message displays "[error_message]"
+     Then verify the error message displays "Contact already exists"
+
+<keyword> verify the confirmation message displays "[message]"
+     Then verify the confirmation message displays "User created successfully"
+
+<keyword> verify I am taken to the "[page]" page
+     Then verify I am taken to the "Contacts" page
+
+<keyword> verify "[text]" is displayed [context]
+     Then verify "Test User" is displayed next to the Username field
+
+<keyword> verify "[text]" is not displayed [context]
+     Then verify "Account Suspended" is not displayed in the page banner
+
+<keyword> verify the following information is displayed [context]
+  | [text1] | [text2] | ... | 
+     Then verify the following information is displayed in the User Details section 
+       | Test User | Barcelona | 33 Moon Lane | 
 ``` 
 #### GSP (Gherkin Scripted Parameters) 
 * Recommended for more generic user journeys that do not need to be mapped to User Stories 
@@ -293,38 +334,54 @@ Combining modularity and readability into test cases/scenarios is key for test s
 ##### Interactions
 ```Gherkin 
 <keyword> I am on the [url] page
+    Given I am on the "https://the-internet.herokuapp.com/"
+
 <keyword> I select [descriptive text if [text] is not selected, or actual text that will be used for [text]]
-  | [text] [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument |
+  | [text] [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+      And I select "Add User"
+        | text | a | 
+      And I select "Add/Remove Elements"
+        | linkText | Add/Remove Elements |
+
 <keyword> I select [button that contains value anywhere in its element tree] button
+      And I select "Update Preference" button
+
 <keyword> I select [dropdown option] from the [descriptive text] dropdown
   | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+      And I select "Option 1" from the "Options" dropdown
+        | xpath | //a[text()='Add/Remove Elements'] |
+
 <keyword> I enter [text] in the [descriptive text] field
   | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+      And I enter "password123!" in the "Password" field
+        | id | password |
+
 <keyword> I enter [text] in the active element
+      And I enter "Hello world!"
+
+<keyword> I wait for the element
+  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] | [element_count] | [time_in_ms] |
+      And I wait for the element 
+        | cssSelector | div > a | 1 | 6000 | 
+      And I wait for the element 
+        | cssSelector | div > a | 1 | 3000 | 
 ```
 ##### Assertions
 ```Gherkin
-<keyword> verify the following text is displayed on the page
-  | [element_type] | [text] |
-<keyword> verify a partial match of the following text is displayed on the page
-  | [element_type] | [text] |
-```
-##### Examples
-```Gherkin 
-<keyword> I am on the "https://the-internet.herokuapp.com" page
-<keyword> I select "Add/Remove Elements"
-   | linkText | Add/Remove Elements |
-<keyword> I select "Add Button"
-   | text | a |
-<keyword> I select "Option 1" from the "Options dropdown"
-  | xpath | //a[text()='Add/Remove Elements'] |
-<keyword> I enter "testuser1" in the "username" field
-  | xpath | //div[@id='username'] |
-<keyword> I enter "password123!" in the "password" field
-  | id | pass |
-<keyword> I select "Continue" button
-<keyword> verify the following text is displayed on the page
-  | button | Delete |
+<keyword> verify "[text]" is displayed on the page
+  | [element_type] | 
+     Then verify "Delete" is displayed on the page 
+       | button |
+
+<keyword> verify "[text]" is not displayed on the page
+  | [element_type] | 
+     Then verify "Account Created" is not displayed on the page 
+       | div |
+
+<keyword> verify a partial match of "[text]" is displayed on the page
+  | [element_type] | 
+     Then verify a partial match of "success" is displayed on the page
+       | h3 | 
 ```
 
 ##### [Step Class required for mapping the test steps](Baseline-Automation-Framework/src/test/java/org/example/core/steps/ActionSteps.java) 
