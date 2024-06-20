@@ -8,6 +8,7 @@ import org.example.tools.webdriver.setup.ChromeDriverSetup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 
 public class ChromeDriverProperties implements DriverSource {
 
@@ -20,6 +21,7 @@ public class ChromeDriverProperties implements DriverSource {
         catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver");
         chromeOptions.addArguments("--incognito", "--start-maximised", "--headless");
+        chromeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         return new ChromeDriver(chromeOptions);
     }
     @Override
