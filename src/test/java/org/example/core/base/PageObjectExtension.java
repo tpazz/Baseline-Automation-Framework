@@ -43,8 +43,7 @@ public class PageObjectExtension extends PageObject {
 
     public String action(Action action, WebElement webElement, String value, int timeOut) {
         final String[] returnValue = {""};
-        new WebDriverWait(getDriver(), timeOut).ignoring(
-                ElementNotInteractableException.class, ElementClickInterceptedException.class).until((WebDriver d) -> {
+        new WebDriverWait(getDriver(), timeOut).ignoring(Exception.class).until((WebDriver d) -> {
             try {
                 switch (action) {
                     case CLICK                : webElement.click();                              break;
@@ -125,6 +124,34 @@ public class PageObjectExtension extends PageObject {
         return getDriver().findElements(type);
     }
 
+    public WebElement buildElement(String text, String loc, String args) {
+        switch (loc) {
+            case "text" : locator = xPathBuilder(args, "text()", text); break;
+            case "id" : locator = By.id(args); break;
+            case "xpath" : locator = By.xpath(args); break;
+            case "cssSelector" : locator = By.cssSelector(args); break;
+            case "tagName" : locator = By.tagName(args); break;
+            case "className": locator = By.className(args); break;
+            case "linkText" : locator = By.linkText(args); break;
+            case "partialLinkText" : locator = By.partialLinkText(args); break;
+        }
+        return generateElement(locator);
+    }
+
+    public List<WebElement> buildElements(String text, String loc, String args) {
+        switch (loc) {
+            case "text" : locator = xPathBuilder(args, "text()", text); break;
+            case "id" : locator = By.id(args); break;
+            case "xpath" : locator = By.xpath(args); break;
+            case "cssSelector" : locator = By.cssSelector(args); break;
+            case "tagName" : locator = By.tagName(args); break;
+            case "className": locator = By.className(args); break;
+            case "linkText" : locator = By.linkText(args); break;
+            case "partialLinkText" : locator = By.partialLinkText(args); break;
+        }
+        return generateElements(locator);
+    }
+
     private void selectTextFromDropdown(WebElement webElement, String text) {
         Select select = new Select(webElement);
         select.selectByVisibleText(text);
@@ -153,6 +180,26 @@ public class PageObjectExtension extends PageObject {
     }
 
     // ************************************************* JS ************************************************************
+
+    public void acceptJSAlert() {
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+    }
+
+    public void dismissJSAlert() {
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = getDriver().switchTo().alert();
+        alert.dismiss();
+    }
+
+    public void enterTextJSAlert(String text) {
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = getDriver().switchTo().alert();
+        alert.sendKeys(text);
+        alert.accept();
+    }
 
     public String extractBackgroundColourJS(String id) {
         String script = "return window.getComputedStyle(document.querySelector('#" + id + "'),':before').getPropertyValue('background-color')";

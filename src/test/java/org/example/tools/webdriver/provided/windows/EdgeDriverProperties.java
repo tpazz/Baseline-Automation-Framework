@@ -4,6 +4,7 @@ import org.example.tools.webdriver.setup.EdgeDriverSetup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class EdgeDriverProperties implements DriverSource {
         List<String> args = Arrays.asList("inprivate", "headless", "start-maximized");
         map.put("args", args);
         edgeOptions.setCapability("ms:edgeOptions", map);
+        edgeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         return new EdgeDriver(edgeOptions);
     }
 
