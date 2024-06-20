@@ -6,11 +6,12 @@
 * Serenity with Cucumber
 * Logging
 * Parallel Testing 
+* Jira Xray Plugin to automatically upload test results into your project workspace
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
 * [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
-* [ActionSteps](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/ActionSteps.java) class that enables you to write automated scripts stright from Gherkin, without needing to create Page Object classes!
+* [GSP Step](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/GSP_Steps.java) class that enables you to write automated scripts straight from Gherkin, without needing to create Page Object classes. Based on a style of syntax that I coined myself, Gherkin Scripted Parameters (see section below).
 ---
 
 ### Getting started
@@ -32,9 +33,6 @@ You may need to `sudo chmod -R 755 Baseline-Automation-Framework` beforehand, or
 1. Clone the project
 2. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<DESIRED DRIVER>`
 
-#### Mac
-Coming soon...
-
 ---
 ### Compatibility 
 This Baseline Automation Suite has been built to be as self-contained as possible, with JDK's, environment variables, browser installations, webdriver installations and automated webdriver management included so you don't have to manually configure any settings or download Web Drivers whenever your browser gets updated. However, due to the nature of some browsers and operating systems, there are some limitations.
@@ -43,11 +41,26 @@ This Baseline Automation Suite has been built to be as self-contained as possibl
 |---------|------------------------|----------------------|-------------------------|-----------------------------------------|-----------------------------------------|----------------------------------------|---------------------------------------|-------------------------------------|----------------------------------------|
 | Windows (x64) | YES                    | NO                   | YES                     | YES                                     | YES                                     | NO                                     | YES                                   | YES                                 | YES                                    |
 | Linux (Debian)   | YES                    | YES                  | YES                     | YES                                     | YES                                     | NO                                     | YES                                   | NO                                  | YES                                    |
-| Mac     | TBC                    | TBC                  | TBC                     | TBC                                     | TBC                                     | TBC                                    | TBC                                   | TBC                                 | TBC                                    |
 
 Because there is no ***easy*** way to detect local installations of browsers on Linux based systems, the automation suite will use the packaged browsers included in the repository. Below you can see the flow of how the drivers are updated.
 
 ![image](https://github.com/tpazz/Baseline-Automation-Framework/assets/36413640/da8da302-4066-4206-958d-6afe82a5035b)
+
+---
+### Xray Integration
+The Cucumber reporting and gradle task required to upload test results via the Xray API has been configured for you, but the following must be manually configured:
+* Create gradle configuration that uses the Xray task:  ```clean test aggregate reports importJunitResultsToXrayCloud --info -Pos=windows -Pdriver=chrome```
+* Create a ```clientId``` and  ```clientSecret``` and set them in the ```gradle.properties``` file [steps here.](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+API+Keys)
+* Set a ```projectKey``` that matches your project
+
+#### Importing Test Cases from Jira
+1. Xray plugin configured for project 
+2. Create test cases in ***Gherkin***
+3. Export Gherkin feature files with Xray
+4. Extract feature files into Automation framework
+5. Write the automated tests for the imported features (it is very important to not modify the tags that are automatically generated with each Scenario, these are ID keys used to map the test result with the test scenario).
+6. Once written and tested, set the build configuration to upload Xray results
+7. If successful, the console output will show Xray authentication with a new key to the test execution.
 
 ---
 ### The key to make your Selenium tests more robust 
@@ -330,58 +343,73 @@ Combining modularity and readability into test cases/scenarios is key for test s
 * Faster implementation 
 * Generates web elements with each interaction 
 * More robust / less readable / modular
+* ```[locator] ``` can be ```id, xpath, cssSelector, tagName, className, linkText or partialLinkText```
 
 ##### Interactions
 ```Gherkin 
-<keyword> I am on the [url] page
-    Given I am on the "https://the-internet.herokuapp.com/"
+<keyword> I navigate to "[url]"
+    Given I navigate to "https://the-internet.herokuapp.com/"
 
-<keyword> I select [descriptive text if [text] is not selected, or actual text that will be used for [text]]
-  | [text] [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
-      And I select "Add User"
+<keyword> I select "[descriptive text if [text] is not selected, or actual text that will be used for [text]]"
+  | [text/locator] | [element_type/locator_argument] |
+      And I select "Add User Button that adds user to database"
         | text | a | 
       And I select "Add/Remove Elements"
         | linkText | Add/Remove Elements |
 
-<keyword> I select [button that contains value anywhere in its element tree] button
+<keyword> I select "[button that contains value anywhere in its element tree]" button
       And I select "Update Preference" button
 
-<keyword> I select [dropdown option] from the [descriptive text] dropdown
-  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+<keyword> I select "[dropdown option]" from the "[descriptive text]" dropdown
+  | [locator] | [locator_argument] |
       And I select "Option 1" from the "Options" dropdown
         | xpath | //a[text()='Add/Remove Elements'] |
 
-<keyword> I enter [text] in the [descriptive text] field
-  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] |
+<keyword> I enter "[text]" in the "[descriptive text]" field
+  | [locator] | [locator_argument] |
       And I enter "password123!" in the "Password" field
         | id | password |
 
-<keyword> I enter [text] in the active element
+<keyword> I enter "[text]" in the active element
       And I enter "Hello world!"
 
 <keyword> I wait for the element
-  | [id] [xpath] [cssSelector] [tagName] [className] [linkText] [partialLinkText] | [locator_argument] | [element_count] | [time_in_ms] |
+  | [locator] | [locator_argument] | [element_count] | [time_in_s] |
       And I wait for the element 
-        | cssSelector | div > a | 1 | 6000 | 
+        | cssSelector | div > a | 1 | 60 | 
       And I wait for the element 
-        | cssSelector | div > a | 1 | 3000 | 
+        | cssSelector | div > a | 1 | 30 | 
+
+<keyword> I confirm the JavaScript alert
+      And I confirm the JavaScript alert
+
+<keyword> I cancel the JavaScript alert
+      And I confirm the JavaScript alert
+
+<keyword> I enter "[prompt_text]" into the JavaScript alert prompt
+      And I enter "Test Comment" into the JavaScript alert prompt         
 ```
 ##### Assertions
 ```Gherkin
-<keyword> verify "[text]" is displayed on the page
-  | [element_type] | 
-     Then verify "Delete" is displayed on the page 
-       | button |
+<keyword> verify "[text]"
+  | [element_type] | [element_count] |
+     Then verify "Signed in"
+       | div | 1 | # is displayed
+     Then verify "Signed out"
+       | div | 0 | # is not displayed
 
-<keyword> verify "[text]" is not displayed on the page
-  | [element_type] | 
-     Then verify "Account Created" is not displayed on the page 
-       | div |
+<keyword> verify partial "[text]"
+  | [element_type] | [element_count] |
+     Then verify partial "error"
+       | a | 1 | # is displayed
+     Then verify partial "success"
+       | a | 0 | # is not displayed
 
-<keyword> verify a partial match of "[text]" is displayed on the page
-  | [element_type] | 
-     Then verify a partial match of "success" is displayed on the page
-       | h3 | 
+<keyword> verify element exists
+  | [element_type] | [attribute] | [attribute_value] | [element_count] |
+      And verify element exists
+        | div | @class | row | 4 |  
+
 ```
 
 ##### [Step Class required for mapping the test steps](Baseline-Automation-Framework/src/test/java/org/example/core/steps/ActionSteps.java) 
