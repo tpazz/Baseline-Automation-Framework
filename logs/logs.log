@@ -1,21 +1,8 @@
-2024-06-04 19:38:48,839 INFO o.e.c.b.PageObjectExtension [Test worker] 
+2024-06-20 17:34:57,193 INFO o.e.c.b.PageObjectExtension [Test worker] 
 
 
 
-Version=126.0.1.8912
-
-
-
-
-
-
-
-2024-06-04 19:38:48,852 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
-2024-06-04 19:38:48,983 INFO o.e.c.b.PageObjectExtension [Test worker] 
-
-
-
-Version=126.0.1.8912
+Version=127.0.0.8923
 
 
 
@@ -23,23 +10,12 @@ Version=126.0.1.8912
 
 
 
-2024-06-04 19:38:49,040 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.33.0 (a80e5fd61076 2023-04-02 18:31 +0000)
-
-The source code of this program is available from
-testing/geckodriver in https://hg.mozilla.org/mozilla-central.
-
-This program is subject to the terms of the Mozilla Public License 2.0.
-You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.
-2024-06-04 19:38:49,041 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 126.0.1.8912
-2024-06-04 19:38:49,041 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.33.0
-2024-06-04 19:38:49,043 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
-2024-06-04 19:38:54,806 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-06-04 19:38:54,808 INFO o.e.c.b.PageObjectExtension [Test worker] ~TEST FINISHED~
-2024-06-04 19:38:56,509 INFO o.e.c.b.PageObjectExtension [Test worker] 
+2024-06-20 17:34:57,198 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
+2024-06-20 17:34:57,299 INFO o.e.c.b.PageObjectExtension [Test worker] 
 
 
 
-Version=126.0.1.8912
+Version=127.0.0.8923
 
 
 
@@ -47,27 +23,21 @@ Version=126.0.1.8912
 
 
 
-2024-06-04 19:38:56,510 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
-2024-06-04 19:38:56,632 INFO o.e.c.b.PageObjectExtension [Test worker] 
-
-
-
-Version=126.0.1.8912
-
-
-
-
-
-
-
-2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.33.0 (a80e5fd61076 2023-04-02 18:31 +0000)
+2024-06-20 17:34:57,350 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.33.0 (a80e5fd61076 2023-04-02 18:31 +0000)
 
 The source code of this program is available from
 testing/geckodriver in https://hg.mozilla.org/mozilla-central.
 
 This program is subject to the terms of the Mozilla Public License 2.0.
 You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.
-2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 126.0.1.8912
-2024-06-04 19:38:56,671 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.33.0
-2024-06-04 19:38:56,671 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
-2024-06-04 19:39:03,014 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:34:57,351 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 127.0.0.8923
+2024-06-20 17:34:57,351 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.33.0
+2024-06-20 17:34:57,351 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
+2024-06-20 17:35:04,451 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:04,485 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:06,549 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:08,610 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:09,563 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:09,781 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:09,983 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2024-06-20 17:35:11,571 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***

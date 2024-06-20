@@ -11,5 +11,5 @@ import org.junit.runner.RunWith;
         plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json",
                 "junit:target/cucumber-reports/Cucumber.xml",
                 "html:target/cucumber-reports"},
-        tags = "@theInternet")
+        tags = "@GSP")
 public class Runner1 {}
