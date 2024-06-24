@@ -6,12 +6,13 @@
 * Serenity with Cucumber
 * Logging
 * Parallel Testing 
-* Jira Xray Plugin to automatically upload test results into your project workspace
+* Jira Xray Gradle task to automatically upload test results into your project workspace
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
 * [Element Parser](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/elementparser/ElementParser.java) tool that parses a webpage and outputs a list of interactable elements as either Selenium ```driver.findElement(By)``` or Serenity ```@FindBy()``` syntax.
-* [GSP Step](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/GSP_Steps.java) class that enables you to write automated scripts straight from Gherkin, without needing to create Page Object classes. Based on a style of syntax that I coined myself, Gherkin Scripted Parameters (see section below).
+* [GSP Step](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/steps/GSP_Steps.java) class that enables you to write automated scripts straight from Gherkin, without needing to create Page Object or step classes. Based on a style of syntax that I would like to coin as **[Gherkin Scripted Parameters (GSP)](#gherkin-scripted-parameters))**.
+* [CPNL](#common-precise-natural-language) Another syntax standard suited for more generic, re-usable test steps that are broken down into individual actions. Based on a style of syntax that I would like to coin as **[Common Precise Natural Language (CPNL)](#common-precise-natural-language)**  
 ---
 
 ### Getting started
@@ -258,11 +259,11 @@ It is very easy to enable parallel testing:
 ### Gherkin Test Case Standards
 Combining modularity and readability into test cases/scenarios is key for test suite maintenance. I have designed the following Gherkin Standards that I would like to coin as CPNL and GSP:
 
-#### CPNL (Common Precise Natural Language)
+#### Common Precise Natural Language
 * Recommended for testing off Acceptance Criteria on User Stories
 * Less robust / higher readability / modular 
 * Scenarios are broken down into individual, concise test step interactions 
-* Web elements are not created in any statement
+* Web elements are not created in any step (predefiend in Page Object classes)
 
 ##### Interactions
 ```Gherkin
@@ -303,7 +304,7 @@ Combining modularity and readability into test cases/scenarios is key for test s
       And I confirm the Javascript alert
 
 <keyword> I cancel the Javascript alert
-      And I confirm the Javascript alert
+      And I cancel the Javascript alert
 
 <keyword> I enter "[prompt_text]" into the Javascript alert prompt
       And I enter "Test Comment" into the Javascript alert prompt
@@ -336,12 +337,12 @@ Combining modularity and readability into test cases/scenarios is key for test s
      Then verify the following information is displayed in the User Details section 
        | Test User | Barcelona | 33 Moon Lane | 
 ``` 
-#### GSP (Gherkin Scripted Parameters) 
+#### Gherkin Scripted Parameters
 * Recommended for more generic user journeys that do not need to be mapped to User Stories 
 * Create test scripts on the fly by parameterising web element information through Gherkin
-* Page Object class not required 
+* Page Object and Step classes not required 
 * Faster implementation 
-* Generates web elements with each interaction 
+* Web Elements are defined and created with each step 
 * More robust / less readable / modular
 * ```[locator] ``` can be ```id, xpath, cssSelector, tagName, className, linkText or partialLinkText```
 
@@ -384,7 +385,7 @@ Combining modularity and readability into test cases/scenarios is key for test s
       And I confirm the JavaScript alert
 
 <keyword> I cancel the JavaScript alert
-      And I confirm the JavaScript alert
+      And I cancel the JavaScript alert
 
 <keyword> I enter "[prompt_text]" into the JavaScript alert prompt
       And I enter "Test Comment" into the JavaScript alert prompt         
@@ -394,16 +395,16 @@ Combining modularity and readability into test cases/scenarios is key for test s
 <keyword> verify "[text]"
   | [element_type] | [element_count] |
      Then verify "Signed in"
-       | div | 1 | # is displayed
+       | div | 1 |
      Then verify "Signed out"
-       | div | 0 | # is not displayed
+       | div | 0 |
 
 <keyword> verify partial "[text]"
   | [element_type] | [element_count] |
      Then verify partial "error"
-       | a | 1 | # is displayed
+       | a | 1 |
      Then verify partial "success"
-       | a | 0 | # is not displayed
+       | a | 0 | 
 
 <keyword> verify element exists
   | [element_type] | [attribute] | [attribute_value] | [element_count] |
