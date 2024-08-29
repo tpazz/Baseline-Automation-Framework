@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.example.core.base.PageObjectExtension.Action.*;
 import static org.junit.Assert.assertEquals;
 
 public class PageObjectExtension extends PageObject {
@@ -158,7 +159,7 @@ public class PageObjectExtension extends PageObject {
     }
 
     private String getDropDownText(WebElement webElement) {
-        String[] split = action(Action.GET_TEXT, webElement).split("\\r?\\n");
+        String[] split = action(GET_TEXT, webElement).split("\\r?\\n");
         return split[0].trim();
     }
 
@@ -167,16 +168,22 @@ public class PageObjectExtension extends PageObject {
         webElement.sendKeys(text);
     }
 
-    public void selectElementWithText(String elementType, String text) {
-        locator = By.xpath("//" + elementType + "[text()='" + text + "']");
+    public void selectText(String text) {
+        locator = xPathBuilder("*","text()",text);
         element = generateElement(locator);
-        action(Action.CLICK, element, "");
+        action(CLICK, element, "");
+    }
+
+    public void selectElementWithText(String elementType, String text) {
+        locator = xPathBuilder(elementType, "text()", text);
+        element = generateElement(locator);
+        action(CLICK, element, "");
     }
 
     public void selectElementWithValue(String elementType, String attribute, String value) {
         locator = By.xpath("//" + elementType + "[contains(@" + attribute + ", '" + value + "')]");
         element = generateElement(locator);
-        action(Action.CLICK, element, "");
+        action(CLICK, element, "");
     }
 
     // ************************************************* JS ************************************************************
@@ -222,7 +229,6 @@ public class PageObjectExtension extends PageObject {
         String script = "window.open()";
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript(script);
-        switchTabs(1);
     }
 
     public void clickJS(WebElement webElement) {
@@ -383,7 +389,7 @@ public class PageObjectExtension extends PageObject {
     }
 
     public void verifyElementText(WebElement webElement, String expected) {
-        actual = action(Action.GET_TEXT, webElement, "");
+        actual = action(GET_TEXT, webElement, "");
         verify(expected, actual);
     }
 
@@ -404,6 +410,18 @@ public class PageObjectExtension extends PageObject {
     public void verifyElementState(WebElement webElement, boolean enabled) {
         actual = String.valueOf(webElement.isEnabled());
         if (enabled) verify("true", actual);
+        else verify("false", actual);
+    }
+
+    public void verifyElementDisplayed(WebElement webElement, boolean displayed) {
+        actual = String.valueOf(webElement.isDisplayed());
+        if (displayed) verify("true", actual);
+        else verify("false", actual);
+    }
+
+    public void verifyElementSelected(WebElement webElement, boolean selected) {
+        actual = String.valueOf(webElement.isSelected());
+        if (selected) verify("true", actual);
         else verify("false", actual);
     }
 
