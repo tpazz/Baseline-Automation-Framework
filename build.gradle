@@ -101,13 +101,12 @@ task importJunitResultsToXrayCloud() {
 }
 
 test {
-    ignoreFailures = true // keep this enabled for Xray upload
+    ignoreFailures = false // keep this enabled for Xray upload
     systemProperty('webdriver.driver','provided')
     systemProperty('webdriver.provided.type','mydriver')
-    //String driver = "";
-    switch (driver) {
+    switch (project.findProperty('driver').toString()) {
         case "chrome":
-            switch (os) {
+            switch (project.findProperty('os').toString()) {
                 case "windows": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.windows.ChromeDriverProperties')
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.ChromeDriverProperties')
@@ -117,7 +116,7 @@ test {
             }
             break;
         case "firefox":
-            switch (os) {
+            switch (project.findProperty('os').toString()) {
                 case "windows": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.windows.FireFoxDriverProperties')
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.FireFoxDriverProperties')
@@ -127,7 +126,7 @@ test {
             }
             break;
         case "edge":
-            switch (os) {
+            switch (project.findProperty('os').toString()) {
                 case "windows": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.windows.EdgeDriverProperties')
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.EdgeDriverProperties')
