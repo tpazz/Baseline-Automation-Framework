@@ -189,21 +189,23 @@ public class PageObjectExtension extends PageObject {
     // ************************************************* JS ************************************************************
 
     public void acceptJSAlert() {
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = getDriver().switchTo().alert();
+        wait = new WebDriverWait(getDriver(),30);
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        getDriver().switchTo().alert();
         alert.accept();
-
     }
 
     public void dismissJSAlert() {
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = getDriver().switchTo().alert();
+        wait = new WebDriverWait(getDriver(),30);
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        getDriver().switchTo().alert();
         alert.dismiss();
     }
 
     public void enterTextJSAlert(String text) {
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = getDriver().switchTo().alert();
+        wait = new WebDriverWait(getDriver(),30);
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        getDriver().switchTo().alert();
         alert.sendKeys(text);
         alert.accept();
     }
