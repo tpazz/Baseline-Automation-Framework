@@ -197,15 +197,15 @@ public class ChromeDriverSetup extends Utils {
             case "Windows": {
                 terminal = "cmd";
                 flag = "/C";
-                command = "src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\chromedriver-win64\\\\chromedriver.exe --version";
+                command = USER_ENV_HOME + "src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\chromedriver-win64\\\\chromedriver.exe --version";
                 result = executeCommand(terminal,flag,command);
                 return extractChromeDriverVersion(result);
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
-                command = "src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver -version";
-                result = executeCommand(terminal,flag,result);
+                command = USER_ENV_HOME + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver -version";
+                result = executeCommand(terminal,flag,command);
                 return extractChromeDriverVersion(result);
             }
         }

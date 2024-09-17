@@ -102,6 +102,7 @@ task importJunitResultsToXrayCloud() {
 
 test {
     ignoreFailures = false // keep this enabled for Xray upload
+    maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
     systemProperty('webdriver.driver','provided')
     systemProperty('webdriver.provided.type','mydriver')
     switch (project.findProperty('driver').toString()) {
@@ -135,7 +136,6 @@ test {
                     break
             }
             break
-            maxParallelForks = 2 // Maximum value must be <= number of cores on CPU
     }
 }
 

@@ -33,4 +33,6 @@ public class AppExtension extends PageObjectExtension {
         }
     }
 
+    // Some Loading icon... //
+
 }

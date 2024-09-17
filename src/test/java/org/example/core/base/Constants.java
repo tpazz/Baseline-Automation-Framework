@@ -4,10 +4,10 @@ public class Constants {
 
     // DIRECTORIES
     public static final String USER_HOME = System.getProperty("user.home");
+    public static final String USER_ENV_HOME = System.getenv("SYSTEM_DEFAULTWORKINGDIRECTORY");
     public static final String LOCAL_DOWNLOADS = USER_HOME + "\\Downloads\\";
-    public static final String PROJECT_RESOURCES_WINDOWS = "src\\test\\resources\\webdriver\\windows\\";
-    public static final String PROJECT_RESOURCES_LINUX = "src/test/resources/webdriver/linux/";
-    public static final String PROJECT_RESOURCES_MAC = "src/test/resources/webdriver/mac";
+    public static final String PROJECT_RESOURCES_WINDOWS = USER_ENV_HOME + "\\src\\test\\resources\\webdriver\\windows\\";
+    public static final String PROJECT_RESOURCES_LINUX = USER_ENV_HOME + "/src/test/resources/webdriver/linux/";
 
     // OTHER URLS
     public static final String CHROME_DRIVER_API = "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json";
