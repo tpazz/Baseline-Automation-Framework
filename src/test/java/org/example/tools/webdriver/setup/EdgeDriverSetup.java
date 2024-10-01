@@ -69,12 +69,12 @@ public class EdgeDriverSetup extends Utils {
             case "Windows": {
                 targetDirectory = PROJECT_RESOURCES_WINDOWS;
                 if (zipurl.contains("edgedriver"))
-                    targetDirectory = PROJECT_RESOURCES_WINDOWS+"edgedriver_win64";
+                    targetDirectory = PROJECT_RESOURCES_WINDOWS + "edgedriver_win64";
             } break;
             case "Linux": {
                 targetDirectory = PROJECT_RESOURCES_LINUX;
                 if (zipurl.contains("edgedriver"))
-                    targetDirectory = PROJECT_RESOURCES_LINUX+"edgedriver-linux64";
+                    targetDirectory = PROJECT_RESOURCES_LINUX + "edgedriver-linux64";
             } break;
         }
         URL url = new URL(zipurl);
@@ -93,13 +93,13 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = "Taskkill /IM msedgedriver.exe /F";
-                executeCommand(terminal,flag,command);
+                executeCommand(terminal, flag, command);
             } break;
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
                 command = "killall -9 msedgedriver";
-                executeCommand(terminal,flag,command);
+                executeCommand(terminal, flag, command);
             } break;
         }
     }
@@ -135,7 +135,7 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = "wmic datafile where name=\"C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\" get Version /value";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractWindowsBrowserVersion(result, "Version");
             }
             case "Linux": {
@@ -156,14 +156,14 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = getAbsolutePath() + "\\\\src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\edgedriver_win64\\\\msedgedriver.exe --version";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
                 command = getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver -version";
-                result = executeCommand(terminal,flag,result);
+                result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }
         }
