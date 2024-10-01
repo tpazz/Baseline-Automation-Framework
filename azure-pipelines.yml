@@ -10,9 +10,9 @@ jobs:
   - script: |
       git lfs fetch
       git lfs pull
-    displayName: git-lfs
+    displayName: Pull latest (LFS)
   - task: CmdLine@2
-    displayName: Command Line Test - Chrome Test on Windows
+    displayName: Chrome Test on Windows
     inputs:
       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
   - task: CmdLine@2
