@@ -8,9 +8,13 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import static org.example.core.base.Constants.USER_DIR;
+import static org.example.core.base.Constants.USER_ENV_HOME;
 
 public class Utils {
 
@@ -81,4 +85,11 @@ public class Utils {
             }
         }
     }
+
+    public static String getAbsolutePath() {
+        String ABSOLUTE_PATH;
+        ABSOLUTE_PATH = Objects.requireNonNullElseGet(USER_ENV_HOME, () -> USER_DIR.replace("\\", "\\\\"));
+        return ABSOLUTE_PATH;
+    }
+
 }

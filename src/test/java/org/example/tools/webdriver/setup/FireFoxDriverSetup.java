@@ -67,14 +67,14 @@ public class FireFoxDriverSetup extends Utils {
             case "Windows": {
                 terminal = "cmd";
                 flag = "/C";
-                command = "src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\geckodriver-win64\\\\geckodriver.exe --version";
+                command = getAbsolutePath() + "\\\\src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\geckodriver-win64\\\\geckodriver.exe --version";
                 result = executeCommand(terminal,flag,command);
                 return extractGeckoDriverVersion(result);
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
-                command = "src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver -version";
+                command = getAbsolutePath() + "/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver -version";
                 result = executeCommand(terminal,flag,result);
                 return extractGeckoDriverVersion(result);
             }
