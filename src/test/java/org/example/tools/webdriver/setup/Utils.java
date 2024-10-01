@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -27,9 +28,10 @@ public class Utils {
     public static String executeCommand(String terminal, String flag, String command) throws Exception {
         String[] Pcommand = { terminal, flag, command };
         Process process = Runtime.getRuntime().exec(Pcommand);
+        logger.info("Executing command [" + Arrays.toString(Pcommand) + "]");
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String res = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        logger.info(res);
+        logger.info("Execution result [" + res + "]");
         return res;
     }
 
@@ -89,6 +91,7 @@ public class Utils {
     public static String getAbsolutePath() {
         String ABSOLUTE_PATH;
         ABSOLUTE_PATH = Objects.requireNonNullElseGet(USER_ENV_HOME, () -> USER_DIR.replace("\\", "\\\\"));
+        logger.info("Using [" + ABSOLUTE_PATH + "] for absolute path...");
         return ABSOLUTE_PATH;
     }
 
