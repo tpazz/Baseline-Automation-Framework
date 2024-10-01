@@ -68,14 +68,14 @@ public class FireFoxDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = getAbsolutePath() + "\\\\src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\geckodriver-win64\\\\geckodriver.exe --version";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractGeckoDriverVersion(result);
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
                 command = getAbsolutePath() + "/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver -version";
-                result = executeCommand(terminal,flag,result);
+                result = executeCommand(terminal, flag, result);
                 return extractGeckoDriverVersion(result);
             }
         }
@@ -94,14 +94,14 @@ public class FireFoxDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = "wmic datafile where name=\"" + correctedPath + "\\\\src\\\\test\\\\resources\\\\browser\\\\windows\\\\firefox\\\\firefox.exe\" get Version /value";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractWindowsBrowserVersion(result, "Version");
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
                 command = "src/test/resources/browser/linux/firefox/firefox -version";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
         }
@@ -114,14 +114,14 @@ public class FireFoxDriverSetup extends Utils {
                 terminal = "cmd";
                 flag = "/C";
                 command = "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox\\\\firefox.exe\" get Version /value";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractWindowsBrowserVersion(result, "Version");
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
                 command = "/usr/lib/firefox/firefox -version";
-                result = executeCommand(terminal,flag,command);
+                result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
         }
