@@ -92,8 +92,9 @@ public class PageObjectExtension extends PageObject {
         }
     }
 
-    public void waitForDisappear(String id, int timeOut) {
-        int noElements = getDriver().findElements(By.id(id)).size();
+    public void waitForDisappear(By locator, int timeOut) {
+        int noElements = getDriver().findElements(locator).size();
+        logger.info("Number of elements: " + noElements);
         boolean loaded = false;
         for (int i = 0; i < timeOut; i++) {
             if (noElements == 0) {
@@ -102,11 +103,15 @@ public class PageObjectExtension extends PageObject {
             }
             try {
                 Thread.sleep(1000);
+                noElements = getDriver().findElements(locator).size();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (!loaded) Assert.fail();
+        if (!loaded) {
+            logger.error("Waiting for element to disappear exceeded timeout!");
+            Assert.fail();
+        }
     }
 
     public WebElement generateElement(By locator) {
@@ -298,8 +303,10 @@ public class PageObjectExtension extends PageObject {
     }
 
     public void navigateTo(String webpage) {
-        getDriver().get(webpage);
-        waitForPageLoadedJS();
+        if (!getDriver().getCurrentUrl().equalsIgnoreCase(webpage)) {
+            getDriver().get(webpage);
+            waitForPageLoadedJS();
+        }
     }
 
     // ******************************************* FILE I/O ************************************************************
@@ -395,9 +402,23 @@ public class PageObjectExtension extends PageObject {
         verify(expected, actual);
     }
 
+    public void verifyElementValue(String elementType, String expected) {
+        actual = expected;
+        locator = xPathBuilder(elementType, "@value", expected);
+        generateElement(locator);
+        verify(expected, actual);
+    }
+
     public void verifyTextOnPage(String elementType, String expected) {
         actual = expected;
         locator = xPathBuilder(elementType, "text()", expected);
+        generateElement(locator);
+        verify(expected, actual);
+    }
+
+    public void verifyPartialTextOnPage(String elementType, String expected) {
+        actual = expected;
+        locator = By.xpath("//" + elementType + "[contains(text(),'" + expected + "')]");
         generateElement(locator);
         verify(expected, actual);
     }
