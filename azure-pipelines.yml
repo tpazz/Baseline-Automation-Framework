@@ -33,7 +33,7 @@ jobs:
   - script: |
       git lfs fetch
       git lfs pull
-    displayName: git-lfs
+    displayName: Pull latest (LFS)
   - task: CmdLine@2
     displayName: Setting executable permissions
     inputs:
