@@ -20,6 +20,7 @@ import static org.example.core.base.Constants.USER_ENV_HOME;
 public class Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
+
     static String terminal;
     static String flag;
     static String command;
@@ -66,6 +67,8 @@ public class Utils {
     }
 
     public static void extractZipFile(String zipFilePath, String targetDirectory) throws IOException {
+        logger.info("ZIP File Path [" + zipFilePath + "]");
+        logger.info("Target Directory [" + targetDirectory + "]");
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath))) {
             ZipEntry entry;
             byte[] buffer = new byte[1024];
@@ -86,6 +89,20 @@ public class Utils {
                 zipInputStream.closeEntry();
             }
         }
+    }
+
+    public static void setExecutablePermission(String os) throws Exception {
+        terminal = "bash";
+        flag = "-c";
+        switch (os) {
+            case "Chromedriver" : {
+                command = "chmod +x " + getAbsolutePath() + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver";
+            } break;
+            case "Edgedriver" : {
+                command = "chmod +x " + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver";
+            } break;
+        }
+        executeCommand(terminal,flag,command);
     }
 
     public static String getAbsolutePath() {

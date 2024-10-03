@@ -57,11 +57,12 @@ public class PageObjectExtension extends PageObject {
                     case GET_TEXT             : returnValue[0] = webElement.getText();           break;
                 }
             } catch (Exception e) {
-                threadWait(1);
+                threadWait(250);
                 return false;
             }
             return true;
         });
+        threadWait(250);
         return returnValue[0];
     }
 
@@ -179,6 +180,12 @@ public class PageObjectExtension extends PageObject {
         action(CLICK, element, "");
     }
 
+    public void selectPartialText(String text) {
+        locator = By.xpath("//*[contains(text(),'" + text + "')]");
+        element = generateElement(locator);
+        action(CLICK, element, "");
+    }
+
     public void selectElementWithText(String elementType, String text) {
         locator = xPathBuilder(elementType, "text()", text);
         element = generateElement(locator);
@@ -192,6 +199,10 @@ public class PageObjectExtension extends PageObject {
     }
 
     // ************************************************* JS ************************************************************
+
+    public void scrollToElementView(WebElement webElement) {
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement);
+    }
 
     public void acceptJSAlert() {
         wait = new WebDriverWait(getDriver(),30);
@@ -303,10 +314,8 @@ public class PageObjectExtension extends PageObject {
     }
 
     public void navigateTo(String webpage) {
-        if (!getDriver().getCurrentUrl().equalsIgnoreCase(webpage)) {
-            getDriver().get(webpage);
-            waitForPageLoadedJS();
-        }
+        getDriver().get(webpage);
+        waitForPageLoadedJS();
     }
 
     // ******************************************* FILE I/O ************************************************************
