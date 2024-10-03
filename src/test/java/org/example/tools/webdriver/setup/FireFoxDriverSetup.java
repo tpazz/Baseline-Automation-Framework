@@ -74,7 +74,7 @@ public class FireFoxDriverSetup extends Utils {
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
-                command = getAbsolutePath() + "/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver -version";
+                command = getAbsolutePath() + "/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver --version";
                 result = executeCommand(terminal, flag, command);
                 return extractGeckoDriverVersion(result);
             }
