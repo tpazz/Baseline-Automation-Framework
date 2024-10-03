@@ -40,19 +40,27 @@ public class EdgeDriverSetup extends Utils {
             logger.info("Local Edge installation found!");
             edgeBrowserVersion = checkLocalInstallation(os);
         }
-        edgeDriverVersion = getEdgeDriverVersion(os);
+
         String shortEdgeBrowserVersion = edgeBrowserVersion.split("\\.")[0];
-        String shortEdgeDriverVersion = edgeDriverVersion.split("\\.")[0];
-        logger.info("Edge Browser version: " + edgeBrowserVersion);
-        logger.info("EdgeDriver version: " + edgeDriverVersion);
-        if (!shortEdgeBrowserVersion.equalsIgnoreCase(shortEdgeDriverVersion)) {
-            logger.info("Downloading compatible EdgeDriver...");
-            downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
-            logger.info("Driver versions are now compatible!");
-            logger.info("Starting tests...");
-        } else {
-            logger.info("Driver and browser are compatible!");
-            logger.info("Starting tests...");
+        try {
+            edgeDriverVersion = getEdgeDriverVersion(os);
+            String shortEdgeDriverVersion = edgeDriverVersion.split("\\.")[0];
+            logger.info("Edge Browser version: " + edgeBrowserVersion);
+            logger.info("EdgeDriver version: " + edgeDriverVersion);
+            if (!shortEdgeBrowserVersion.equalsIgnoreCase(shortEdgeDriverVersion)) {
+                logger.info("Downloading compatible EdgeDriver...");
+                downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
+                logger.info("Driver versions are now compatible!");
+                logger.info("Starting tests...");
+            } else {
+                logger.info("Driver and browser are compatible!");
+                logger.info("Starting tests...");
+            }
+        }
+        catch (Exception e) {
+            logger.warn("No Edgedriver was found! Downloading compatible version...");
+            downloadEdgeDriver(getEdgeDriverURL(shortEdgeBrowserVersion, os), os);
+            if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Edgedriver");
         }
     }
 

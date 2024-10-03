@@ -34,19 +34,26 @@ public class ChromeDriverSetup extends Utils {
             logger.info("Local Chrome installation found!");
             chromeBrowserVersion = checkLocalInstallation(os);
         }
-        chromeDriverVersion = getChromeDriverVersion(os);
         String shortChromeBrowserVersion = chromeBrowserVersion.split("\\.")[0];
-        String shortChromeDriverVersion = chromeDriverVersion.split("\\.")[0];
-        logger.info("Chrome Browser version: " + chromeBrowserVersion);
-        logger.info("Chromedriver version: " + chromeDriverVersion);
-        if (!shortChromeBrowserVersion.equalsIgnoreCase(shortChromeDriverVersion)) {
-            logger.info("Downloading compatible Chromedriver...");
+        try {
+            chromeDriverVersion = getChromeDriverVersion(os);
+            String shortChromeDriverVersion = chromeDriverVersion.split("\\.")[0];
+            logger.info("Chrome Browser version: " + chromeBrowserVersion);
+            logger.info("Chromedriver version: " + chromeDriverVersion);
+            if (!shortChromeBrowserVersion.equalsIgnoreCase(shortChromeDriverVersion)) {
+                logger.info("Downloading compatible Chromedriver...");
+                downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
+                logger.info("Driver versions are now compatible!");
+                logger.info("Starting tests...");
+            } else {
+                logger.info("Driver and browser are compatible!");
+                logger.info("Starting tests...");
+            }
+        }
+        catch (Exception e) {
+            logger.warn("No Chromedriver was found! Downloading compatible version...");
             downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
-            logger.info("Driver versions are now compatible!");
-            logger.info("Starting tests...");
-        } else {
-            logger.info("Driver and browser are compatible!");
-            logger.info("Starting tests...");
+            if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Chromedriver");
         }
     }
 
