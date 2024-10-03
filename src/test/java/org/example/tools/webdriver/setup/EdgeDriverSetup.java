@@ -59,7 +59,7 @@ public class EdgeDriverSetup extends Utils {
         }
         catch (Exception e) {
             logger.warn("No Edgedriver was found! Downloading compatible version...");
-            downloadEdgeDriver(getEdgeDriverURL(shortEdgeBrowserVersion, os), os);
+            downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
             if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Edgedriver");
         }
     }
