@@ -24,18 +24,10 @@ public class EdgeDriverSetup extends Utils {
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
 
     public static void main(String os, Map<String, Object> map) throws Exception {
-        String edgeBrowserVersion;
+        String edgeBrowserVersion = "";
         String edgeDriverVersion;
         if (checkLocalInstallation(os) == null) {
-            logger.info("No local installation of Edge found. Checking project installation...");
-            if (checkProjectInstallation(os) == null) {
-                logger.info("No project installation of Edge found. Please download Edge!");
-                return;
-            } else {
-                logger.info("Project installation found! Setting binary to project location...");
-                setBinary(os,map);
-                edgeBrowserVersion = checkProjectInstallation(os);
-            }
+            logger.info("No local installation of Edge found in default installation directories. Please download Edge!");
         } else {
             logger.info("Local Edge installation found!");
             edgeBrowserVersion = checkLocalInstallation(os);
@@ -50,6 +42,7 @@ public class EdgeDriverSetup extends Utils {
             if (!shortEdgeBrowserVersion.equalsIgnoreCase(shortEdgeDriverVersion)) {
                 logger.info("Downloading compatible EdgeDriver...");
                 downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
+                getEdgeDriverVersion(os);
                 logger.info("Driver versions are now compatible!");
                 logger.info("Starting tests...");
             } else {
@@ -60,13 +53,10 @@ public class EdgeDriverSetup extends Utils {
         catch (Exception e) {
             logger.warn("No Edgedriver was found! Downloading compatible version...");
             downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
+            getEdgeDriverVersion(os);
+            logger.info("Driver and browser are compatible!");
             if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Edgedriver");
-        }
-    }
-
-    private static void setBinary(String os, Map<String, Object> map) {
-        switch (os) {
-            case "Linux": map.put("binary", "src/test/resources/browser/linux/edge/opt/microsoft/msedge/msedge"); break;
+            logger.info("Starting tests...");
         }
     }
 
@@ -116,23 +106,6 @@ public class EdgeDriverSetup extends Utils {
         switch (os) {
             case "Windows": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_win64.zip";
             case "Linux": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_linux64.zip";
-        }
-        return null;
-    }
-
-    public static String checkProjectInstallation(String os) throws Exception {
-        switch (os) {
-            case "Windows": {
-                logger.info("Project Edge Windows Installation not supported");
-                return null;
-            }
-            case "Linux": {
-                terminal = "bash";
-                flag = "-c";
-                command = "src/test/resources/browser/linux/edge/opt/microsoft/msedge/msedge -version";
-                result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Microsoft Edge ");
-            }
         }
         return null;
     }

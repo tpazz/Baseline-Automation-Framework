@@ -13,18 +13,10 @@ public class FireFoxDriverSetup extends Utils {
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
 
     public static void main(String os, FirefoxOptions fo) throws Exception {
-        String firefoxBrowserVersion;
         String geckoDriverVersion;
+        String firefoxBrowserVersion = "";
         if (checkLocalInstallation(os) == null) {
-            logger.info("No local installation of Firefox found. Checking project installation...");
-            if (checkProjectInstallation(os) == null) {
-                logger.info("No project installation of Firefox found. Please download Firefox!");
-                return;
-            } else {
-                logger.info("Project installation found! Setting binary to project location...");
-                setBinary(os,fo);
-                firefoxBrowserVersion = checkProjectInstallation(os);
-            }
+            logger.info("No local installation of Firefox found in default installation directories. Please download Firefox!");
         } else {
             logger.info("Local Firefox installation found!");
             firefoxBrowserVersion = checkLocalInstallation(os);
@@ -35,31 +27,12 @@ public class FireFoxDriverSetup extends Utils {
         logger.warn("If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases");
     }
 
-    private static void setBinary(String os, FirefoxOptions fo) {
-        switch (os) {
-            case "Windows": fo.setBinary("src/test/resources/browser/windows/firefox/firefox.exe"); break;
-            case "Linux": fo.setBinary("src/test/resources/browser/linux/firefox/firefox"); break;
-        }
-    }
-
-    public static String detectFirefox() {
-        String line = null;
-        try {
-            // wmic datafile where name="C:\\Program Files\\Mozilla Firefox\\firefox.exe" get Version /value
-            File directory = new File("C:\\Program Files\\Mozilla Firefox");
-            String[] command = {"cmd", "/C", "firefox -v|more"};
-            ProcessBuilder builder = new ProcessBuilder(command);
-            builder.directory(directory);
-            Process process = builder.start();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                while ((line = reader.readLine()) != null) {
-                    logger.info("Firefox detected! " + line);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return line;
+    public static String checkLocalInstallation(String os) throws Exception {
+        String firefoxBrowserVersion;
+        firefoxBrowserVersion = checkLocalInstallationStandard(os);
+        if (firefoxBrowserVersion == null) firefoxBrowserVersion = checkLocalInstallationDev(os);
+        if (firefoxBrowserVersion == null) firefoxBrowserVersion = checkLocalInstallationEsr(os);
+        return firefoxBrowserVersion;
     }
 
     public static String getGeckoDriverVersion(String os) throws Exception {
@@ -86,21 +59,19 @@ public class FireFoxDriverSetup extends Utils {
         return result.split(" ")[1];
     }
 
-    public static String checkProjectInstallation(String os) throws Exception {
+    public static String checkLocalInstallationDev(String os) throws Exception {
         switch (os) {
             case "Windows": {
-                String currentWorkingDir = System.getProperty("user.dir");
-                String correctedPath = currentWorkingDir.replace("\\", "\\\\");
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"" + correctedPath + "\\\\src\\\\test\\\\resources\\\\browser\\\\windows\\\\firefox\\\\firefox.exe\" get Version /value";
+                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Firefox Developer Edition\\\\firefox.exe\" get Version /value";
                 result = executeCommand(terminal, flag, command);
                 return extractWindowsBrowserVersion(result, "Version");
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
-                command = "src/test/resources/browser/linux/firefox/firefox -version";
+                command = "/opt/firefox-developer-edition/firefox -version";
                 result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
@@ -108,7 +79,27 @@ public class FireFoxDriverSetup extends Utils {
         return null;
     }
 
-    public static String checkLocalInstallation(String os) throws Exception {
+    public static String checkLocalInstallationEsr(String os) throws Exception {
+        switch (os) {
+            case "Windows": {
+                terminal = "cmd";
+                flag = "/C";
+                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox ESR\\\\firefox.exe\" get Version /value";
+                result = executeCommand(terminal, flag, command);
+                return extractWindowsBrowserVersion(result, "Version");
+            }
+            case "Linux": {
+                terminal = "bash";
+                flag = "-c";
+                command = "/usr/lib/firefox-esr/firefox -version";
+                result = executeCommand(terminal, flag, command);
+                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+            }
+        }
+        return null;
+    }
+
+    public static String checkLocalInstallationStandard(String os) throws Exception {
         switch (os) {
             case "Windows": {
                 terminal = "cmd";

@@ -1,43 +1,42 @@
-2024-10-01 17:34:39,763 INFO o.e.c.b.PageObjectExtension [Test worker] 
+2025-03-19 17:46:30,071 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
+2025-03-19 17:46:30,177 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
-Version=130.0.1.967
-
-
-
-
-
-
-
-2024-10-01 17:34:39,768 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
-2024-10-01 17:34:39,852 INFO o.e.c.b.PageObjectExtension [Test worker] 
-
-
-
-Version=130.0.1.967
+Version=134.0.3124.72
 
 
 
 
 
 
+]
+2025-03-19 17:46:30,178 INFO o.e.c.b.PageObjectExtension [Test worker] Local Edge installation found!
+2025-03-19 17:46:30,180 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
+2025-03-19 17:46:30,272 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
-2024-10-01 17:34:39,927 INFO o.e.c.b.PageObjectExtension [Test worker] geckodriver 0.35.0 (9f0a0036bea4 2024-08-03 07:11 +0000)
 
-The source code of this program is available from
-testing/geckodriver in https://hg.mozilla.org/mozilla-central.
 
-This program is subject to the terms of the Mozilla Public License 2.0.
-You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.
-2024-10-01 17:34:39,928 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 130.0.1.967
-2024-10-01 17:34:39,928 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.35.0
-2024-10-01 17:34:39,928 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
-2024-10-01 17:34:46,757 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:46,773 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:48,790 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:50,844 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:51,543 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:51,699 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:51,853 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2024-10-01 17:34:53,496 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+Version=134.0.3124.72
+
+
+
+
+
+
+]
+2025-03-19 17:46:30,273 INFO o.e.c.b.PageObjectExtension [Test worker] Using ["C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework"] for absolute path...
+2025-03-19 17:46:30,280 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework"\\src\\test\\resources\\webdriver\\windows\\edgedriver_win64\\msedgedriver.exe --version]]
+2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [Microsoft Edge WebDriver 134.0.3124.72 (c81e2c3854ded3c4d49f8a16e7716b7239666f77)]
+2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] Edge Browser version: 134.0.3124.72
+2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] EdgeDriver version: 134.0.3124.72
+2025-03-19 17:46:30,326 INFO o.e.c.b.PageObjectExtension [Test worker] Driver and browser are compatible!
+2025-03-19 17:46:30,326 INFO o.e.c.b.PageObjectExtension [Test worker] Starting tests...
+2025-03-19 17:46:36,979 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:36,997 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:39,014 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:41,461 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:44,051 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:44,744 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:45,466 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 17:46:48,465 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
