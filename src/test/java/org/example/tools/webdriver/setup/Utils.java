@@ -108,6 +108,7 @@ public class Utils {
     public static String getAbsolutePath() {
         String ABSOLUTE_PATH;
         ABSOLUTE_PATH = Objects.requireNonNullElseGet(USER_ENV_HOME, () -> USER_DIR.replace("\\", "\\\\"));
+        ABSOLUTE_PATH = "\"" + ABSOLUTE_PATH + "\"";
         logger.info("Using [" + ABSOLUTE_PATH + "] for absolute path...");
         return ABSOLUTE_PATH;
     }

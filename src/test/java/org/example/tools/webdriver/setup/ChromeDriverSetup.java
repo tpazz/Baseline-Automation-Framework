@@ -18,18 +18,10 @@ import static org.example.core.base.Constants.*;
 public class ChromeDriverSetup extends Utils {
 
     public static void main(String os, ChromeOptions co) throws Exception {
-        String chromeBrowserVersion;
+        String chromeBrowserVersion = "";
         String chromeDriverVersion;
         if (checkLocalInstallation(os) == null) {
-            logger.info("No local installation of Chrome found. Checking project installation...");
-            if (checkProjectInstallation(os) == null) {
-                logger.info("No project installation of Chrome found. Please download Chrome!");
-                return;
-            } else {
-                logger.info("Project installation found! Setting binary to project location...");
-                setBinary(os, co);
-                chromeBrowserVersion = checkProjectInstallation(os);
-            }
+            logger.info("No local installation of Chrome found in default installation directories. Please download Chrome!");
         } else {
             logger.info("Local Chrome installation found!");
             chromeBrowserVersion = checkLocalInstallation(os);
@@ -43,6 +35,7 @@ public class ChromeDriverSetup extends Utils {
             if (!shortChromeBrowserVersion.equalsIgnoreCase(shortChromeDriverVersion)) {
                 logger.info("Downloading compatible Chromedriver...");
                 downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
+                getChromeDriverVersion(os);
                 logger.info("Driver versions are now compatible!");
                 logger.info("Starting tests...");
             } else {
@@ -53,14 +46,10 @@ public class ChromeDriverSetup extends Utils {
         catch (Exception e) {
             logger.warn("No Chromedriver was found! Downloading compatible version...");
             downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
+            getChromeDriverVersion(os);
+            logger.info("Driver versions are now compatible!");
             if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Chromedriver");
-        }
-    }
-
-    private static void setBinary(String os, ChromeOptions co) {
-        switch (os) {
-            case "Windows": co.setBinary("src/test/resources/browser/windows/chrome/Application/chrome.exe"); break;
-            case "Linux": co.setBinary("src/test/resources/browser/linux/chrome/opt/google/chrome/chrome"); break;
+            logger.info("Starting tests...");
         }
     }
 
@@ -149,28 +138,6 @@ public class ChromeDriverSetup extends Utils {
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static String checkProjectInstallation(String os) throws Exception {
-        switch (os) {
-            case "Windows": {
-                String currentWorkingDir = System.getProperty("user.dir");
-                String correctedPath = currentWorkingDir.replace("\\", "\\\\");
-                terminal = "cmd";
-                flag = "/C";
-                command = "wmic datafile where name=\"" + correctedPath + "\\\\src\\\\test\\\\resources\\\\browser\\\\windows\\\\chrome\\\\Application\\\\chrome.exe\" get Version /value";
-                result = executeCommand(terminal,flag,command);
-                return extractWindowsBrowserVersion(result, "Version");
-            }
-            case "Linux": {
-                terminal = "bash";
-                flag = "-c";
-                command = "src/test/resources/browser/linux/chrome/opt/google/chrome/chrome -version";
-                result = executeCommand(terminal,flag,command);
-                return extractLinuxBrowserVersion(result,"Google Chrome ");
-            }
         }
         return null;
     }
