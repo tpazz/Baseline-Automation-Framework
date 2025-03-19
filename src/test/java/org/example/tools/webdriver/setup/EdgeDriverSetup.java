@@ -136,14 +136,14 @@ public class EdgeDriverSetup extends Utils {
             case "Windows": {
                 terminal = "cmd";
                 flag = "/C";
-                command = getAbsolutePath() + "\\\\src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\edgedriver_win64\\\\msedgedriver.exe --version";
+                command = "\"" + getAbsolutePath() + "\\\\src\\\\test\\\\resources\\\\webdriver\\\\windows\\\\edgedriver_win64\\\\msedgedriver.exe" + "\"" + " --version";
                 result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }
             case "Linux": {
                 terminal = "bash";
                 flag = "-c";
-                command = getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver -version";
+                command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"" + " -version";
                 result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }
