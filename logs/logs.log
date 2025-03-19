@@ -1,5 +1,5 @@
-2025-03-19 17:46:30,071 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
-2025-03-19 17:46:30,177 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
+2025-03-19 18:08:54,408 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
+2025-03-19 18:08:54,561 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
@@ -11,9 +11,9 @@ Version=134.0.3124.72
 
 
 ]
-2025-03-19 17:46:30,178 INFO o.e.c.b.PageObjectExtension [Test worker] Local Edge installation found!
-2025-03-19 17:46:30,180 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
-2025-03-19 17:46:30,272 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
+2025-03-19 18:08:54,562 INFO o.e.c.b.PageObjectExtension [Test worker] Local Edge installation found!
+2025-03-19 18:08:54,565 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
+2025-03-19 18:08:54,653 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
@@ -25,18 +25,18 @@ Version=134.0.3124.72
 
 
 ]
-2025-03-19 17:46:30,273 INFO o.e.c.b.PageObjectExtension [Test worker] Using ["C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework"] for absolute path...
-2025-03-19 17:46:30,280 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework"\\src\\test\\resources\\webdriver\\windows\\edgedriver_win64\\msedgedriver.exe --version]]
-2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [Microsoft Edge WebDriver 134.0.3124.72 (c81e2c3854ded3c4d49f8a16e7716b7239666f77)]
-2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] Edge Browser version: 134.0.3124.72
-2025-03-19 17:46:30,325 INFO o.e.c.b.PageObjectExtension [Test worker] EdgeDriver version: 134.0.3124.72
-2025-03-19 17:46:30,326 INFO o.e.c.b.PageObjectExtension [Test worker] Driver and browser are compatible!
-2025-03-19 17:46:30,326 INFO o.e.c.b.PageObjectExtension [Test worker] Starting tests...
-2025-03-19 17:46:36,979 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:36,997 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:39,014 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:41,461 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:44,051 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:44,744 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:45,466 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-19 17:46:48,465 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:08:54,654 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
+2025-03-19 18:08:54,662 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\edgedriver_win64\\msedgedriver.exe" --version]]
+2025-03-19 18:08:54,706 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [Microsoft Edge WebDriver 134.0.3124.72 (c81e2c3854ded3c4d49f8a16e7716b7239666f77)]
+2025-03-19 18:08:54,706 INFO o.e.c.b.PageObjectExtension [Test worker] Edge Browser version: 134.0.3124.72
+2025-03-19 18:08:54,706 INFO o.e.c.b.PageObjectExtension [Test worker] EdgeDriver version: 134.0.3124.72
+2025-03-19 18:08:54,706 INFO o.e.c.b.PageObjectExtension [Test worker] Driver and browser are compatible!
+2025-03-19 18:08:54,706 INFO o.e.c.b.PageObjectExtension [Test worker] Starting tests...
+2025-03-19 18:09:01,252 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:01,271 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:03,288 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:05,751 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:08,337 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:09,051 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:09,788 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-03-19 18:09:12,830 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
