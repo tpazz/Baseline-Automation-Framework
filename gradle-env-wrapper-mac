@@ -10,6 +10,6 @@ echo "DEBUG: Which java: $(which java)"
 java -version
 
 chmod +x "$SCRIPT_DIR/gradlew"
-#sudo chmod -R 755 Baseline-Automation-Framework
+chmod -R 755 ~/.gradle/wrapper/ || echo "Warning: Unable to set permissions for ~/.gradle/wrapper"
 
 "$SCRIPT_DIR/gradlew" "$@"
