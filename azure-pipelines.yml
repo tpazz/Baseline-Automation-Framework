@@ -74,7 +74,9 @@ jobs:
     displayName: Setting executable permissions
     inputs:
       script: |
+
         chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        
         xattr -dr com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
 
         chmod +x gradle-env-wrapper-mac
