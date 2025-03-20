@@ -74,7 +74,8 @@ jobs:
     displayName: Setting executable permissions
     inputs:
       script: |
-        xattr -d com.apple.quarantine
+        chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        xattr -dr com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
 
         chmod +x gradle-env-wrapper-mac
 
@@ -84,7 +85,6 @@ jobs:
 
         chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
         
-        chmod +x src/test/resources/jdks/mac/Contents/Home/bin/*
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
