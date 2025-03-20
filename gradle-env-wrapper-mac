@@ -12,4 +12,4 @@ java -version
 chmod +x "$SCRIPT_DIR/gradlew"
 #sudo chmod -R 755 Baseline-Automation-Framework
 
-"$SCRIPT_DIR/gradlew" "$@"
+"$SCRIPT_DIR/gradlew" "$@" --scan
