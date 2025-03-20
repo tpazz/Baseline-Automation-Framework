@@ -91,10 +91,12 @@ jobs:
         /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java -version
         ls -l /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
         file /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        arch
+        uname -m
+        sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
+        # Show any remaining extended attributes (if any):
+        xattr -r /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home | sort | uniq
         
-        sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac/
-        sudo spctl --assess --type execute /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
-        sudo spctl --master-disable
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
