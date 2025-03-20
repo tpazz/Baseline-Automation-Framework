@@ -1,32 +1,68 @@
 
 
 jobs:
-- job: Windows
-  pool:
-    vmImage: 'windows-latest'
-  steps:
-  - checkout: self  
-    lfs: true
-  - script: |
-      git lfs fetch
-      git lfs pull
-    displayName: Pull latest (LFS)
-  - task: CmdLine@2
-    displayName: Chrome Test on Windows
-    inputs:
-      script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
-  - task: CmdLine@2
-    displayName: Firefox Test on Windows
-    inputs:
-      script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox'
-  - task: CmdLine@2
-    displayName: Edge Test on Windows
-    inputs:
-      script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
+# - job: Windows
+#   pool:
+#     vmImage: 'windows-latest'
+#   steps:
+#   - checkout: self  
+#     lfs: true
+#   - script: |
+#       git lfs fetch
+#       git lfs pull
+#     displayName: Pull latest (LFS)
+#   - task: CmdLine@2
+#     displayName: Chrome Test on Windows
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
+#   - task: CmdLine@2
+#     displayName: Firefox Test on Windows
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox'
+#   - task: CmdLine@2
+#     displayName: Edge Test on Windows
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
 
-- job: Linux
+# - job: Linux
+#   pool:
+#     vmImage: 'ubuntu-latest'
+#   steps:
+#   - checkout: self  
+#     lfs: true
+#   - script: |
+#       git lfs fetch
+#       git lfs pull
+#     displayName: Pull latest (LFS)
+#   - task: CmdLine@2
+#     displayName: Setting executable permissions
+#     inputs:
+#       script: |
+#         chmod +x gradle-env-wrapper-linux
+
+#         chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
+
+#         chmod +x src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver
+
+#         chmod +x src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver
+        
+#         chmod +x src/test/resources/jdks/linux/bin/*
+#   - task: CmdLine@2
+#     displayName: Chrome Test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
+#   - task: CmdLine@2
+#     displayName: Firefox test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
+#   - task: CmdLine@2
+#     displayName: Edge test on Linux
+#     inputs:
+#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
+
+- job: Mac
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'macOS-latest'
   steps:
   - checkout: self  
     lfs: true
@@ -38,24 +74,24 @@ jobs:
     displayName: Setting executable permissions
     inputs:
       script: |
-        chmod +x gradle-env-wrapper-linux
+        chmod +x gradle-env-wrapper-mac
 
-        chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
+        chmod +x src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver
 
-        chmod +x src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver
+        chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
 
-        chmod +x src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver
+        chmod +x src/test/resources/webdriver/linux/geckodriver-macx64/geckodriver
         
-        chmod +x src/test/resources/jdks/linux/bin/*
+        chmod +x src/test/resources/jdks/mac/Contents/Home/bin/*
   - task: CmdLine@2
-    displayName: Chrome Test on Linux
+    displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome'
   - task: CmdLine@2
-    displayName: Firefox test on Linux
+    displayName: Firefox test on Mac
     inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=firefox'
   - task: CmdLine@2
-    displayName: Edge test on Linux
+    displayName: Edge test on Mac
     inputs:
-      script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=edge'
