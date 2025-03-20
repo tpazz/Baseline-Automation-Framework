@@ -91,15 +91,29 @@ public class Utils {
         }
     }
 
-    public static void setExecutablePermission(String os) throws Exception {
+    public static void setExecutablePermissionLinux(String driver) throws Exception {
         terminal = "bash";
         flag = "-c";
-        switch (os) {
+        switch (driver) {
             case "Chromedriver" : {
                 command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" + "\"";
             } break;
             case "Edgedriver" : {
                 command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"";
+            } break;
+        }
+        executeCommand(terminal,flag,command);
+    }
+
+    public static void setExecutablePermissionMac(String driver) throws Exception {
+        terminal = "bash";
+        flag = "-c";
+        switch (driver) {
+            case "Chromedriver" : {
+                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/chromedriver-mac-64/chromedriver" + "\"";
+            } break;
+            case "Edgedriver" : {
+                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver" + "\"";
             } break;
         }
         executeCommand(terminal,flag,command);
