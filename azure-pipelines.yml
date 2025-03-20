@@ -75,13 +75,13 @@ jobs:
     inputs:
       script: |
 
-        test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
-        test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && xattr -d com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java || true
-
+        # test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        # test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && xattr -d com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java || true
+        sudo chmod -R 755 Baseline-Automation-Framework 
         test -f gradle-env-wrapper-mac && chmod +x gradle-env-wrapper-mac
-        test -f src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver && chmod +x src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver
-        test -f src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver && chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
-        test -f src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver && chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
+        # test -f src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver && chmod +x src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver
+        # test -f src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver && chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
+        # test -f src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver && chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
 
         sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac
         sudo chmod -R +x /Users/runner/work/1/s/src/test/resources/jdks/mac
@@ -89,7 +89,7 @@ jobs:
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac wrapper --gradle-version 8.1 --distribution-type bin clean test aggregate reports --info -Pos=mac -Pdriver=chrome --debug --full-stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --debug --full-stacktrace'
   - task: CmdLine@2
     displayName: Firefox test on Mac
     inputs:
