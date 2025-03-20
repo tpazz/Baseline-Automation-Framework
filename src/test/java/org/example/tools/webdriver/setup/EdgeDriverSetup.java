@@ -120,8 +120,11 @@ public class EdgeDriverSetup extends Utils {
                 return extractWindowsBrowserVersion(result, "Version");
             }
             case "Linux": {
-                logger.info("Local installation of Edge Linux not supported");
-                return null;
+                terminal = "bash";
+                flag = "-c";
+                command = "/usr/bin/microsoft-edge -version";
+                result = executeCommand(terminal,flag,command);
+                return extractLinuxBrowserVersion(result, "Version");
             }
         }
         return null;
