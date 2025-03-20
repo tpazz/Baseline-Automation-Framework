@@ -75,9 +75,6 @@ jobs:
     inputs:
       script: |
 
-        # Ensure files exist before modifying
-        echo "Checking file existence before modifying permissions..."
-
         test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
         test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && xattr -d com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java || true
 
@@ -86,19 +83,13 @@ jobs:
         test -f src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver && chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
         test -f src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver && chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
 
-        echo "Permission changes applied successfully."
-
-        /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java -version
-        ls -l /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
-        file /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
-
         sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac
         sudo chmod -R +x /Users/runner/work/1/s/src/test/resources/jdks/mac
         
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --info --debug --stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --debug --full-stacktrace'
   - task: CmdLine@2
     displayName: Firefox test on Mac
     inputs:
