@@ -35,7 +35,7 @@ public class ChromeDriverSetup extends Utils {
             if (!shortChromeBrowserVersion.equalsIgnoreCase(shortChromeDriverVersion)) {
                 logger.info("Downloading compatible Chromedriver...");
                 downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
-                getChromeDriverVersion(os);
+                //getChromeDriverVersion(os);
                 logger.info("Driver versions are now compatible!");
                 logger.info("Starting tests...");
             } else {
@@ -46,7 +46,7 @@ public class ChromeDriverSetup extends Utils {
         catch (Exception e) {
             logger.warn("No Chromedriver was found! Downloading compatible version...");
             downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
-            getChromeDriverVersion(os);
+            //getChromeDriverVersion(os);
             logger.info("Driver versions are now compatible!");
             if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Chromedriver");
             logger.info("Starting tests...");
