@@ -168,7 +168,7 @@ public class ChromeDriverSetup extends Utils {
             case "Mac": {
                 terminal = "bash";
                 flag = "-c";
-                command = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+                command = "\"" + "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" + "\"";
                 result = executeCommand(terminal,flag,command);
                 return extractLinuxBrowserVersion(result, "Google Chrome ");
             }
