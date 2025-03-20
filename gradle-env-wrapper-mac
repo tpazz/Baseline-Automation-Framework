@@ -1,15 +1,28 @@
 #!/bin/bash
 
+set -e  # Exit on error
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
+# Ensure JAVA_HOME is set correctly
 export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/mac/Contents/Home"
 export PATH="$JAVA_HOME/bin:$PATH"
- 
+
 echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
 echo "DEBUG: Which java: $(which java)"
 java -version
 
-chmod +x "$SCRIPT_DIR/gradlew"
-chmod -R 755 ~/.gradle/wrapper/ || echo "Warning: Unable to set permissions for ~/.gradle/wrapper"
+# Set Gradle user home to a temporary directory
+export GRADLE_USER_HOME="/tmp/gradle"
 
-"$SCRIPT_DIR/gradlew" "$@"
+echo "Using custom Gradle home directory: $GRADLE_USER_HOME"
+
+# Ensure Gradle wrapper script is executable
+chmod +x "$SCRIPT_DIR/gradlew"
+
+# Run Gradle with new home directory
+"$SCRIPT_DIR/gradlew" --gradle-user-home "$GRADLE_USER_HOME" --no-daemon "$@" || {
+    echo "Gradle build failed! Retrying after clearing cache..."
+    rm -rf "$GRADLE_USER_HOME"
+    "$SCRIPT_DIR/gradlew" --gradle-user-home "$GRADLE_USER_HOME" --no-daemon "$@"
+}
