@@ -89,7 +89,7 @@ jobs:
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --no-daemon --debug --full-stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome ./gradlew wrapper --gradle-version 8.1 --no-daemon --debug --full-stacktrace'
   - task: CmdLine@2
     displayName: Firefox test on Mac
     inputs:
