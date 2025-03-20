@@ -75,17 +75,18 @@ jobs:
     inputs:
       script: |
 
-        chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
-        
-        xattr -dr com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home || true
+        # Ensure files exist before modifying
+        echo "Checking file existence before modifying permissions..."
 
-        chmod +x gradle-env-wrapper-mac
+        test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && chmod +x /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        test -f /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java && xattr -d com.apple.quarantine /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java || true
 
-        chmod +x src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver
+        test -f gradle-env-wrapper-mac && chmod +x gradle-env-wrapper-mac
+        test -f src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver && chmod +x src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver
+        test -f src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver && chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
+        test -f src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver && chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
 
-        chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
-
-        chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
+        echo "Permission changes applied successfully."
         
   - task: CmdLine@2
     displayName: Chrome Test on Mac
