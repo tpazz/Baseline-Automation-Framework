@@ -98,12 +98,12 @@ jobs:
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --debug --stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome'
   - task: CmdLine@2
     displayName: Firefox test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=firefox --debug --stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=firefox'
   - task: CmdLine@2
     displayName: Edge test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=edge --debug --stacktrace'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=edge'
