@@ -93,7 +93,6 @@ jobs:
         file /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
 
         sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
-        sudo codesign --force --deep --sign - /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
         
   - task: CmdLine@2
     displayName: Chrome Test on Mac
