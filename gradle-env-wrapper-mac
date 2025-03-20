@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/mac"
+export PATH="$JAVA_HOME/Contents/Home/bin:$PATH"
+ 
+echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
+echo "DEBUG: Which java: $(which java)"
+java -version
+
+chmod +x "$SCRIPT_DIR/gradlew"
+#sudo chmod -R 755 Baseline-Automation-Framework
+
+"$SCRIPT_DIR/gradlew" "$@"
