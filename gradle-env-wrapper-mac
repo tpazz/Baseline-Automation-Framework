@@ -4,6 +4,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/mac/Contents/Home"
 export PATH="$JAVA_HOME/bin:$PATH"
+export GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
 
 echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
 echo "DEBUG: Which java: $(which java)"
