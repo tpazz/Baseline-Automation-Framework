@@ -62,7 +62,7 @@ jobs:
 
 - job: Mac
   pool:
-    vmImage: 'mac-latest'
+    vmImage: 'macOS-latest'
   steps:
   - checkout: self  
     lfs: true
