@@ -124,7 +124,7 @@ public class EdgeDriverSetup extends Utils {
                 flag = "-c";
                 command = "/usr/bin/microsoft-edge -version";
                 result = executeCommand(terminal,flag,command);
-                return extractLinuxBrowserVersion(result, "Version");
+                return extractLinuxBrowserVersion(result, "Microsoft Edge ");
             }
         }
         return null;
