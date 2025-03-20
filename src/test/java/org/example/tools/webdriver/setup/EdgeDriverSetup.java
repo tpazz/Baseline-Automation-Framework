@@ -55,7 +55,8 @@ public class EdgeDriverSetup extends Utils {
             downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
             //getEdgeDriverVersion(os);
             logger.info("Driver and browser are compatible!");
-            if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Edgedriver");
+            if (os.equalsIgnoreCase("Linux")) setExecutablePermissionLinux("Edgedriver");
+            else if (os.equalsIgnoreCase("Mac")) setExecutablePermissionMac("Edgedriver");
             logger.info("Starting tests...");
         }
     }
@@ -106,6 +107,7 @@ public class EdgeDriverSetup extends Utils {
         switch (os) {
             case "Windows": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_win64.zip";
             case "Linux": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_linux64.zip";
+            case "Mac" : return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_mac64.zip";
         }
         return null;
     }
@@ -123,6 +125,13 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "/usr/bin/microsoft-edge -version";
+                result = executeCommand(terminal,flag,command);
+                return extractLinuxBrowserVersion(result, "Microsoft Edge ");
+            }
+            case "Mac": {
+                terminal = "bash";
+                flag = "-c";
+                command = "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge -version";
                 result = executeCommand(terminal,flag,command);
                 return extractLinuxBrowserVersion(result, "Microsoft Edge ");
             }
@@ -147,6 +156,13 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"" + " -version";
+                result = executeCommand(terminal, flag, command);
+                return extractEdgeDriverVersion(result);
+            }
+            case "Mac": {
+                terminal = "bash";
+                flag = "-c";
+                command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver" + "\"" + " -version";
                 result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }

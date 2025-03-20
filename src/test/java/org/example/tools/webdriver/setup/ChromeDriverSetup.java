@@ -48,7 +48,8 @@ public class ChromeDriverSetup extends Utils {
             downloadChromeDriver(getChromeDriverURL(shortChromeBrowserVersion, os), os);
             //getChromeDriverVersion(os);
             logger.info("Driver versions are now compatible!");
-            if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Chromedriver");
+            if (os.equalsIgnoreCase("Linux")) setExecutablePermissionLinux("Chromedriver");
+            else if (os.equalsIgnoreCase("Mac")) setExecutablePermissionMac("Chromedriver");
             logger.info("Starting tests...");
         }
     }
@@ -125,6 +126,12 @@ public class ChromeDriverSetup extends Utils {
                                     logger.info("Platform: " + platform);
                                     logger.info("URL: " + downloadUrl);
                                     return downloadUrl;
+                                } else if (platform.equals("mac-x64") && os.equals("Mac")) {
+                                    String downloadUrl = platformObject.getString("url");
+                                    logger.info("Version: " + version);
+                                    logger.info("Platform: " + platform);
+                                    logger.info("URL: " + downloadUrl);
+                                    return downloadUrl;
                                 }
                             }
                         }
@@ -158,6 +165,13 @@ public class ChromeDriverSetup extends Utils {
                 result = executeCommand(terminal,flag,command);
                 return extractLinuxBrowserVersion(result, "Google Chrome ");
             }
+            case "Mac": {
+                terminal = "bash";
+                flag = "-c";
+                command = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+                result = executeCommand(terminal,flag,command);
+                return extractLinuxBrowserVersion(result, "Google Chrome ");
+            }
         }
         return null;
     }
@@ -179,6 +193,13 @@ public class ChromeDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" + "\"" + " -version";
+                result = executeCommand(terminal,flag,command);
+                return extractChromeDriverVersion(result);
+            }
+            case "Mac": {
+                terminal = "bash";
+                flag = "-c";
+                command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/chromedriver-mac-x64/chromedriver" + "\"" + " -version";
                 result = executeCommand(terminal,flag,command);
                 return extractChromeDriverVersion(result);
             }
