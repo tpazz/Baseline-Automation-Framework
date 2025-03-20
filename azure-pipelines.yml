@@ -80,18 +80,18 @@ jobs:
 
         chmod +x src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver
 
-        chmod +x src/test/resources/webdriver/linux/geckodriver-macx64/geckodriver
+        chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
         
         chmod +x src/test/resources/jdks/mac/Contents/Home/bin/*
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=chrome --debug --stacktrace'
   - task: CmdLine@2
     displayName: Firefox test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=firefox'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=firefox --debug --stacktrace'
   - task: CmdLine@2
     displayName: Edge test on Mac
     inputs:
-      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=edge'
+      script: './gradle-env-wrapper-mac clean test aggregate reports --info -Pos=mac -Pdriver=edge --debug --stacktrace'
