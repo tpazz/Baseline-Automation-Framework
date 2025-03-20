@@ -92,7 +92,8 @@ jobs:
         ls -l /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
         file /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
 
-        sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home
+        sudo xattr -cr /Users/runner/work/1/s/src/test/resources/jdks/mac
+        sudo chmod -R +x /Users/runner/work/1/s/src/test/resources/jdks/mac
         
   - task: CmdLine@2
     displayName: Chrome Test on Mac
