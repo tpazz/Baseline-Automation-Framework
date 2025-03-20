@@ -42,7 +42,7 @@ public class EdgeDriverSetup extends Utils {
             if (!shortEdgeBrowserVersion.equalsIgnoreCase(shortEdgeDriverVersion)) {
                 logger.info("Downloading compatible EdgeDriver...");
                 downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
-                getEdgeDriverVersion(os);
+                //getEdgeDriverVersion(os);
                 logger.info("Driver versions are now compatible!");
                 logger.info("Starting tests...");
             } else {
@@ -53,7 +53,7 @@ public class EdgeDriverSetup extends Utils {
         catch (Exception e) {
             logger.warn("No Edgedriver was found! Downloading compatible version...");
             downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
-            getEdgeDriverVersion(os);
+            //getEdgeDriverVersion(os);
             logger.info("Driver and browser are compatible!");
             if (os.equalsIgnoreCase("Linux")) setExecutablePermission("Edgedriver");
             logger.info("Starting tests...");

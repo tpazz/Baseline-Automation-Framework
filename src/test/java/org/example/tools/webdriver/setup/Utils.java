@@ -96,10 +96,10 @@ public class Utils {
         flag = "-c";
         switch (os) {
             case "Chromedriver" : {
-                command = "chmod +x " + getAbsolutePath() + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver";
+                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" + "\"";
             } break;
             case "Edgedriver" : {
-                command = "chmod +x " + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver";
+                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"";
             } break;
         }
         executeCommand(terminal,flag,command);
