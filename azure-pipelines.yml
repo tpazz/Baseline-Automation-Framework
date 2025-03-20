@@ -87,7 +87,10 @@ jobs:
         test -f src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver && chmod +x src/test/resources/webdriver/mac/geckodriver-macx64/geckodriver
 
         echo "Permission changes applied successfully."
-        
+
+        /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java -version
+        ls -l /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
+        file /Users/runner/work/1/s/src/test/resources/jdks/mac/Contents/Home/bin/java
   - task: CmdLine@2
     displayName: Chrome Test on Mac
     inputs:
