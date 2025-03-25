@@ -10,6 +10,10 @@ echo "DEBUG: Which java: $(which java)"
 java -version
 
 chmod +x "$SCRIPT_DIR/gradlew"
-#sudo chmod -R 755 Baseline-Automation-Framework
+chmod +x gradle-env-wrapper-linux
+chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
+chmod +x src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver
+chmod +x src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver
+chmod +x src/test/resources/jdks/linux/bin/*
 
 "$SCRIPT_DIR/gradlew" "$@"
