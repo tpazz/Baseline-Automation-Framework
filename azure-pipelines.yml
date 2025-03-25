@@ -35,6 +35,12 @@ jobs:
        git lfs pull
      displayName: Pull latest (LFS)
    - task: CmdLine@2
+     displayName: Setting executable permissions
+     inputs:
+       script: |
+         chmod +x gradle-env-wrapper-linux
+         chmod +x src/test/resources/jdks/linux/bin/*
+   - task: CmdLine@2
      displayName: Linux // Chrome
      inputs:
        script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
