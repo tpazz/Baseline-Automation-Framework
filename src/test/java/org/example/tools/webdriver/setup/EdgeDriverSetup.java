@@ -40,9 +40,12 @@ public class EdgeDriverSetup extends Utils {
             logger.info("Edge Browser version: " + edgeBrowserVersion);
             logger.info("EdgeDriver version: " + edgeDriverVersion);
             if (!shortEdgeBrowserVersion.equalsIgnoreCase(shortEdgeDriverVersion)) {
+                logger.warn("Driver and browser versions are incompatible!");
                 logger.info("Downloading compatible EdgeDriver...");
                 downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
-                //getEdgeDriverVersion(os);
+                if (os.equalsIgnoreCase("Linux")) setExecutablePermissionLinux("Edgedriver");
+                logger.info("Edge Browser version: " + edgeBrowserVersion);
+                logger.info("EdgeDriver version: " + getEdgeDriverVersion(os));
                 logger.info("Driver versions are now compatible!");
                 logger.info("Starting tests...");
             } else {
@@ -53,10 +56,9 @@ public class EdgeDriverSetup extends Utils {
         catch (Exception e) {
             logger.warn("No Edgedriver was found! Downloading compatible version...");
             downloadEdgeDriver(getEdgeDriverURL(edgeBrowserVersion, os), os);
-            //getEdgeDriverVersion(os);
-            logger.info("Driver and browser are compatible!");
             if (os.equalsIgnoreCase("Linux")) setExecutablePermissionLinux("Edgedriver");
-            else if (os.equalsIgnoreCase("Mac")) setExecutablePermissionMac("Edgedriver");
+            getEdgeDriverVersion(os);
+            logger.info("Driver and browser are compatible!");
             logger.info("Starting tests...");
         }
     }
@@ -107,7 +109,6 @@ public class EdgeDriverSetup extends Utils {
         switch (os) {
             case "Windows": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_win64.zip";
             case "Linux": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_linux64.zip";
-            case "Mac" : return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_mac64.zip";
         }
         return null;
     }
@@ -125,13 +126,6 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "/usr/bin/microsoft-edge -version";
-                result = executeCommand(terminal,flag,command);
-                return extractLinuxBrowserVersion(result, "Microsoft Edge ");
-            }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge -version";
                 result = executeCommand(terminal,flag,command);
                 return extractLinuxBrowserVersion(result, "Microsoft Edge ");
             }
@@ -156,13 +150,6 @@ public class EdgeDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"" + " -version";
-                result = executeCommand(terminal, flag, command);
-                return extractEdgeDriverVersion(result);
-            }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver" + "\"" + " -version";
                 result = executeCommand(terminal, flag, command);
                 return extractEdgeDriverVersion(result);
             }

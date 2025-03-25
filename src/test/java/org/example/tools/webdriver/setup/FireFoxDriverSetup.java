@@ -51,13 +51,6 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 return extractGeckoDriverVersion(result);
             }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/geckodriver-mac-x64/geckodriver" + "\"" + " --version";
-                result = executeCommand(terminal, flag, command);
-                return extractGeckoDriverVersion(result);
-            }
         }
         return null;
     }
@@ -82,13 +75,6 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox -version";
-                result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-            }
         }
         return null;
     }
@@ -109,13 +95,6 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/Applications/Firefox ESR.app/Contents/MacOS/firefox -version";
-                result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-            }
         }
         return null;
     }
@@ -133,13 +112,6 @@ public class FireFoxDriverSetup extends Utils {
                 terminal = "bash";
                 flag = "-c";
                 command = "/usr/lib/firefox/firefox -version";
-                result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-            }
-            case "Mac": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/Applications/Firefox.app/Contents/MacOS/firefox -version";
                 result = executeCommand(terminal, flag, command);
                 return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
             }
