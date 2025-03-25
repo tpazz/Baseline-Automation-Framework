@@ -102,7 +102,7 @@ task importJunitResultsToXrayCloud() {
 
 test {
     ignoreFailures = false // keep this enabled for Xray upload
-    //maxParallelForks = 1 // Maximum value must be <= number of cores on CPU
+    maxParallelForks = 1 // Maximum value must be <= number of cores on CPU
     systemProperty('webdriver.driver','provided')
     systemProperty('webdriver.provided.type','mydriver')
     switch (project.findProperty('driver').toString()) {
@@ -112,8 +112,6 @@ test {
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.ChromeDriverProperties')
                     break
-                case "mac": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.mac.ChromeDriverProperties')
-                    break
             }
             break;
         case "firefox":
@@ -122,8 +120,6 @@ test {
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.FireFoxDriverProperties')
                     break
-                case "mac": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.mac.FireFoxDriverProperties')
-                    break
             }
             break;
         case "edge":
@@ -131,8 +127,6 @@ test {
                 case "windows": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.windows.EdgeDriverProperties')
                     break
                 case "linux": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.linux.EdgeDriverProperties')
-                    break
-                case "mac": systemProperty('webdriver.provided.mydriver','org.example.tools.webdriver.provided.mac.EdgeDriverProperties')
                     break
             }
             break
