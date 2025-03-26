@@ -20,8 +20,9 @@ public class ChromeDriverProperties implements DriverSource {
         try { ChromeDriverSetup.main("Windows", chromeOptions); }
         catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe");
-        chromeOptions.addArguments("--incognito", "--start-maximised", "--headless");
+        chromeOptions.addArguments("--incognito", "--start-maximised");
         chromeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
+        if ("true".equalsIgnoreCase(System.getProperty("headless"))) chromeOptions.addArguments("--headless");
         return new ChromeDriver(chromeOptions);
     }
     @Override
