@@ -131,6 +131,9 @@ test {
             }
             break
     }
+    if (project.hasProperty('headless') && project.property('headless') == 'true') {
+        systemProperty 'headless', 'true'
+    }
 }
 
 gradle.startParameter.continueOnFailure = true

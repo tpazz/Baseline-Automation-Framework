@@ -14,15 +14,15 @@ jobs:
    - task: CmdLine@2
      displayName: Windows // Chrome
      inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome'
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=true'
    - task: CmdLine@2
      displayName: Windows // Firefox
      inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox'
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox -Pheadless=true'
    - task: CmdLine@2
      displayName: Windows // Edge
      inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge'
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge -Pheadless=true'
 
  - job: Linux
    pool:
@@ -43,12 +43,12 @@ jobs:
    - task: CmdLine@2
      displayName: Linux // Chrome
      inputs:
-       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome'
+       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=chrome -Pheadless=true'
    - task: CmdLine@2
      displayName: Linux // Firefox
      inputs:
-       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox'
+       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox -Pheadless=true'
    - task: CmdLine@2
      displayName: Linux // Edge
      inputs:
-       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge'
+       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge -Pheadless=true'

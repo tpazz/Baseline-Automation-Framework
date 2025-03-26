@@ -85,9 +85,9 @@ public class PageObjectExtension extends PageObject {
     public void waitForElement(WebElement webElement, WaitType waitType, int timeOut) {
         wait = new WebDriverWait(getDriver(), timeOut);
         switch (waitType) {
-            case ENABLED     : wait.until(ExpectedConditions.attributeToBe(element, "enabled", "true")); break;
-            case DISABLED    : wait.until(ExpectedConditions.attributeToBe(element, "enabled", "false"));break;
-            case CLICKABLE   : wait.until(ExpectedConditions.elementToBeClickable(element));                          break;
+            case ENABLED     : wait.until(ExpectedConditions.attributeToBe(webElement, "enabled", "true")); break;
+            case DISABLED    : wait.until(ExpectedConditions.attributeToBe(webElement, "enabled", "false"));break;
+            case CLICKABLE   : wait.until(ExpectedConditions.elementToBeClickable(webElement));                          break;
             case VISIBLE     : wait.until(ExpectedConditions.visibilityOf(webElement));                               break;
             case NOT_VISIBLE : wait.until(ExpectedConditions.invisibilityOf(webElement));                             break;
         }

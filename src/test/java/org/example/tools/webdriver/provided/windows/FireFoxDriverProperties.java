@@ -14,7 +14,8 @@ public class FireFoxDriverProperties implements DriverSource {
         try { FireFoxDriverSetup.main("Windows", firefoxOptions); }
         catch (Exception e) { e.printStackTrace(); }
         System.setProperty("webdriver.gecko.driver", "src/test/resources/webdriver/windows/geckodriver-win64/geckodriver.exe");
-        firefoxOptions.addArguments("-private", "-headless");
+        firefoxOptions.addArguments("-private");
+        if ("true".equalsIgnoreCase(System.getProperty("headless"))) firefoxOptions.addArguments("-headless");
         firefoxOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         return new FirefoxDriver(firefoxOptions);
     }

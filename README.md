@@ -3,7 +3,7 @@
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
 * Self-contained Java + Gradle project
 * Selenium
-* Serenity with Cucumber
+* Serenity with Cucumber 4
 * Logging
 * Parallel Testing
 * Jira Xray Gradle task to automatically upload test results into your project workspace
@@ -21,23 +21,23 @@
 1. Clone the repository
 2. Open project in IDE of your choice (Intellij is recommended)
 3. Build the **Gradle** project
-4. Add a new Gradle configuration, specifying the operating system and driver you wish to use for executing the suite (e.g. ```clean test aggregate reports --info -Pos=windows -Pdriver=chrome```)
+4. Add a new Gradle configuration, specifying the operating system and driver you wish to use for executing the suite (e.g. ```clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=false```)
 5. Run!
 
 **OR** Run tests directly from the command line using provided gradle wrapper scripts:
 #### Windows
 1. Clone the project
-2. Enter: `gradlew.bat <arguments> -Pos=windows -pdriver=<DESIRED DRIVER>`
+2. Enter: `gradlew.bat <arguments> -Pos=windows -pdriver=<chrome>|<edge>|<firefox> -Pheadless=<true>|<false>`
 
 #### Linux
 1. Clone the project
 2. Make Linux wrapper executable: `chmod +x gradle-env-wrapper-linux`
-3. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<DESIRED DRIVER>`
+3. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<chrome>|<edge>|<firefox> -Pheadless=<true>|<false>`
 
 ---
 ### Compatibility
 
-Tested on **windows-latest** and **ubuntu-latest**. The framework will try and locate local browser installations in the following locations:
+Tested on **windows-latest** and **ubuntu-latest** Azure Agents. Environment variables are pre-configured to work with the embedded JDKs, and the framework will try and locate local browser installations in the following locations:
 
 - Windows Chrome
 
