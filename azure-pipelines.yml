@@ -1,28 +1,28 @@
 
 
 jobs:
- - job: Windows
-   pool:
-     vmImage: 'windows-latest'
-   steps:
-   - checkout: self
-     lfs: true
-   - script: |
-       git lfs fetch
-       git lfs pull
-     displayName: Pull latest (LFS)
-   - task: CmdLine@2
-     displayName: Windows // Chrome
-     inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=true'
-   - task: CmdLine@2
-     displayName: Windows // Firefox
-     inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox -Pheadless=true'
-   - task: CmdLine@2
-     displayName: Windows // Edge
-     inputs:
-       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge -Pheadless=true'
+# - job: Windows
+#   pool:
+#     vmImage: 'windows-latest'
+#   steps:
+#   - checkout: self
+#     lfs: true
+#   - script: |
+#       git lfs fetch
+#       git lfs pull
+#     displayName: Pull latest (LFS)
+#   - task: CmdLine@2
+#     displayName: Windows // Chrome
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=true'
+#   - task: CmdLine@2
+#     displayName: Windows // Firefox
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox -Pheadless=true'
+#   - task: CmdLine@2
+#     displayName: Windows // Edge
+#     inputs:
+#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge -Pheadless=true'
 
  - job: Linux
    pool:

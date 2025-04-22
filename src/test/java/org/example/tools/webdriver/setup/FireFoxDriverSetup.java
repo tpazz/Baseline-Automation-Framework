@@ -76,6 +76,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractWindowsBrowserVersion(result, "Version");
                 if (version != null) {
+                    logger.info("Detected Firefox Developer Edition!");
                     detectedFirefoxBinary = pathWin;
                 }
                 break;
@@ -88,6 +89,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
                 if (version != null) {
+                    logger.info("Detected Firefox Developer Edition!");
                     detectedFirefoxBinary =  pathLin;
                 }
                 break;
@@ -109,6 +111,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractWindowsBrowserVersion(result, "Version");
                 if (version != null) {
+                    logger.info("Detected Firefox ESR Edition!");
                     detectedFirefoxBinary = pathWin;
                 }
                 break;
@@ -121,6 +124,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
                 if (version != null) {
+                    logger.info("Detected Firefox ESR Edition!");
                     detectedFirefoxBinary =  pathLin;
                 }
                 break;
@@ -142,6 +146,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractWindowsBrowserVersion(result, "Version");
                 if (version != null) {
+                    logger.info("Detected Firefox Standard Edition!");
                     detectedFirefoxBinary = pathWin;
                 }
                 break;
@@ -154,6 +159,7 @@ public class FireFoxDriverSetup extends Utils {
                 result = executeCommand(terminal, flag, command);
                 version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
                 if (version != null) {
+                    logger.info("Detected Firefox Standard Edition!");
                     detectedFirefoxBinary =  pathLin;
                 }
                 break;
