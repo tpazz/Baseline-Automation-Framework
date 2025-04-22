@@ -39,7 +39,7 @@ jobs:
      inputs:
        script: |
          chmod +x gradle-env-wrapper-linux
-         chmod +x src/test/resources/jdks/linux/bin/*
+         chmod +x src/test/resources/jdks/linux/jdk-21.0.7+6/bin/*
    - task: CmdLine@2
      displayName: Linux // Chrome
      inputs:

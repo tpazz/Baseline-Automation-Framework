@@ -52,7 +52,7 @@ echo location of your Java installation.
 goto fail
 
 :findJavaFromJavaHome
-set JAVA_HOME=src\test\resources\jdks\windows
+set JAVA_HOME=src\test\resources\jdks\windows\jdk-21.0.7+6
 set JAVA_EXE=%JAVA_HOME%\bin\java.exe
 
 if exist "%JAVA_EXE%" goto execute
