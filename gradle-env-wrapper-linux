@@ -1,44 +1,56 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-###############################################################################
-#  Resolve paths
-###############################################################################
+################################################################################
+# Resolve key paths
+################################################################################
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+# Temp location that *does* allow execution on Microsoft runners
+EXEC_TMP="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP:-/var/tmp}}"
 
-# ---------- Java -------------------------------------------------------------
-export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
+################################################################################
+# Copy embedded JDK to exec‑capable directory (only once per job)
+################################################################################
+EMBEDDED_JDK_SRC="$SCRIPT_DIR/src/test/resources/jdks/linux"
+EMBEDDED_JDK_DST="$EXEC_TMP/embedded-jdk"
+
+if [[ ! -d "$EMBEDDED_JDK_DST" ]]; then
+  echo "INFO  Copying embedded JDK to $EMBEDDED_JDK_DST"
+  mkdir -p "$EMBEDDED_JDK_DST"
+  cp -r "$EMBEDDED_JDK_SRC/"* "$EMBEDDED_JDK_DST/"
+  chmod +x "$EMBEDDED_JDK_DST/bin/"*            # ensure executables
+fi
+
+export JAVA_HOME="$EMBEDDED_JDK_DST"
 export PATH="$JAVA_HOME/bin:$PATH"
 
-# ---------- Gradle -----------------------------------------------------------
-# Use the job‑scoped temp dir: exec‑capable on Microsoft‑hosted runners
-export GRADLE_USER_HOME="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP:-/var/tmp}}/gradle"
+################################################################################
+# Gradle user‑home in exec‑capable location
+################################################################################
+export GRADLE_USER_HOME="$EXEC_TMP/gradle"
 mkdir -p "$GRADLE_USER_HOME"
 
-###############################################################################
-#  Debug
-###############################################################################
+################################################################################
+# Debug output
+################################################################################
 echo "JAVA_HOME         = $JAVA_HOME"
 echo "GRADLE_USER_HOME  = $GRADLE_USER_HOME"
 java -version
 
-###############################################################################
-#  Make wrapper executable
-###############################################################################
+################################################################################
+# Make wrapper & driver binaries executable where they already exist
+################################################################################
 chmod +x "$SCRIPT_DIR/gradlew"
 
-###############################################################################
-#  (Optional) chmod driver binaries if they already exist
-###############################################################################
-for f in \
+for driver in \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver"
 do
-  [[ -f "$f" ]] && chmod +x "$f" || echo "INFO  $f not present – skipping chmod"
+  [[ -f "$driver" ]] && chmod +x "$driver" || echo "INFO  $driver not present – skipping chmod"
 done
 
-###############################################################################
-#  Run Gradle
-###############################################################################
+################################################################################
+# Delegate to Gradle wrapper
+################################################################################
 exec "$SCRIPT_DIR/gradlew" "$@"
