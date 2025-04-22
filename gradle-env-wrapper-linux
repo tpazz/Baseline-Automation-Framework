@@ -1,32 +1,50 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+###############################################################################
+#  Resolve important paths
+###############################################################################
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-# ---------- Java -------------------------------------------------------------
+# ── Java ──────────────────────────────────────────────────────────────────────
 export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
 export PATH="$JAVA_HOME/bin:$PATH"
 
-# ---------- Gradle -----------------------------------------------------------
-export GRADLE_USER_HOME="$SCRIPT_DIR/.gradle"     # <— lives beside the script
+# ── Gradle ────────────────────────────────────────────────────────────────────
+# Use a temp folder that is never mounted 'noexec'
+if [[ -n "${RUNNER_TEMP:-}" ]]; then                   # GitHub Actions / Azure
+  export GRADLE_USER_HOME="$RUNNER_TEMP/gradle"
+else
+  export GRADLE_USER_HOME="/tmp/gradle-user-home"
+fi
+mkdir -p "$GRADLE_USER_HOME"
 
-echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
-echo "DEBUG: Which java: $(which java)"
-java -version
+###############################################################################
+#  Debug output
+###############################################################################
+echo "DEBUG  JAVA_HOME          : $JAVA_HOME"
+echo "DEBUG  GRADLE_USER_HOME   : $GRADLE_USER_HOME"
+echo "DEBUG  which java         : $(which java)"
+java -version || true
 
-# ---------- Driver binaries --------------------------------------------------
-for f in \
+###############################################################################
+#  Make wrapper + driver binaries executable (if they exist)
+###############################################################################
+chmod +x "$SCRIPT_DIR/gradlew"
+
+for driver in \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver"
 do
-  if [ -f "$f" ]; then
-    chmod +x "$f"
+  if [[ -f "$driver" ]]; then
+    chmod +x "$driver"
   else
-    echo "DEBUG: $f not found – skipping chmod"
+    echo "INFO   Driver $driver not present – skipping chmod"
   fi
 done
 
-# ---------- Run Gradle --------------------------------------------------------
-chmod +x "$SCRIPT_DIR/gradlew"
-"$SCRIPT_DIR/gradlew" "$@"
+###############################################################################
+#  Run Gradle via the wrapper
+###############################################################################
+exec "$SCRIPT_DIR/gradlew" "$@"
