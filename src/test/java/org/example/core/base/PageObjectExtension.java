@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,14 +36,14 @@ public class PageObjectExtension extends PageObject {
     public enum WaitType { ENABLED, CLICKABLE, DISABLED, VISIBLE, NOT_VISIBLE }
 
     public String action(Action action, WebElement webElement, String value) {
-        return action(action, webElement, value, 5);
+        return action(action, webElement, value, Duration.ofSeconds(5));
     }
 
     public String action(Action action, WebElement webElement) {
-        return action(action, webElement, "", 5);
+        return action(action, webElement, "", Duration.ofSeconds(5));
     }
 
-    public String action(Action action, WebElement webElement, String value, int timeOut) {
+    public String action(Action action, WebElement webElement, String value, Duration timeOut) {
         final String[] returnValue = {""};
         new WebDriverWait(getDriver(), timeOut).ignoring(Exception.class).until((WebDriver d) -> {
             try {
@@ -79,10 +80,10 @@ public class PageObjectExtension extends PageObject {
     }
 
     public void waitForElement(WebElement webElement, WaitType waitType) {
-        waitForElement(webElement, waitType, 5);
+        waitForElement(webElement, waitType, Duration.ofSeconds(5));
     }
 
-    public void waitForElement(WebElement webElement, WaitType waitType, int timeOut) {
+    public void waitForElement(WebElement webElement, WaitType waitType, Duration timeOut) {
         wait = new WebDriverWait(getDriver(), timeOut);
         switch (waitType) {
             case ENABLED     : wait.until(ExpectedConditions.attributeToBe(webElement, "enabled", "true")); break;
@@ -116,12 +117,12 @@ public class PageObjectExtension extends PageObject {
     }
 
     public WebElement generateElement(By locator) {
-        wait = new WebDriverWait(getDriver(), 5);
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         return getDriver().findElement(locator);
     }
 
-    public WebElement generateElement(By locator, int seconds) {
+    public WebElement generateElement(By locator, Duration seconds) {
         wait = new WebDriverWait(getDriver(), seconds);
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         return getDriver().findElement(locator);
@@ -205,21 +206,21 @@ public class PageObjectExtension extends PageObject {
     }
 
     public void acceptJSAlert() {
-        wait = new WebDriverWait(getDriver(),30);
+        wait = new WebDriverWait(getDriver(),Duration.ofSeconds(30));
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert();
         alert.accept();
     }
 
     public void dismissJSAlert() {
-        wait = new WebDriverWait(getDriver(),30);
+        wait = new WebDriverWait(getDriver(),Duration.ofSeconds(30));
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert();
         alert.dismiss();
     }
 
     public void enterTextJSAlert(String text) {
-        wait = new WebDriverWait(getDriver(),30);
+        wait = new WebDriverWait(getDriver(),Duration.ofSeconds(30));
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert();
         alert.sendKeys(text);
@@ -271,7 +272,7 @@ public class PageObjectExtension extends PageObject {
         };
         try {
             Thread.sleep(1000);
-            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
             wait.until(expectation);
         } catch (Throwable error) {
             Assert.fail("Timeout waiting for Page Load Request to complete.");
@@ -281,7 +282,7 @@ public class PageObjectExtension extends PageObject {
     // ************************************************* GENERIC *******************************************************
 
     public void handleAlert(String option) {
-        wait = new WebDriverWait(getDriver(), 5);
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.alertIsPresent());
         if (option.equalsIgnoreCase("OK")) getDriver().switchTo().alert().accept();
         else getDriver().switchTo().alert().dismiss();

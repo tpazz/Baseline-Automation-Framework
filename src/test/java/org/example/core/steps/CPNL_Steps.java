@@ -1,8 +1,9 @@
 package org.example.core.steps;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.And;
 
 public class CPNL_Steps {
 
