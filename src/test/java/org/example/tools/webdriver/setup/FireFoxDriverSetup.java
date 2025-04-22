@@ -1,25 +1,28 @@
 package org.example.tools.webdriver.setup;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.core.base.PageObjectExtension;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 public class FireFoxDriverSetup extends Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
+    public static volatile String detectedFirefoxBinary = null;
 
     public static void main(String os, FirefoxOptions fo) throws Exception {
         String geckoDriverVersion;
-        String firefoxBrowserVersion = "";
-        if (checkLocalInstallation(os) == null) {
+        String firefoxBrowserVersion = checkLocalInstallation(os);
+        if (firefoxBrowserVersion == null) {
             logger.info("No local installation of Firefox found in default installation directories. Please download Firefox!");
         } else {
             logger.info("Local Firefox installation found!");
-            firefoxBrowserVersion = checkLocalInstallation(os);
         }
         geckoDriverVersion = getGeckoDriverVersion(os);
         logger.info("Firefox Browser version: " + firefoxBrowserVersion);
@@ -60,63 +63,103 @@ public class FireFoxDriverSetup extends Utils {
     }
 
     public static String checkLocalInstallationDev(String os) throws Exception {
+        String pathWin = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
+        String pathLin = "/opt/firefox-developer-edition/firefox";
         switch (os) {
             case "Windows": {
+                logger.log(Level.INFO, "Detected Windows DEV");
+                if (!Files.exists(Paths.get(pathWin))) break;
+                String wmicPath = "\"" + pathWin.replace("\\", "\\\\") + "\"";
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Firefox Developer Edition\\\\firefox.exe\" get Version /value";
+                command = "wmic datafile where name=" + wmicPath + " get Version /value";
                 result = executeCommand(terminal, flag, command);
-                return extractWindowsBrowserVersion(result, "Version");
+                version = extractWindowsBrowserVersion(result, "Version");
+                if (version != null) {
+                    detectedFirefoxBinary = pathWin;
+                }
+                break;
             }
             case "Linux": {
+                if (!Files.exists(Paths.get(pathLin))) break;
                 terminal = "bash";
                 flag = "-c";
-                command = "/opt/firefox-developer-edition/firefox -version";
+                command = pathLin + " -version";
                 result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                if (version != null) {
+                    detectedFirefoxBinary =  pathLin;
+                }
+                break;
             }
         }
-        return null;
+        return version;
     }
 
     public static String checkLocalInstallationEsr(String os) throws Exception {
+        String pathWin = "C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe";
+        String pathLin = "/usr/lib/firefox-esr/firefox";
         switch (os) {
             case "Windows": {
+                if (!Files.exists(Paths.get(pathWin))) break;
+                String wmicPath = "\"" + pathWin.replace("\\", "\\\\") + "\"";
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox ESR\\\\firefox.exe\" get Version /value";
+                command = "wmic datafile where name=" + wmicPath + " get Version /value";
                 result = executeCommand(terminal, flag, command);
-                return extractWindowsBrowserVersion(result, "Version");
+                version = extractWindowsBrowserVersion(result, "Version");
+                if (version != null) {
+                    detectedFirefoxBinary = pathWin;
+                }
+                break;
             }
             case "Linux": {
+                if (!Files.exists(Paths.get(pathLin))) break;
                 terminal = "bash";
                 flag = "-c";
-                command = "/usr/lib/firefox-esr/firefox -version";
+                command = pathLin + " -version";
                 result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                if (version != null) {
+                    detectedFirefoxBinary =  pathLin;
+                }
+                break;
             }
         }
-        return null;
+        return version;
     }
 
     public static String checkLocalInstallationStandard(String os) throws Exception {
+        String pathWin = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+        String pathLin = "/usr/lib/firefox/firefox";
         switch (os) {
             case "Windows": {
+                if (!Files.exists(Paths.get(pathWin))) break;
+                String wmicPath = "\"" + pathWin.replace("\\", "\\\\") + "\"";
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Mozilla Firefox\\\\firefox.exe\" get Version /value";
+                command = "wmic datafile where name=" + wmicPath + " get Version /value";
                 result = executeCommand(terminal, flag, command);
-                return extractWindowsBrowserVersion(result, "Version");
+                version = extractWindowsBrowserVersion(result, "Version");
+                if (version != null) {
+                    detectedFirefoxBinary = pathWin;
+                }
+                break;
             }
             case "Linux": {
+                if (!Files.exists(Paths.get(pathLin))) break;
                 terminal = "bash";
                 flag = "-c";
-                command = "/usr/lib/firefox/firefox -version";
+                command = pathLin + " -version";
                 result = executeCommand(terminal, flag, command);
-                return extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+                if (version != null) {
+                    detectedFirefoxBinary =  pathLin;
+                }
+                break;
             }
         }
-        return null;
+        return version;
     }
 
 }
