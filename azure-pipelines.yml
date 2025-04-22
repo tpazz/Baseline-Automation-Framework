@@ -1,53 +1,53 @@
 
 
 jobs:
-# - job: Windows
-#   pool:
-#     vmImage: 'windows-latest'
-#   steps:
-#   - checkout: self
-#     lfs: true
-#   - script: |
-#       git lfs fetch
-#       git lfs pull
-#     displayName: Pull latest (LFS)
-#   - task: CmdLine@2
-#     displayName: Windows // Chrome
-#     inputs:
-#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=true'
-#   - task: CmdLine@2
-#     displayName: Windows // Firefox
-#     inputs:
-#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox -Pheadless=true'
-#   - task: CmdLine@2
-#     displayName: Windows // Edge
-#     inputs:
-#       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge -Pheadless=true'
+ - job: Windows
+   pool:
+     vmImage: 'windows-latest'
+   steps:
+   - checkout: self
+     lfs: true
+   - script: |
+       git lfs fetch
+       git lfs pull
+     displayName: Pull latest (LFS)
+   - task: CmdLine@2
+     displayName: Windows // Chrome
+     inputs:
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=chrome -Pheadless=true'
+   - task: CmdLine@2
+     displayName: Windows // Firefox
+     inputs:
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=firefox -Pheadless=true'
+   - task: CmdLine@2
+     displayName: Windows // Edge
+     inputs:
+       script: 'gradlew.bat clean test aggregate reports --info -Pos=windows -Pdriver=edge -Pheadless=true'
 
-# - job: Linux
-#   pool:
-#     vmImage: 'ubuntu-latest'
-#   steps:
-#   - checkout: self
-#     lfs: true
-#   - script: |
-#       git lfs fetch
-#       git lfs pull
-#     displayName: Pull latest (LFS)
-#   - task: CmdLine@2
-#     displayName: Setting executable permissions
-#     inputs:
-#       script: |
-#         chmod +x gradle-env-wrapper-linux
-#   - task: CmdLine@2
-#     displayName: Linux // Chrome
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --stacktrace --debug --info -Pos=linux -Pdriver=chrome -Pheadless=true'
-#   - task: CmdLine@2
-#     displayName: Linux // Firefox
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox -Pheadless=true'
-#   - task: CmdLine@2
-#     displayName: Linux // Edge
-#     inputs:
-#       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge -Pheadless=true'
+ - job: Linux
+   pool:
+     vmImage: 'ubuntu-latest'
+   steps:
+   - checkout: self
+     lfs: true
+   - script: |
+       git lfs fetch
+       git lfs pull
+     displayName: Pull latest (LFS)
+   - task: CmdLine@2
+     displayName: Setting executable permissions
+     inputs:
+       script: |
+         chmod +x gradle-env-wrapper-linux
+   - task: CmdLine@2
+     displayName: Linux // Chrome
+     inputs:
+       script: './gradle-env-wrapper-linux clean test aggregate reports --stacktrace --debug --info -Pos=linux -Pdriver=chrome -Pheadless=true'
+   - task: CmdLine@2
+     displayName: Linux // Firefox
+     inputs:
+       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=firefox -Pheadless=true'
+   - task: CmdLine@2
+     displayName: Linux // Edge
+     inputs:
+       script: './gradle-env-wrapper-linux clean test aggregate reports --info -Pos=linux -Pdriver=edge -Pheadless=true'
