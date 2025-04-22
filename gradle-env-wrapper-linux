@@ -1,50 +1,9 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-EMBEDDED_ZIP="$SCRIPT_DIR/src/test/resources/jdks/linux/OpenJDK21U-jdk_x64_linux_hotspot_21.0.7_6.tar.gz"
-JDK_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
-
-if [[ ! -d "$JDK_HOME" ]]; then
-  echo "INFO  Extracting embedded JDK to $JDK_HOME"
-  mkdir -p "$JDK_HOME"
-  if [[ "$EMBEDDED_ZIP" == *.zip ]]; then
-    unzip -q "$EMBEDDED_ZIP" -d "$JDK_HOME"
-  else                                # tar.gz, tar.zst, etc.
-    tar -xf "$EMBEDDED_ZIP" -C "$JDK_HOME" --strip-components=1
-  fi
-  # Ensure every binary is executable
-  chmod +x "$JDK_HOME/bin/"*
-fi
-
-export JAVA_HOME="$JDK_HOME"
-export PATH="$JAVA_HOME/bin:$PATH"
 
 export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
 export PATH="$JAVA_HOME/bin:$PATH"
-
-DRIVER_ROOT="$SCRIPT_DIR/src/test/resources/webdriver/linux"
-
-extract_driver () {        # $1 = folder, $2 = archive pattern
-  local dir="$1"
-  local archive
-  archive="$(ls "$dir"/$2 2>/dev/null | head -n1 || true)"
-  [[ -z "$archive" ]] && { echo "INFO  No archive found in $dir – skipping"; return; }
-
-  echo "INFO  Extracting $(basename "$archive") -> $dir"
-  case "$archive" in
-    *.zip)    unzip -q  "$archive" -d "$dir" ;;
-    *.tar.gz) tar -xzf  "$archive" -C "$dir" ;;
-    *.tar.*)  tar -xf   "$archive" -C "$dir" ;;
-    *)        echo "WARN  Unknown archive type: $archive"; return ;;
-  esac
-}
-
-extract_driver "$DRIVER_ROOT/chromedriver-linux64"  "*.zip"
-extract_driver "$DRIVER_ROOT/edgedriver-linux64"    "*.zip"
-extract_driver "$DRIVER_ROOT/geckodriver-linux64"   "*.tar.*"
-
-# ensure executables
-find "$DRIVER_ROOT" -maxdepth 2 -type f -name "*driver*" -exec chmod +x {} \;
 
 echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
 echo "DEBUG: Which java: $(which java)"
