@@ -25,6 +25,7 @@ public class Utils {
     static String flag;
     static String command;
     static String result;
+    static String version;
 
     public static String executeCommand(String terminal, String flag, String command) throws Exception {
         String[] Pcommand = { terminal, flag, command };
@@ -100,20 +101,6 @@ public class Utils {
             } break;
             case "Edgedriver" : {
                 command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" + "\"";
-            } break;
-        }
-        executeCommand(terminal,flag,command);
-    }
-
-    public static void setExecutablePermissionMac(String driver) throws Exception {
-        terminal = "bash";
-        flag = "-c";
-        switch (driver) {
-            case "Chromedriver" : {
-                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/chromedriver-mac-64/chromedriver" + "\"";
-            } break;
-            case "Edgedriver" : {
-                command = "chmod +x " + "\"" + getAbsolutePath() + "/src/test/resources/webdriver/mac/edgedriver-mac64/msedgedriver" + "\"";
             } break;
         }
         executeCommand(terminal,flag,command);
