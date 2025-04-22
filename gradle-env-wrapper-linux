@@ -1,57 +1,24 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
 
-################################################################################
-# Resolve key paths
-################################################################################
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-# Temp location that *does* allow execution on Microsoft runners
-EXEC_TMP="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP:-/var/tmp}}"
-ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
-################################################################################
-# Copy embedded JDK to exec‑capable directory (only once per job)
-################################################################################
-EMBEDDED_JDK_SRC="$SCRIPT_DIR/src/test/resources/jdks/linux"
-EMBEDDED_JDK_DST="$EXEC_TMP/embedded-jdk"
-
-if [[ ! -d "$EMBEDDED_JDK_DST" ]]; then
-  echo "INFO  Copying embedded JDK to $EMBEDDED_JDK_DST"
-  mkdir -p "$EMBEDDED_JDK_DST"
-  cp -r "$EMBEDDED_JDK_SRC/"* "$EMBEDDED_JDK_DST/"
-  chmod +x "$EMBEDDED_JDK_DST/bin/"*            # ensure executables
-fi
-
-export JAVA_HOME="$EMBEDDED_JDK_DST"
+JAVA_HOME="/usr/lib/jvm/temurin-21-jdk-amd64"
+export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
 
-################################################################################
-# Gradle user‑home in exec‑capable location
-################################################################################
-export GRADLE_USER_HOME="$EXEC_TMP/gradle"
+export GRADLE_USER_HOME="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP}}/gradle"
 mkdir -p "$GRADLE_USER_HOME"
 
-################################################################################
-# Debug output
-################################################################################
-echo "JAVA_HOME         = $JAVA_HOME"
-echo "GRADLE_USER_HOME  = $GRADLE_USER_HOME"
+#export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
+#export PATH="$JAVA_HOME/bin:$PATH"
+
+echo "DEBUG: JAVA_HOME is set to $JAVA_HOME"
+echo "DEBUG: Which java: $(which java)"
 java -version
 
-################################################################################
-# Make wrapper & driver binaries executable where they already exist
-################################################################################
 chmod +x "$SCRIPT_DIR/gradlew"
+chmod +x src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver
+chmod +x src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver
+chmod +x src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver
 
-for driver in \
-  "$SCRIPT_DIR/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" \
-  "$SCRIPT_DIR/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" \
-  "$SCRIPT_DIR/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver"
-do
-  [[ -f "$driver" ]] && chmod +x "$driver" || echo "INFO  $driver not present – skipping chmod"
-done
-
-################################################################################
-# Delegate to Gradle wrapper
-################################################################################
-exec "$SCRIPT_DIR/gradlew" "$@"
+"$SCRIPT_DIR/gradlew" "$@"
