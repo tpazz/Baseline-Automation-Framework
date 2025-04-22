@@ -2,49 +2,43 @@
 set -euo pipefail
 
 ###############################################################################
-#  Resolve important paths
+#  Resolve paths
 ###############################################################################
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-# ── Java ──────────────────────────────────────────────────────────────────────
+# ---------- Java -------------------------------------------------------------
 export JAVA_HOME="$SCRIPT_DIR/src/test/resources/jdks/linux"
 export PATH="$JAVA_HOME/bin:$PATH"
 
-# ── Gradle ────────────────────────────────────────────────────────────────────
-# Use a temp folder that is never mounted 'noexec'
-if [[ -n "${RUNNER_TEMP:-}" ]]; then                   # GitHub Actions / Azure
-  export GRADLE_USER_HOME="$RUNNER_TEMP/gradle"
-else
-  export GRADLE_USER_HOME="/tmp/gradle-user-home"
-fi
+# ---------- Gradle -----------------------------------------------------------
+# Use the job‑scoped temp dir: exec‑capable on Microsoft‑hosted runners
+export GRADLE_USER_HOME="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP:-/var/tmp}}/gradle"
 mkdir -p "$GRADLE_USER_HOME"
 
 ###############################################################################
-#  Debug output
+#  Debug
 ###############################################################################
-echo "DEBUG  JAVA_HOME          : $JAVA_HOME"
-echo "DEBUG  GRADLE_USER_HOME   : $GRADLE_USER_HOME"
-echo "DEBUG  which java         : $(which java)"
-java -version || true
+echo "JAVA_HOME         = $JAVA_HOME"
+echo "GRADLE_USER_HOME  = $GRADLE_USER_HOME"
+java -version
 
 ###############################################################################
-#  Make wrapper + driver binaries executable (if they exist)
+#  Make wrapper executable
 ###############################################################################
 chmod +x "$SCRIPT_DIR/gradlew"
 
-for driver in \
+###############################################################################
+#  (Optional) chmod driver binaries if they already exist
+###############################################################################
+for f in \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/chromedriver-linux64/chromedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver" \
   "$SCRIPT_DIR/src/test/resources/webdriver/linux/geckodriver-linux64/geckodriver"
 do
-  if [[ -f "$driver" ]]; then
-    chmod +x "$driver"
-  else
-    echo "INFO   Driver $driver not present – skipping chmod"
-  fi
+  [[ -f "$f" ]] && chmod +x "$f" || echo "INFO  $f not present – skipping chmod"
 done
 
 ###############################################################################
-#  Run Gradle via the wrapper
+#  Run Gradle
 ###############################################################################
 exec "$SCRIPT_DIR/gradlew" "$@"
