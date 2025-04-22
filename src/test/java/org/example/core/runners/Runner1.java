@@ -1,6 +1,6 @@
 package org.example.core.runners;
 
-import cucumber.api.CucumberOptions;
+import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
@@ -8,8 +8,11 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features="src/test/resources/features/",
         glue="org.example",
-        plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json",
-                "junit:target/cucumber-reports/Cucumber.xml",
-                "html:target/cucumber-reports"},
+        plugin = {
+                "pretty",
+                "json:target/cucumber-reports/json/Cucumber.json",
+                "junit:target/cucumber-reports/junit/Cucumber.xml",
+                "html:target/cucumber-reports/html"
+        },
         tags = "@GSP")
 public class Runner1 {}

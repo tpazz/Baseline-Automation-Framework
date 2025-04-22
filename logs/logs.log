@@ -1,16 +1,9 @@
-2025-03-26 10:01:36,033 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Mozilla Firefox\\firefox.exe" get Version /value]]
-2025-03-26 10:01:36,124 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
+2025-04-22 12:40:53,018 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" get Version /value]]
+2025-04-22 12:40:53,217 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
-
-]
-2025-03-26 10:01:36,132 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Firefox Developer Edition\\firefox.exe" get Version /value]]
-2025-03-26 10:01:36,226 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
-
-
-
-Version=137.0.0.2025
+Version=135.0.7049.96
 
 
 
@@ -18,20 +11,13 @@ Version=137.0.0.2025
 
 
 ]
-2025-03-26 10:01:36,227 INFO o.e.c.b.PageObjectExtension [Test worker] Local Firefox installation found!
-2025-03-26 10:01:36,229 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Mozilla Firefox\\firefox.exe" get Version /value]]
-2025-03-26 10:01:36,321 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
+2025-04-22 12:40:53,217 INFO o.e.c.b.PageObjectExtension [Test worker] Local Chrome installation found!
+2025-04-22 12:40:53,222 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" get Version /value]]
+2025-04-22 12:40:53,354 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
-
-]
-2025-03-26 10:01:36,324 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Firefox Developer Edition\\firefox.exe" get Version /value]]
-2025-03-26 10:01:36,411 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
-
-
-
-Version=137.0.0.2025
+Version=135.0.7049.96
 
 
 
@@ -39,23 +25,18 @@ Version=137.0.0.2025
 
 
 ]
-2025-03-26 10:01:36,412 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
-2025-03-26 10:01:36,420 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\geckodriver-win64\\geckodriver.exe" --version]]
-2025-03-26 10:01:36,450 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [geckodriver 0.35.0 (9f0a0036bea4 2024-08-03 07:11 +0000)
-
-The source code of this program is available from
-testing/geckodriver in https://hg.mozilla.org/mozilla-central.
-
-This program is subject to the terms of the Mozilla Public License 2.0.
-You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.]
-2025-03-26 10:01:36,451 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 137.0.0.2025
-2025-03-26 10:01:36,451 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.35.0
-2025-03-26 10:01:36,451 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
-2025-03-26 10:01:44,839 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:44,856 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:46,870 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:48,987 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:50,667 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:51,124 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:51,591 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-03-26 10:01:53,926 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:40:53,355 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
+2025-04-22 12:40:53,363 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\chromedriver-win64\\chromedriver.exe" --version]]
+2025-04-22 12:40:53,405 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [ChromeDriver 135.0.6999.0 (b937188d17eae4ec84b8472a44ef250992f20d65-refs/branch-heads/6999@{#1})]
+2025-04-22 12:40:53,406 INFO o.e.c.b.PageObjectExtension [Test worker] Chrome Browser version: 135.0.7049.96
+2025-04-22 12:40:53,406 INFO o.e.c.b.PageObjectExtension [Test worker] Chromedriver version: 135.0.6999.0
+2025-04-22 12:40:53,406 INFO o.e.c.b.PageObjectExtension [Test worker] Driver and browser are compatible!
+2025-04-22 12:40:53,406 INFO o.e.c.b.PageObjectExtension [Test worker] Starting tests...
+2025-04-22 12:41:01,444 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:01,470 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:04,111 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:06,758 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:10,373 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:11,334 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:12,310 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-04-22 12:41:16,013 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***

@@ -3,7 +3,7 @@
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
 * Self-contained Java + Gradle project
 * Selenium
-* Serenity with Cucumber 4
+* Serenity with Cucumber
 * Logging
 * Parallel Testing
 * Jira Xray Gradle task to automatically upload test results into your project workspace
@@ -33,6 +33,11 @@
 1. Clone the project
 2. Make Linux wrapper executable: `chmod +x gradle-env-wrapper-linux`
 3. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<chrome>|<edge>|<firefox> -Pheadless=<true>|<false>`
+
+
+<p align=center>
+<img width="450" alt="image" src="img.png">
+</p>
 
 ---
 ### Compatibility
