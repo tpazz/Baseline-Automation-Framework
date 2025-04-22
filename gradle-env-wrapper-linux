@@ -7,6 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 # Temp location that *does* allow execution on Microsoft runners
 EXEC_TMP="${AGENT_TEMPDIRECTORY:-${RUNNER_TEMP:-/var/tmp}}"
+ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
 
 ################################################################################
 # Copy embedded JDK to exec‑capable directory (only once per job)
