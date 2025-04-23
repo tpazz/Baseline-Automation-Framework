@@ -1,12 +1,12 @@
 # Baseline-Automation-Framework
 
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
-* Self-contained Java + Gradle project
+* Self-contained Java 21 + Gradle 8 project
 * Selenium
 * Serenity with Cucumber
 * Logging
 * Parallel Testing
-* Jira Xray Gradle task to automatically upload test results into your project workspace
+* Jira Xray task to upload test results into your project workspace
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
@@ -449,7 +449,7 @@ By following these standards, there will be no ambiguity between stakeholders, a
 ---
 
 ### Troubleshooting
-* Make sure that your **webdriver** version is compatible with your **browser** version
+* Make sure that your **webdriver** version is compatible with your **browser** version (```ChromeDriverSetup``` and ```EdgeDriverSetup``` classes will handle this automatically, but ```FireFoxDriverSetup``` will not)
 * Make sure that you have enough memory to execute the tests (can be set with `javaMaxHeapSize` in `build.gradle`)
 * Make sure that you are not exceeding maximum cores when parallel testing (`maxParallelForks` in `build.gradle`)
 * Make sure that you have correctly labelled your features with `@tags`, and specifying these tags in the `CucumberOptions` for each runner
