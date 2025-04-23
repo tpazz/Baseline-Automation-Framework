@@ -26,7 +26,7 @@ public class EdgeDriverProperties implements DriverSource {
             try { EdgeDriverSetup.main("Linux", edgeOptions); }
             catch (Exception e) { logger.error("Failed to prepare Edgedriver!"); }
         }
-        System.setProperty("webdriver.edge.driver", "src/test/resources/webdriver/windows/edgedriver_win64/msedgedriver.exe");
+        System.setProperty("webdriver.edge.driver", "src/test/resources/webdriver/linux/edgedriver-linux64/msedgedriver");
         edgeOptions.addArguments("InPrivate");
         edgeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         if ("true".equalsIgnoreCase(System.getProperty("headless"))) edgeOptions.addArguments("headless");
