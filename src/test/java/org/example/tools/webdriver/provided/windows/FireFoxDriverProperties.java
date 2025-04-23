@@ -15,15 +15,16 @@ public class FireFoxDriverProperties implements DriverSource {
     private static final AtomicBoolean setupDone = new AtomicBoolean(false);
     @Override
     public WebDriver newDriver() {
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
         if (setupDone.compareAndSet(false, true)) {      // run exactly once
-            try { FireFoxDriverSetup.main("Windows", new FirefoxOptions()); }
+            try { FireFoxDriverSetup.main("Windows", firefoxOptions); }
             catch (Exception e) { throw new RuntimeException("Unable to prepare Firefox driver", e); }
         }
-        System.setProperty("webdriver.gecko.driver", "src/test/resources/webdriver/windows/geckodriver-win64/geckodriver.exe");
-        FirefoxOptions firefoxOptions = new FirefoxOptions().addArguments("-private");
-        if ("true".equalsIgnoreCase(System.getProperty("headless"))) firefoxOptions.addArguments("-headless");
         if (detectedFirefoxBinary != null) firefoxOptions.setBinary(detectedFirefoxBinary);
+        System.setProperty("webdriver.gecko.driver", "src/test/resources/webdriver/windows/geckodriver-win64/geckodriver.exe");
         firefoxOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
+        firefoxOptions.addArguments("-private");
+        if ("true".equalsIgnoreCase(System.getProperty("headless"))) firefoxOptions.addArguments("-headless");
         return new FirefoxDriver(firefoxOptions);
     }
     @Override

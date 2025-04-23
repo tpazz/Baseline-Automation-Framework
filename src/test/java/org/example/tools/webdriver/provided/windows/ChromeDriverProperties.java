@@ -9,18 +9,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ChromeDriverProperties implements DriverSource {
-
+    private static final AtomicBoolean setupDone = new AtomicBoolean(false);
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
-
     @Override
     public WebDriver newDriver() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        try { ChromeDriverSetup.main("Windows", chromeOptions); }
-        catch (Exception e) { e.printStackTrace(); }
+        if (setupDone.compareAndSet(false, true)) {
+            try { ChromeDriverSetup.main("Windows", chromeOptions); }
+            catch (Exception e) { logger.error("Failed to prepare Chromedriver!"); }
+        }
         System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe");
-        chromeOptions.addArguments("--incognito", "--start-maximised");
+        chromeOptions.addArguments("--incognito");
         chromeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         if ("true".equalsIgnoreCase(System.getProperty("headless"))) chromeOptions.addArguments("--headless");
         return new ChromeDriver(chromeOptions);

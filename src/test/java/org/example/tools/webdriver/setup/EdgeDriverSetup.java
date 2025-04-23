@@ -23,16 +23,14 @@ public class EdgeDriverSetup extends Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
 
-    public static void main(String os, Map<String, Object> map) throws Exception {
-        String edgeBrowserVersion = "";
+    public static void main(String os, EdgeOptions eo) throws Exception {
         String edgeDriverVersion;
-        if (checkLocalInstallation(os) == null) {
+        String edgeBrowserVersion = checkLocalInstallation(os);
+        if (edgeBrowserVersion == null) {
             logger.info("No local installation of Edge found in default installation directories. Please download Edge!");
         } else {
             logger.info("Local Edge installation found!");
-            edgeBrowserVersion = checkLocalInstallation(os);
         }
-
         String shortEdgeBrowserVersion = edgeBrowserVersion.split("\\.")[0];
         try {
             edgeDriverVersion = getEdgeDriverVersion(os);

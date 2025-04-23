@@ -18,13 +18,12 @@ import static org.example.core.base.Constants.*;
 public class ChromeDriverSetup extends Utils {
 
     public static void main(String os, ChromeOptions co) throws Exception {
-        String chromeBrowserVersion = "";
-        String chromeDriverVersion;
-        if (checkLocalInstallation(os) == null) {
+        String chromeDriverVersion = "";
+        String chromeBrowserVersion = checkLocalInstallation(os);
+        if (chromeBrowserVersion == null) {
             logger.info("No local installation of Chrome found in default installation directories. Please download Chrome!");
         } else {
             logger.info("Local Chrome installation found!");
-            chromeBrowserVersion = checkLocalInstallation(os);
         }
         String shortChromeBrowserVersion = chromeBrowserVersion.split("\\.")[0];
         try {

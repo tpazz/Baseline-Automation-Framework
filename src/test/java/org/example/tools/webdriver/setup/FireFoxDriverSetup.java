@@ -21,8 +21,6 @@ public class FireFoxDriverSetup extends Utils {
         String firefoxBrowserVersion = checkLocalInstallation(os);
         if (firefoxBrowserVersion == null) {
             logger.info("No local installation of Firefox found in default installation directories. Please download Firefox!");
-        } else {
-            logger.info("Local Firefox installation found!");
         }
         geckoDriverVersion = getGeckoDriverVersion(os);
         logger.info("Firefox Browser version: " + firefoxBrowserVersion);
