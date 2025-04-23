@@ -51,18 +51,10 @@ This project includes the following third-party components that are redistribute
 
 ---
 
-### 🛠️ Gradle Wrapper
-
-- **Source**: [https://gradle.org](https://gradle.org)
-- **License**: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-- **Purpose**: Used as the build system for this project.
-- **Note**: This project uses the official Gradle Wrapper to bootstrap builds. No modifications have been made to the Gradle distribution.
-
-
 ## ⚠️ Disclaimer
 
 All third-party software included in this repository is provided **as-is**, bundled strictly for **development and testing use**. This project makes no claim to ownership over these components. Redistribution of binaries is done in good faith and in accordance with their respective licenses.
 
-If you are a legal representative or license holder for any included software and believe a license has been misrepresented or violated, please contact the project maintainers or file an issue immediately.
+If you are a legal representative or license holder for any included software and believe a license has been misrepresented or violated, please contact the project owner.
 
 ---
