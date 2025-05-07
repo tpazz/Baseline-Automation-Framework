@@ -1,12 +1,12 @@
 # Baseline-Automation-Framework
 
 ### This is a template test automation framework that you can clone to make a start on your automated testing.
-* Self-contained Java 21 + Gradle 8 project
-* Selenium
-* Serenity with Cucumber
+* Self-contained JDK and Environment Variable Setup
+* Java 21 + Gradle 8 + JUNIT 5 Framework
+* Selenium + SerenityBDD + Cucumber
 * Logging
 * Parallel Testing
-* Jira Xray task to upload test results into your project workspace
+* Jira Xray Task to Upload Test Results into your Project Workspace
 * [AES cipher capabilities](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/cipher/AES.java)
 * [Custom BasePageObject](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/core/base/PageObjectExtension.java) extension from Serenity's PageObject
 * [Automated WebDriver Compatibility Download](https://github.com/tpazz/Baseline-Automation-Framework/blob/master/src/test/java/org/example/tools/webdriver/setup/ChromeDriverSetup.java)
@@ -27,12 +27,12 @@
 **OR** Run tests directly from the command line using provided gradle wrapper scripts:
 #### Windows
 1. Clone the project
-2. Enter: `gradlew.bat <arguments> -Pos=windows -pdriver=<chrome>|<edge>|<firefox> -Pheadless=<true>|<false>`
+2. Enter: `gradlew.bat <arguments> -Pos=windows -Pdriver=<chrome|edge|firefox> -Pheadless=<true>|<false>`
 
 #### Linux
 1. Clone the project
 2. Make Linux wrapper executable: `chmod +x gradle-env-wrapper-linux`
-3. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<chrome>|<edge>|<firefox> -Pheadless=<true>|<false>`
+3. Enter: `./gradlew-env-wrapper-linux <arguments> -Pos=linux -Pdriver=<chrome|edge|firefox> -Pheadless=<true>|<false>`
 
 
 <p align=center>

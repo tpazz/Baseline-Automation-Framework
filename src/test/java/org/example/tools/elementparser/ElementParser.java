@@ -34,9 +34,9 @@ public class ElementParser {
     private static boolean isInteractableElement(WebElement element) {
         boolean interactable = false;
         String tagName = element.getTagName();
-        String attribute = element.getAttribute("href");
+        String attribute = element.getDomAttribute("href");
         if (tagName.equals("input") || tagName.equals("textarea") || tagName.equals("button") || tagName.equals("select")
-                || (element.getAttribute("href") != null && !element.getAttribute("href").isEmpty()))
+                || (element.getDomAttribute("href") != null && !element.getDomAttribute("href").isEmpty()))
             interactable = true;
         return interactable;
     }
@@ -44,7 +44,7 @@ public class ElementParser {
     public static void outputWithFullMatch(List<WebElement> interactableElements, boolean serenitySyntax) {
         for (WebElement element : interactableElements) {
             try {
-                String id = element.getAttribute("id");
+                String id = element.getDomAttribute("id");
                 if (id != null && !id.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(id = \"" + id + "\")");
@@ -54,7 +54,7 @@ public class ElementParser {
                 }
             } catch (Exception e) {}
             try {
-                String cssSelector = element.getAttribute("class");
+                String cssSelector = element.getDomAttribute("class");
                 if (cssSelector != null && !cssSelector.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(css = \"" + cssSelector + "\")");
@@ -64,7 +64,7 @@ public class ElementParser {
                 }
             } catch (Exception e) {}
             try {
-                String xpath = element.getAttribute("xpath");
+                String xpath = element.getDomAttribute("xpath");
                 if (xpath != null && !xpath.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(xpath = \"" + xpath + "\")");
@@ -80,7 +80,7 @@ public class ElementParser {
     private static void outputWithSubstring(List<WebElement> interactableElements, boolean serenitySyntax) {
         for (WebElement element : interactableElements) {
             try {
-                String id = element.getAttribute("id");
+                String id = element.getDomAttribute("id");
                 if (id != null && !id.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(css = \"[id*='" + id + "']\")");
@@ -90,7 +90,7 @@ public class ElementParser {
                 }
             } catch (Exception e) {}
             try {
-                String classAttr = element.getAttribute("class");
+                String classAttr = element.getDomAttribute("class");
                 if (classAttr != null && !classAttr.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(css = \"[class*='" + classAttr + "']\")");
@@ -100,7 +100,7 @@ public class ElementParser {
                 }
             } catch (Exception e) {}
             try {
-                String hrefAttr = element.getAttribute("href");
+                String hrefAttr = element.getDomAttribute("href");
                 if (hrefAttr != null && !hrefAttr.isEmpty()) {
                     if (serenitySyntax)
                         logger.info("@FindBy(css = \"[href*='" + hrefAttr.substring(hrefAttr.lastIndexOf('/') + 1) + "']\")");

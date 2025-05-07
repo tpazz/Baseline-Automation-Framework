@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.*;
 import java.io.InputStream;
@@ -58,12 +59,13 @@ public class ChromeDriverSetup extends Utils {
 
     public static void downloadChromeDriver(String zipurl, String os) throws Exception {
         closeAllChromeDrivers(os);
-        String targetDirectory = null;
-        switch (os) {
-            case "Windows": targetDirectory = PROJECT_RESOURCES_WINDOWS; break;
-            case "Linux": targetDirectory = PROJECT_RESOURCES_LINUX; break;
-        }
-        URL url = new URL(zipurl);
+        String targetDirectory = switch (os) {
+            case "Windows" -> PROJECT_RESOURCES_WINDOWS;
+            case "Linux" -> PROJECT_RESOURCES_LINUX;
+            default -> null;
+        };
+        URI uri = URI.create(zipurl);
+        URL url = uri.toURL();
         InputStream in = url.openStream();
             String fileName = getFileNameFromUrl(zipurl);
             Path outputPath = Paths.get(targetDirectory, fileName);
@@ -92,7 +94,8 @@ public class ChromeDriverSetup extends Utils {
 
     public static String getChromeDriverURL(String compatibleVersion, String os) {
         try {
-            URL url = new URL(CHROME_DRIVER_API);
+            URI uri = URI.create(CHROME_DRIVER_API);
+            URL url = uri.toURL();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

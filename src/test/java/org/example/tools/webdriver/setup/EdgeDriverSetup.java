@@ -6,6 +6,7 @@ import org.example.core.base.PageObjectExtension;
 import org.openqa.selenium.edge.EdgeOptions;
 
 import java.io.*;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.*;
 import java.io.InputStream;
@@ -77,7 +78,8 @@ public class EdgeDriverSetup extends Utils {
                     targetDirectory = PROJECT_RESOURCES_LINUX + "edgedriver-linux64";
             } break;
         }
-        URL url = new URL(zipurl);
+        URI uri = URI.create(zipurl);
+        URL url = uri.toURL();
         InputStream in = url.openStream();
         String fileName = getFileNameFromUrl(zipurl);
         Path outputPath = Paths.get(targetDirectory, fileName);
@@ -105,11 +107,11 @@ public class EdgeDriverSetup extends Utils {
     }
 
     public static String getEdgeDriverURL(String compatibleVersion, String os) {
-        switch (os) {
-            case "Windows": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_win64.zip";
-            case "Linux": return EDGE_DRIVER_API+compatibleVersion+"/edgedriver_linux64.zip";
-        }
-        return null;
+        return switch (os) {
+            case "Windows" -> EDGE_DRIVER_API + compatibleVersion + "/edgedriver_win64.zip";
+            case "Linux" -> EDGE_DRIVER_API + compatibleVersion + "/edgedriver_linux64.zip";
+            default -> null;
+        };
     }
 
     public static String checkLocalInstallation(String os) throws Exception {

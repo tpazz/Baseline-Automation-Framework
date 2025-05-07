@@ -1,18 +1,22 @@
 package org.example.core.runners;
 
-import io.cucumber.junit.CucumberOptions;
-import net.serenitybdd.cucumber.CucumberWithSerenity;
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.ConfigurationParameter;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.SelectClasspathResource;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(CucumberWithSerenity.class)
-@CucumberOptions(
-        features="src/test/resources/features/",
-        glue="org.example",
-        plugin = {
-                "pretty",
-                "json:target/cucumber-reports/json/Cucumber.json",
-                "junit:target/cucumber-reports/junit/Cucumber.xml",
-                "html:target/cucumber-reports/html"
-        },
-        tags = "@GSP")
+import static io.cucumber.junit.platform.engine.Constants.*;
+
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("/features")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME,
+        value = "org.example")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
+        value = "pretty," +
+                "json:target/cucumber-reports/json/Cucumber_R1.json," +
+                "junit:target/cucumber-reports/junit/Cucumber_R1.xml," +
+                "html:target/cucumber-reports/html_R1")
+@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME,
+        value = "@GSP")
 public class Runner1 {}

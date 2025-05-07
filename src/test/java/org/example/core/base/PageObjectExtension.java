@@ -46,16 +46,17 @@ public class PageObjectExtension extends PageObject {
     public String action(Action action, WebElement webElement, String value, Duration timeOut) {
         final String[] returnValue = {""};
         new WebDriverWait(getDriver(), timeOut).ignoring(Exception.class).until((WebDriver d) -> {
+            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement);
             try {
                 switch (action) {
-                    case CLICK                : webElement.click();                              break;
-                    case ENTER_TEXT           : enterText(webElement, value);                    break;
-                    case ENTER_KEY            : enterKey(webElement, value);                     break;
-                    case SELECT_FROM_DROPDOWN : selectTextFromDropdown(webElement, value);       break;
-                    case GET_CSS              : returnValue[0] = webElement.getCssValue(value);  break;
-                    case GET_ATTRIBUTE        : returnValue[0] = webElement.getAttribute(value); break;
-                    case GET_DROPDOWN_TEXT    : returnValue[0] = getDropDownText(webElement);    break;
-                    case GET_TEXT             : returnValue[0] = webElement.getText();           break;
+                    case CLICK                : webElement.click();                                 break;
+                    case ENTER_TEXT           : enterText(webElement, value);                       break;
+                    case ENTER_KEY            : enterKey(webElement, value);                        break;
+                    case SELECT_FROM_DROPDOWN : selectTextFromDropdown(webElement, value);          break;
+                    case GET_CSS              : returnValue[0] = webElement.getCssValue(value);     break;
+                    case GET_ATTRIBUTE        : returnValue[0] = webElement.getDomAttribute(value); break;
+                    case GET_DROPDOWN_TEXT    : returnValue[0] = getDropDownText(webElement);       break;
+                    case GET_TEXT             : returnValue[0] = webElement.getText();              break;
                 }
             } catch (Exception e) {
                 threadWait(250);
