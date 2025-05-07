@@ -1,9 +1,10 @@
-2025-05-07 10:47:49,919 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" get Version /value]]
-2025-05-07 10:47:50,085 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
+2025-05-07 11:53:54,322 INFO o.e.c.b.PageObjectExtension [Test worker] Detected Windows DEV
+2025-05-07 11:53:54,336 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, wmic datafile where name="C:\\Program Files\\Firefox Developer Edition\\firefox.exe" get Version /value]]
+2025-05-07 11:53:54,454 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [
 
 
 
-Version=136.0.3240.50
+Version=139.0.0.665
 
 
 
@@ -11,33 +12,24 @@ Version=136.0.3240.50
 
 
 ]
-2025-05-07 10:47:50,086 INFO o.e.c.b.PageObjectExtension [Test worker] Local Edge installation found!
-2025-05-07 10:47:50,087 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
-2025-05-07 10:47:50,095 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\edgedriver_win64\\msedgedriver.exe" --version]]
-2025-05-07 10:47:50,151 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [Microsoft Edge WebDriver 135.0.3179.85 (578105711aca34d1535878df51b6c326f4f264be)]
-2025-05-07 10:47:50,151 INFO o.e.c.b.PageObjectExtension [Test worker] Edge Browser version: 136.0.3240.50
-2025-05-07 10:47:50,151 INFO o.e.c.b.PageObjectExtension [Test worker] EdgeDriver version: 135.0.3179.85
-2025-05-07 10:47:50,152 WARN o.e.c.b.PageObjectExtension [Test worker] Driver and browser versions are incompatible!
-2025-05-07 10:47:50,152 INFO o.e.c.b.PageObjectExtension [Test worker] Downloading compatible EdgeDriver...
-2025-05-07 10:47:50,160 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, Taskkill /IM msedgedriver.exe /F]]
-2025-05-07 10:47:50,295 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [SUCCESS: The process "msedgedriver.exe" with PID 37580 has been terminated.
-SUCCESS: The process "msedgedriver.exe" with PID 19624 has been terminated.
-SUCCESS: The process "msedgedriver.exe" with PID 36544 has been terminated.]
-2025-05-07 10:47:51,227 INFO o.e.c.b.PageObjectExtension [Test worker] File downloaded to: C:\Users\Theo\Documents\Local Documents\Github\Baseline-Automation-Framework\src\test\resources\webdriver\windows\edgedriver_win64\edgedriver_win64.zip
-2025-05-07 10:47:51,227 INFO o.e.c.b.PageObjectExtension [Test worker] ZIP File Path [C:\Users\Theo\Documents\Local Documents\Github\Baseline-Automation-Framework\src\test\resources\webdriver\windows\edgedriver_win64\edgedriver_win64.zip]
-2025-05-07 10:47:51,228 INFO o.e.c.b.PageObjectExtension [Test worker] Target Directory [C:\Users\Theo\Documents\Local Documents\Github\Baseline-Automation-Framework\src\test\resources\webdriver\windows\edgedriver_win64]
-2025-05-07 10:47:52,156 INFO o.e.c.b.PageObjectExtension [Test worker] Edge Browser version: 136.0.3240.50
-2025-05-07 10:47:52,157 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
-2025-05-07 10:47:52,160 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\edgedriver_win64\\msedgedriver.exe" --version]]
-2025-05-07 10:47:52,271 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [Microsoft Edge WebDriver 136.0.3240.50 (4e2c41645f24197463afa2ab6aa999352ee8255c)]
-2025-05-07 10:47:52,272 INFO o.e.c.b.PageObjectExtension [Test worker] EdgeDriver version: 136.0.3240.50
-2025-05-07 10:47:52,272 INFO o.e.c.b.PageObjectExtension [Test worker] Driver versions are now compatible!
-2025-05-07 10:47:52,272 INFO o.e.c.b.PageObjectExtension [Test worker] Starting tests...
-2025-05-07 10:47:57,378 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:47:57,394 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:47:59,456 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:48:01,525 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:48:02,732 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:48:03,088 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:48:03,448 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
-2025-05-07 10:48:05,413 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:53:54,456 INFO o.e.c.b.PageObjectExtension [Test worker] Detected Firefox Developer Edition!
+2025-05-07 11:53:54,456 INFO o.e.c.b.PageObjectExtension [Test worker] Using [C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework] for absolute path...
+2025-05-07 11:53:54,463 INFO o.e.c.b.PageObjectExtension [Test worker] Executing command [[cmd, /C, "C:\\Users\\Theo\\Documents\\Local Documents\\Github\\Baseline-Automation-Framework\\src\\test\\resources\\webdriver\\windows\\geckodriver-win64\\geckodriver.exe" --version]]
+2025-05-07 11:53:54,499 INFO o.e.c.b.PageObjectExtension [Test worker] Execution result [geckodriver 0.36.0 (a3d508507022 2025-02-24 15:57 +0000)
+
+The source code of this program is available from
+testing/geckodriver in https://hg.mozilla.org/mozilla-central.
+
+This program is subject to the terms of the Mozilla Public License 2.0.
+You can obtain a copy of the license at https://mozilla.org/MPL/2.0/.]
+2025-05-07 11:53:54,501 INFO o.e.c.b.PageObjectExtension [Test worker] Firefox Browser version: 139.0.0.665
+2025-05-07 11:53:54,501 INFO o.e.c.b.PageObjectExtension [Test worker] Geckodriver version: 0.36.0
+2025-05-07 11:53:54,501 WARN o.e.c.b.PageObjectExtension [Test worker] If driver and browser are incompatible, visit: https://github.com/mozilla/geckodriver/releases
+2025-05-07 11:54:01,049 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:01,058 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:03,074 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:05,095 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:06,436 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:06,781 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:07,124 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***
+2025-05-07 11:54:09,036 INFO o.e.c.b.PageObjectExtension [Test worker] ***TEST SUCCEEDED***

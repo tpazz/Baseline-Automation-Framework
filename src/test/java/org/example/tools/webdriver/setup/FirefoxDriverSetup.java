@@ -6,12 +6,10 @@ import org.apache.logging.log4j.Logger;
 import org.example.core.base.PageObjectExtension;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
-public class FireFoxDriverSetup extends Utils {
+public class FirefoxDriverSetup extends Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
     public static volatile String detectedFirefoxBinary = null;
