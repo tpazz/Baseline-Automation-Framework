@@ -1,8 +1,9 @@
-@GSP
+
   # This is an example of how test steps would look like using GSP #
   # All of these test steps will perform actions as long as the syntax is correct #
 Feature: Gherkin Scripted Parameters
 
+  @GSP
   Scenario: GSP Test
     Given I navigate to "https://the-internet.herokuapp.com/"
     And I select "Dropdown"

@@ -6,17 +6,21 @@
 //import org.junit.platform.suite.api.Suite;
 //
 //import static io.cucumber.junit.platform.engine.Constants.*;
-//
 //@Suite
 //@IncludeEngines("cucumber")
 //@SelectClasspathResource("/features")
-//@ConfigurationParameter(key = GLUE_PROPERTY_NAME,
+//@ConfigurationParameter(
+//        key = GLUE_PROPERTY_NAME,
 //        value = "org.example")
-//@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
-//        value = "pretty," +
-//                "json:target/cucumber-reports/json/Cucumber_R2.json," +
-//                "junit:target/cucumber-reports/junit/Cucumber_R2.xml," +
-//                "html:target/cucumber-reports/html_R2")
-//@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME,
-//        value = "@GSP")
+//@ConfigurationParameter(
+//        key = PLUGIN_PROPERTY_NAME,
+//        value = "io.cucumber.core.plugin.SerenityReporterParallel," +
+//                "pretty," +
+//                "timeline:build/test-results/timeline_Runner2," +
+//                "json:target/cucumber-reports/json/Runner2.json," +
+//                "junit:target/cucumber-reports/junit/Runner2.xml," +
+//                "html:target/cucumber-reports/html_Runner2")
+//@ConfigurationParameter(
+//        key = FILTER_TAGS_PROPERTY_NAME,
+//        value = "@SOME_OTHER_TAG")
 //public class Runner2 {}

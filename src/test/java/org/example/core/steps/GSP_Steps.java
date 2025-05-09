@@ -1,6 +1,7 @@
 package org.example.core.steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -121,5 +122,10 @@ public class GSP_Steps extends PageObjectExtension {
         locator = xPathBuilder(data.get(0), data.get(1), data.get(2));
         elements = generateElements(locator);
         verify(String.valueOf(data.get(3)), String.valueOf(elements.size()));
+    }
+
+    @After
+    public void restartBrowser() {
+        getDriver().quit();
     }
 }

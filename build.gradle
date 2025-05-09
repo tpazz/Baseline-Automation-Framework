@@ -1,4 +1,4 @@
-defaultTasks 'clean', 'test', 'aggregate'
+defaultTasks 'clean', 'test', 'aggregate', 'reports'
 
 repositories {
     mavenCentral()
@@ -57,17 +57,9 @@ dependencies {
     implementation "org.seleniumhq.selenium:selenium-java:${selenium_java_version}"
     implementation "org.json:json:${json_version}"
     runtimeOnly "org.slf4j:slf4j-simple:${slf4j_version}"
-
 }
 
 test {
-
-    testLogging {
-        lifecycle.events  "passed", "skipped", "failed"
-        lifecycle.showStandardStreams = true
-        exceptionFormat = "full"
-    }
-
     useJUnitPlatform()
     systemProperty 'webdriver.driver',        'provided'
     systemProperty 'webdriver.provided.type', 'mydriver'
@@ -77,8 +69,8 @@ test {
 
     def base = 'org.example.tools.webdriver.provided'
     def impl = "${base}.${os}.${drv.capitalize()}DriverProperties"
-    systemProperty 'webdriver.provided.mydriver', impl
 
+    systemProperty 'webdriver.provided.mydriver', impl
     if (project.hasProperty('headless') && project.property('headless') == 'true') {
         systemProperty 'headless', 'true'
     }

@@ -19,7 +19,6 @@
             <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-
         <Root level="error">
             <AppenderRef ref="LogToConsole"/>
         </Root>

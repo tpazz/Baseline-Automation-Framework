@@ -47,6 +47,7 @@ public class PageObjectExtension extends PageObject {
         final String[] returnValue = {""};
         new WebDriverWait(getDriver(), timeOut).ignoring(Exception.class).until((WebDriver d) -> {
             ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement);
+            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].focus();", webElement);
             try {
                 switch (action) {
                     case CLICK                : webElement.click();                                 break;
