@@ -32,7 +32,7 @@ public class PageObjectExtension extends PageObject {
     public By locator;
     public WebDriverWait wait;
 
-    public enum Action { CLICK, ENTER_TEXT, SELECT_FROM_DROPDOWN, ENTER_KEY, GET_CSS, GET_ATTRIBUTE, GET_DROPDOWN_TEXT, GET_TEXT }
+    public enum Action { CLICK, JS_CLICK, ENTER_TEXT, ENTER_TEXT_NO_CLEAR, SELECT_FROM_DROPDOWN, ENTER_KEY, GET_CSS, GET_ATTRIBUTE, GET_DROPDOWN_TEXT, GET_TEXT }
     public enum WaitType { ENABLED, CLICKABLE, DISABLED, VISIBLE, NOT_VISIBLE }
 
     public String action(Action action, WebElement webElement, String value) {
@@ -58,6 +58,8 @@ public class PageObjectExtension extends PageObject {
                     case GET_ATTRIBUTE        : returnValue[0] = webElement.getDomAttribute(value); break;
                     case GET_DROPDOWN_TEXT    : returnValue[0] = getDropDownText(webElement);       break;
                     case GET_TEXT             : returnValue[0] = webElement.getText();              break;
+                    case JS_CLICK             : jsClickCenter(webElement);                          break;
+                    case ENTER_TEXT_NO_CLEAR  : webElement.sendKeys(value);                         break;
                 }
             } catch (Exception e) {
                 threadWait(250);
@@ -212,6 +214,11 @@ public class PageObjectExtension extends PageObject {
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert();
         alert.accept();
+    }
+
+    public void jsClickCenter(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript( "const r=arguments[0].getBoundingClientRect();arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,clientX:r.left+r.width/2,clientY:r.top+r.height/2}));", element);
     }
 
     public void dismissJSAlert() {

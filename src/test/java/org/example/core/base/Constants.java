@@ -12,7 +12,7 @@ public class Constants {
 
     // OTHER URLS
     public static final String CHROME_DRIVER_API = "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json";
-    public static final String EDGE_DRIVER_API = "https://msedgedriver.azureedge.net/";
+    public static final String EDGE_DRIVER_API = "https://msedgedriver.microsoft.com/";
     public static final String EDGE_DRIVER_LATEST_STABLE = "https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/LATEST_RELEASE_";
     public static final String THE_INTERNET_HEROKU = "https://the-internet.herokuapp.com/";
 

@@ -64,6 +64,7 @@ public class EdgeDriverSetup extends Utils {
     }
 
     public static void downloadEdgeDriver(String zipurl, String os) throws Exception {
+        logger.info("URL:" + zipurl);
         closeAllEdgeDrivers(os);
         String targetDirectory = null;
         switch (os) {
