@@ -13,10 +13,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import static org.example.core.base.Constants.*;
 
@@ -120,9 +116,18 @@ public class EdgeDriverSetup extends Utils {
             case "Windows": {
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\" get Version /value";
+
+                command = "reg query \"HKCU\\Software\\Microsoft\\Edge\\BLBeacon\" /v version";
                 result = executeCommand(terminal, flag, command);
-                return extractWindowsBrowserVersion(result, "Version");
+                String version = extractWindowsBrowserVersion(result);
+
+                if (version == null) {
+                    command = "reg query \"HKLM\\Software\\Microsoft\\Edge\\BLBeacon\" /v version";
+                    result = executeCommand(terminal, flag, command);
+                    version = extractWindowsBrowserVersion(result);
+                }
+
+                return version;
             }
             case "Linux": {
                 terminal = "bash";

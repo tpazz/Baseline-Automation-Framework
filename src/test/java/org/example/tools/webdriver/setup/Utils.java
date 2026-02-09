@@ -37,13 +37,18 @@ public class Utils {
         return res;
     }
 
-    public static String extractWindowsBrowserVersion(String result, String prefix) {
-        if (result.contains(prefix)) {
-            String[] version = result.split("=");
-            return version[1].trim();
-        } else {
+    public static String extractWindowsBrowserVersion(String result) {
+        if (result == null) {
             return null;
         }
+        for (String line : result.split("\\R")) {
+            line = line.trim();
+            if (line.startsWith("version")) {
+                String[] tokens = line.split("\\s+");
+                return tokens[tokens.length - 1];
+            }
+        }
+        return null;
     }
 
     public static String getFileNameFromUrl(String url) {

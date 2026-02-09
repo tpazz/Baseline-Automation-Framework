@@ -153,9 +153,19 @@ public class ChromeDriverSetup extends Utils {
             case "Windows": {
                 terminal = "cmd";
                 flag = "/C";
-                command = "wmic datafile where name=\"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\" get Version /value";
-                result = executeCommand(terminal,flag,command);
-                return extractWindowsBrowserVersion(result, "Version");
+
+                command = "reg query \"HKCU\\Software\\Google\\Chrome\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+
+                String version = extractWindowsBrowserVersion(result);
+
+                if (version == null) {
+                    command = "reg query \"HKLM\\Software\\Google\\Chrome\\BLBeacon\" /v version";
+                    result = executeCommand(terminal, flag, command);
+                    version = extractWindowsBrowserVersion(result);
+                }
+
+                return version;
             }
             case "Linux": {
                 terminal = "bash";
