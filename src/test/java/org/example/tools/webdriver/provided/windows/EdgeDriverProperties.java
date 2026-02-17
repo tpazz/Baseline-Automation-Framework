@@ -12,6 +12,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.example.tools.webdriver.setup.EdgeDriverSetup.detectedEdgeBinary;
+
 public class EdgeDriverProperties implements DriverSource {
     private static final AtomicBoolean setupDone = new AtomicBoolean(false);
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
@@ -23,6 +25,7 @@ public class EdgeDriverProperties implements DriverSource {
             catch (Exception e) { logger.error("Failed to prepare Edgedriver!"); }
         }
         System.setProperty("webdriver.edge.driver", "src/test/resources/webdriver/windows/edgedriver_win64/msedgedriver.exe");
+        if (detectedEdgeBinary != null) edgeOptions.setBinary(detectedEdgeBinary);
         edgeOptions.addArguments("InPrivate");
         edgeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, "ignore");
         if ("true".equalsIgnoreCase(System.getProperty("headless"))) edgeOptions.addArguments("headless");

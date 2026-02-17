@@ -13,22 +13,29 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.example.core.base.Constants.*;
 
 public class ChromeDriverSetup extends Utils {
+    public static volatile String detectedChromeBinary = null;
 
     public static void main(String os, ChromeOptions co) throws Exception {
         String chromeDriverVersion = "";
         String chromeBrowserVersion = checkLocalInstallation(os);
         if (chromeBrowserVersion == null) {
             logger.info("No local installation of Chrome found in default installation directories. Please download Chrome!");
-        } else {
-            logger.info("Local Chrome installation found!");
+            throw new IllegalStateException("Unable to detect Chrome binary/version on " + os);
         }
+        logger.info("Local Chrome installation found!");
+        logger.info("Detected Chrome binary: " + detectedChromeBinary);
         String shortChromeBrowserVersion = chromeBrowserVersion.split("\\.")[0];
         try {
             chromeDriverVersion = getChromeDriverVersion(os);
+            if (chromeDriverVersion == null || chromeDriverVersion.isBlank()) {
+                throw new IllegalStateException("Unable to detect Chromedriver version on " + os);
+            }
             String shortChromeDriverVersion = chromeDriverVersion.split("\\.")[0];
             logger.info("Chrome Browser version: " + chromeBrowserVersion);
             logger.info("Chromedriver version: " + chromeDriverVersion);
@@ -151,28 +158,83 @@ public class ChromeDriverSetup extends Utils {
     public static String checkLocalInstallation(String os) throws Exception {
         switch (os) {
             case "Windows": {
-                terminal = "cmd";
-                flag = "/C";
+                String[] candidates = new String[] {
+                        buildPath("ProgramFiles", "Google\\Chrome\\Application\\chrome.exe"),
+                        buildPath("ProgramFiles(x86)", "Google\\Chrome\\Application\\chrome.exe"),
+                        buildPath("LocalAppData", "Google\\Chrome\\Application\\chrome.exe"),
+                        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+                };
 
-                command = "reg query \"HKCU\\Software\\Google\\Chrome\\BLBeacon\" /v version";
-                result = executeCommand(terminal, flag, command);
-
-                String version = extractWindowsBrowserVersion(result);
-
-                if (version == null) {
-                    command = "reg query \"HKLM\\Software\\Google\\Chrome\\BLBeacon\" /v version";
-                    result = executeCommand(terminal, flag, command);
-                    version = extractWindowsBrowserVersion(result);
+                for (String candidate : candidates) {
+                    if (candidate != null && Files.exists(Paths.get(candidate))) {
+                        String version = getWindowsBrowserVersionFromBinary(candidate, "Google Chrome ");
+                        if (version != null) {
+                            detectedChromeBinary = candidate;
+                            return version;
+                        }
+                    }
                 }
 
-                return version;
+                String appPath = getWindowsAppPathFromRegistry("chrome.exe");
+                if (appPath != null && Files.exists(Paths.get(appPath))) {
+                    String version = getWindowsBrowserVersionFromBinary(appPath, "Google Chrome ");
+                    if (version != null) {
+                        detectedChromeBinary = appPath;
+                        return version;
+                    }
+                }
+
+                terminal = "cmd";
+                flag = "/C";
+                command = "reg query \"HKCU\\Software\\Google\\Chrome\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+                String version = extractWindowsBrowserVersion(result);
+                if (version != null) return version;
+
+                command = "reg query \"HKLM\\Software\\Google\\Chrome\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+                version = extractWindowsBrowserVersion(result);
+                if (version != null) return version;
+
+                command = "reg query \"HKLM\\Software\\WOW6432Node\\Google\\Chrome\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+                return extractWindowsBrowserVersion(result);
             }
             case "Linux": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/opt/google/chrome/chrome -version";
-                result = executeCommand(terminal,flag,command);
-                return extractLinuxBrowserVersion(result, "Google Chrome ");
+                String[] linuxCandidates = new String[] {
+                        "/opt/google/chrome/chrome",
+                        "/usr/bin/google-chrome",
+                        "/usr/bin/google-chrome-stable"
+                };
+                for (String candidate : linuxCandidates) {
+                    if (!Files.exists(Paths.get(candidate))) continue;
+                    terminal = "bash";
+                    flag = "-c";
+                    command = "\"" + candidate + "\" --version";
+                    result = executeCommand(terminal, flag, command);
+                    String detected = extractLinuxBrowserVersion(result, "Google Chrome ");
+                    if (detected != null) {
+                        detectedChromeBinary = candidate;
+                        return detected;
+                    }
+                }
+
+                String[] linuxCommands = new String[] {
+                        "google-chrome --version",
+                        "google-chrome-stable --version"
+                };
+                for (String cmd : linuxCommands) {
+                    terminal = "bash";
+                    flag = "-c";
+                    result = executeCommand(terminal, flag, cmd);
+                    String detected = extractLinuxBrowserVersion(result, "Google Chrome ");
+                    if (detected != null) {
+                        detectedChromeBinary = cmd.split(" ")[0];
+                        return detected;
+                    }
+                }
+                return null;
             }
         }
         return null;
@@ -200,5 +262,37 @@ public class ChromeDriverSetup extends Utils {
             }
         }
         return null;
+    }
+
+    private static String getWindowsBrowserVersionFromBinary(String binaryPath, String prefix) throws Exception {
+        terminal = "cmd";
+        flag = "/C";
+        command = "\"" + binaryPath + "\" --version";
+        result = executeCommand(terminal, flag, command);
+        return extractLinuxBrowserVersion(result, prefix);
+    }
+
+    private static String getWindowsAppPathFromRegistry(String exeName) throws Exception {
+        String[] queries = new String[] {
+                "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve",
+                "reg query \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve"
+        };
+        Pattern pattern = Pattern.compile("REG_SZ\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+        for (String q : queries) {
+            terminal = "cmd";
+            flag = "/C";
+            String out = executeCommand(terminal, flag, q);
+            for (String line : out.split("\\R")) {
+                Matcher matcher = pattern.matcher(line.trim());
+                if (matcher.find()) return matcher.group(1).trim();
+            }
+        }
+        return null;
+    }
+
+    private static String buildPath(String envVar, String suffix) {
+        String root = System.getenv(envVar);
+        if (root == null || root.isBlank()) return null;
+        return Paths.get(root, suffix).toString();
     }
 }

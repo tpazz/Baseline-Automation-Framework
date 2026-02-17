@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -31,10 +30,18 @@ public class Utils {
         String[] Pcommand = { terminal, flag, command };
         Process process = Runtime.getRuntime().exec(Pcommand);
         logger.info("Executing command [" + Arrays.toString(Pcommand) + "]");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String res = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        logger.info("Execution result [" + res + "]");
-        return res;
+        String stdout;
+        String stderr;
+        try (BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+             BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+            stdout = readAllLines(outReader);
+            stderr = readAllLines(errReader);
+        }
+        int exitCode = process.waitFor();
+        logger.info("Command exit code [" + exitCode + "]");
+        if (!stderr.isBlank()) logger.info("Execution stderr [" + stderr + "]");
+        logger.info("Execution stdout [" + stdout + "]");
+        return stdout.isBlank() ? stderr : stdout;
     }
 
     public static String extractWindowsBrowserVersion(String result) {
@@ -116,6 +123,16 @@ public class Utils {
         ABSOLUTE_PATH = Objects.requireNonNullElseGet(USER_ENV_HOME, () -> USER_DIR.replace("\\", "\\\\"));
         logger.info("Using [" + ABSOLUTE_PATH + "] for absolute path...");
         return ABSOLUTE_PATH;
+    }
+
+    private static String readAllLines(BufferedReader reader) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (!sb.isEmpty()) sb.append(System.lineSeparator());
+            sb.append(line);
+        }
+        return sb.toString();
     }
 
 }

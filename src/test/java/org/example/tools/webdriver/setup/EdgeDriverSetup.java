@@ -13,24 +13,31 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.example.core.base.Constants.*;
 
 public class EdgeDriverSetup extends Utils {
 
     public static Logger logger = LogManager.getLogger(PageObjectExtension.class);
+    public static volatile String detectedEdgeBinary = null;
 
     public static void main(String os, EdgeOptions eo) throws Exception {
         String edgeDriverVersion;
         String edgeBrowserVersion = checkLocalInstallation(os);
         if (edgeBrowserVersion == null) {
             logger.info("No local installation of Edge found in default installation directories. Please download Edge!");
-        } else {
-            logger.info("Local Edge installation found!");
+            throw new IllegalStateException("Unable to detect Edge binary/version on " + os);
         }
+        logger.info("Local Edge installation found!");
+        logger.info("Detected Edge binary: " + detectedEdgeBinary);
         String shortEdgeBrowserVersion = edgeBrowserVersion.split("\\.")[0];
         try {
             edgeDriverVersion = getEdgeDriverVersion(os);
+            if (edgeDriverVersion == null || edgeDriverVersion.isBlank()) {
+                throw new IllegalStateException("Unable to detect Edgedriver version on " + os);
+            }
             String shortEdgeDriverVersion = edgeDriverVersion.split("\\.")[0];
             logger.info("Edge Browser version: " + edgeBrowserVersion);
             logger.info("EdgeDriver version: " + edgeDriverVersion);
@@ -114,27 +121,82 @@ public class EdgeDriverSetup extends Utils {
     public static String checkLocalInstallation(String os) throws Exception {
         switch (os) {
             case "Windows": {
+                String[] candidates = new String[] {
+                        buildPath("ProgramFiles(x86)", "Microsoft\\Edge\\Application\\msedge.exe"),
+                        buildPath("ProgramFiles", "Microsoft\\Edge\\Application\\msedge.exe"),
+                        buildPath("LocalAppData", "Microsoft\\Edge\\Application\\msedge.exe"),
+                        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+                        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+                };
+
+                for (String candidate : candidates) {
+                    if (candidate != null && Files.exists(Paths.get(candidate))) {
+                        String version = getWindowsBrowserVersionFromBinary(candidate, "Microsoft Edge ");
+                        if (version != null) {
+                            detectedEdgeBinary = candidate;
+                            return version;
+                        }
+                    }
+                }
+
+                String appPath = getWindowsAppPathFromRegistry("msedge.exe");
+                if (appPath != null && Files.exists(Paths.get(appPath))) {
+                    String version = getWindowsBrowserVersionFromBinary(appPath, "Microsoft Edge ");
+                    if (version != null) {
+                        detectedEdgeBinary = appPath;
+                        return version;
+                    }
+                }
+
                 terminal = "cmd";
                 flag = "/C";
-
                 command = "reg query \"HKCU\\Software\\Microsoft\\Edge\\BLBeacon\" /v version";
                 result = executeCommand(terminal, flag, command);
                 String version = extractWindowsBrowserVersion(result);
+                if (version != null) return version;
 
-                if (version == null) {
-                    command = "reg query \"HKLM\\Software\\Microsoft\\Edge\\BLBeacon\" /v version";
-                    result = executeCommand(terminal, flag, command);
-                    version = extractWindowsBrowserVersion(result);
-                }
+                command = "reg query \"HKLM\\Software\\Microsoft\\Edge\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+                version = extractWindowsBrowserVersion(result);
+                if (version != null) return version;
 
-                return version;
+                command = "reg query \"HKLM\\Software\\WOW6432Node\\Microsoft\\Edge\\BLBeacon\" /v version";
+                result = executeCommand(terminal, flag, command);
+                return extractWindowsBrowserVersion(result);
             }
             case "Linux": {
-                terminal = "bash";
-                flag = "-c";
-                command = "/usr/bin/microsoft-edge -version";
-                result = executeCommand(terminal,flag,command);
-                return extractLinuxBrowserVersion(result, "Microsoft Edge ");
+                String[] linuxCandidates = new String[] {
+                        "/usr/bin/microsoft-edge",
+                        "/usr/bin/microsoft-edge-stable"
+                };
+                for (String candidate : linuxCandidates) {
+                    if (!Files.exists(Paths.get(candidate))) continue;
+                    terminal = "bash";
+                    flag = "-c";
+                    command = "\"" + candidate + "\" --version";
+                    result = executeCommand(terminal, flag, command);
+                    String detected = extractLinuxBrowserVersion(result, "Microsoft Edge ");
+                    if (detected != null) {
+                        detectedEdgeBinary = candidate;
+                        return detected;
+                    }
+                }
+
+                String[] linuxCommands = new String[] {
+                        "microsoft-edge --version",
+                        "microsoft-edge-stable --version"
+                };
+                for (String cmd : linuxCommands) {
+                    terminal = "bash";
+                    flag = "-c";
+                    result = executeCommand(terminal, flag, cmd);
+                    String detected = extractLinuxBrowserVersion(result, "Microsoft Edge ");
+                    if (detected != null) {
+                        detectedEdgeBinary = cmd.split(" ")[0];
+                        return detected;
+                    }
+                }
+                return null;
             }
         }
         return null;
@@ -162,5 +224,37 @@ public class EdgeDriverSetup extends Utils {
             }
         }
         return null;
+    }
+
+    private static String getWindowsBrowserVersionFromBinary(String binaryPath, String prefix) throws Exception {
+        terminal = "cmd";
+        flag = "/C";
+        command = "\"" + binaryPath + "\" --version";
+        result = executeCommand(terminal, flag, command);
+        return extractLinuxBrowserVersion(result, prefix);
+    }
+
+    private static String getWindowsAppPathFromRegistry(String exeName) throws Exception {
+        String[] queries = new String[] {
+                "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve",
+                "reg query \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve"
+        };
+        Pattern pattern = Pattern.compile("REG_SZ\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+        for (String q : queries) {
+            terminal = "cmd";
+            flag = "/C";
+            String out = executeCommand(terminal, flag, q);
+            for (String line : out.split("\\R")) {
+                Matcher matcher = pattern.matcher(line.trim());
+                if (matcher.find()) return matcher.group(1).trim();
+            }
+        }
+        return null;
+    }
+
+    private static String buildPath(String envVar, String suffix) {
+        String root = System.getenv(envVar);
+        if (root == null || root.isBlank()) return null;
+        return Paths.get(root, suffix).toString();
     }
 }

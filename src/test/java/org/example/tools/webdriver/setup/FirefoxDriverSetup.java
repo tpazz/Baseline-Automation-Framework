@@ -6,7 +6,10 @@ import org.example.core.base.PageObjectExtension;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FirefoxDriverSetup extends Utils {
 
@@ -19,9 +22,13 @@ public class FirefoxDriverSetup extends Utils {
 
         if (firefoxBrowserVersion == null) {
             logger.info("No local installation of Firefox found in default installation directories. Please download Firefox!");
+            throw new IllegalStateException("Unable to detect Firefox binary/version on " + os);
         }
 
         geckoDriverVersion = getGeckoDriverVersion(os);
+        if (geckoDriverVersion == null || geckoDriverVersion.isBlank()) {
+            throw new IllegalStateException("Unable to detect Geckodriver version on " + os);
+        }
 
         logger.info("Firefox Browser version: " + firefoxBrowserVersion);
         logger.info("Detected Firefox binary: " + detectedFirefoxBinary);
@@ -38,7 +45,22 @@ public class FirefoxDriverSetup extends Utils {
         version = checkLocalInstallationDev(os);
         if (version != null) return version;
 
-        return checkLocalInstallationEsr(os);
+        version = checkLocalInstallationEsr(os);
+        if (version != null) return version;
+
+        if ("Windows".equalsIgnoreCase(os)) {
+            String appPath = getWindowsAppPathFromRegistry("firefox.exe");
+            if (appPath != null && Files.exists(Paths.get(appPath))) {
+                version = getFirefoxVersionFromBinary(appPath, os);
+                if (version != null) {
+                    logger.info("Detected Firefox from App Paths registry!");
+                    detectedFirefoxBinary = appPath;
+                    return version;
+                }
+            }
+        }
+
+        return null;
     }
 
     public static String getGeckoDriverVersion(String os) throws Exception {
@@ -64,7 +86,15 @@ public class FirefoxDriverSetup extends Utils {
     }
 
     private static String extractGeckoDriverVersion(String result) {
-        return result.split(" ")[1];
+        if (result == null) return null;
+        for (String line : result.split("\\R")) {
+            String trimmed = line.trim();
+            if (trimmed.startsWith("geckodriver")) {
+                String[] tokens = trimmed.split("\\s+");
+                if (tokens.length > 1) return tokens[1];
+            }
+        }
+        return null;
     }
 
     private static String getFirefoxVersionFromRegistryWindows() throws Exception {
@@ -96,114 +126,171 @@ public class FirefoxDriverSetup extends Utils {
     }
 
     public static String checkLocalInstallationStandard(String os) throws Exception {
-        String pathWin = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-        String pathLin = "/usr/lib/firefox/firefox";
-
         switch (os) {
             case "Windows": {
-                if (!Files.exists(Paths.get(pathWin))) return null;
-
-                String version = getFirefoxVersionFromRegistryWindows();
-                if (version == null) return null;
-
-                if (!version.endsWith("esr")) {
-                    logger.info("Detected Firefox Standard Edition!");
-                    detectedFirefoxBinary = pathWin;
-                    return version;
+                String[] candidates = new String[] {
+                        buildPath("ProgramFiles", "Mozilla Firefox\\firefox.exe"),
+                        buildPath("ProgramFiles(x86)", "Mozilla Firefox\\firefox.exe"),
+                        buildPath("LocalAppData", "Mozilla Firefox\\firefox.exe"),
+                        "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+                        "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe"
+                };
+                for (String candidate : candidates) {
+                    if (candidate == null || !Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null && !version.endsWith("esr")) {
+                        logger.info("Detected Firefox Standard Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
                 return null;
             }
 
             case "Linux": {
-                if (!Files.exists(Paths.get(pathLin))) return null;
-
-                terminal = "bash";
-                flag = "-c";
-                command = pathLin + " -version";
-                result = executeCommand(terminal, flag, command);
-                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-
-                if (version != null) {
-                    logger.info("Detected Firefox Standard Edition!");
-                    detectedFirefoxBinary = pathLin;
+                String[] candidates = new String[] {
+                        "/usr/lib/firefox/firefox",
+                        "/usr/bin/firefox"
+                };
+                for (String candidate : candidates) {
+                    if (!Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null) {
+                        logger.info("Detected Firefox Standard Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
-                return version;
+                return null;
             }
         }
         return null;
     }
 
     public static String checkLocalInstallationDev(String os) throws Exception {
-        String pathWin = "C:\\Program Files\\Firefox Developer Edition\\firefox.exe";
-        String pathLin = "/opt/firefox-developer-edition/firefox";
-
         switch (os) {
             case "Windows": {
-                if (!Files.exists(Paths.get(pathWin))) return null;
-
-                String version = getFirefoxVersionFromRegistryWindows();
-                if (version != null) {
-                    logger.info("Detected Firefox Developer Edition!");
-                    detectedFirefoxBinary = pathWin;
-                    return version;
+                String[] candidates = new String[] {
+                        buildPath("ProgramFiles", "Firefox Developer Edition\\firefox.exe"),
+                        buildPath("ProgramFiles(x86)", "Firefox Developer Edition\\firefox.exe"),
+                        buildPath("LocalAppData", "Firefox Developer Edition\\firefox.exe"),
+                        "C:\\Program Files\\Firefox Developer Edition\\firefox.exe",
+                        "C:\\Program Files (x86)\\Firefox Developer Edition\\firefox.exe"
+                };
+                for (String candidate : candidates) {
+                    if (candidate == null || !Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null) {
+                        logger.info("Detected Firefox Developer Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
                 return null;
             }
 
             case "Linux": {
-                if (!Files.exists(Paths.get(pathLin))) return null;
-
-                terminal = "bash";
-                flag = "-c";
-                command = pathLin + " -version";
-                result = executeCommand(terminal, flag, command);
-                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-
-                if (version != null) {
-                    logger.info("Detected Firefox Developer Edition!");
-                    detectedFirefoxBinary = pathLin;
+                String[] candidates = new String[] {
+                        "/opt/firefox-developer-edition/firefox"
+                };
+                for (String candidate : candidates) {
+                    if (!Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null) {
+                        logger.info("Detected Firefox Developer Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
-                return version;
+                return null;
             }
         }
         return null;
     }
 
     public static String checkLocalInstallationEsr(String os) throws Exception {
-        String pathWin = "C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe";
-        String pathLin = "/usr/lib/firefox-esr/firefox";
-
         switch (os) {
             case "Windows": {
-                if (!Files.exists(Paths.get(pathWin))) return null;
-
-                String version = getFirefoxVersionFromRegistryWindows();
-                if (version == null) return null;
-
-                if (version.endsWith("esr")) {
-                    logger.info("Detected Firefox ESR Edition!");
-                    detectedFirefoxBinary = pathWin;
-                    return version;
+                String[] candidates = new String[] {
+                        buildPath("ProgramFiles", "Mozilla Firefox ESR\\firefox.exe"),
+                        buildPath("ProgramFiles(x86)", "Mozilla Firefox ESR\\firefox.exe"),
+                        "C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe",
+                        "C:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"
+                };
+                for (String candidate : candidates) {
+                    if (candidate == null || !Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null) {
+                        logger.info("Detected Firefox ESR Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
                 return null;
             }
 
             case "Linux": {
-                if (!Files.exists(Paths.get(pathLin))) return null;
-
-                terminal = "bash";
-                flag = "-c";
-                command = pathLin + " -version";
-                result = executeCommand(terminal, flag, command);
-                version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
-
-                if (version != null) {
-                    logger.info("Detected Firefox ESR Edition!");
-                    detectedFirefoxBinary = pathLin;
+                String[] candidates = new String[] {
+                        "/usr/lib/firefox-esr/firefox",
+                        "/usr/bin/firefox-esr"
+                };
+                for (String candidate : candidates) {
+                    if (!Files.exists(Paths.get(candidate))) continue;
+                    String version = getFirefoxVersionFromBinary(candidate, os);
+                    if (version != null) {
+                        logger.info("Detected Firefox ESR Edition!");
+                        detectedFirefoxBinary = candidate;
+                        return version;
+                    }
                 }
-                return version;
+                return null;
             }
         }
         return null;
+    }
+
+    private static String getFirefoxVersionFromBinary(String binaryPath, String os) throws Exception {
+        switch (os) {
+            case "Windows": {
+                terminal = "cmd";
+                flag = "/C";
+                command = "\"" + binaryPath + "\" -version";
+            } break;
+            case "Linux": {
+                terminal = "bash";
+                flag = "-c";
+                command = "\"" + binaryPath + "\" -version";
+            } break;
+            default: return null;
+        }
+        result = executeCommand(terminal, flag, command);
+        String version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+        if (version != null) return version;
+        String fromRegistry = "Windows".equalsIgnoreCase(os) ? getFirefoxVersionFromRegistryWindows() : null;
+        return fromRegistry;
+    }
+
+    private static String getWindowsAppPathFromRegistry(String exeName) throws Exception {
+        String[] queries = new String[] {
+                "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve",
+                "reg query \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\" + exeName + "\" /ve"
+        };
+        Pattern pattern = Pattern.compile("REG_SZ\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+        for (String q : queries) {
+            terminal = "cmd";
+            flag = "/C";
+            String out = executeCommand(terminal, flag, q);
+            for (String line : out.split("\\R")) {
+                Matcher matcher = pattern.matcher(line.trim());
+                if (matcher.find()) return matcher.group(1).trim();
+            }
+        }
+        return null;
+    }
+
+    private static String buildPath(String envVar, String suffix) {
+        String root = System.getenv(envVar);
+        if (root == null || root.isBlank()) return null;
+        return Path.of(root, suffix).toString();
     }
 }
