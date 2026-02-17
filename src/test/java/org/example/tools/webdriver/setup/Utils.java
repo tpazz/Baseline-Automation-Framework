@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -25,23 +26,42 @@ public class Utils {
     static String command;
     static String result;
     static String version;
+    private static final long COMMAND_TIMEOUT_SECONDS = 30;
 
     public static String executeCommand(String terminal, String flag, String command) throws Exception {
         String[] Pcommand = { terminal, flag, command };
-        Process process = Runtime.getRuntime().exec(Pcommand);
+        ProcessBuilder processBuilder = new ProcessBuilder(Pcommand);
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
         logger.info("Executing command [" + Arrays.toString(Pcommand) + "]");
-        String stdout;
-        String stderr;
-        try (BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-             BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-            stdout = readAllLines(outReader);
-            stderr = readAllLines(errReader);
+
+        StringBuilder output = new StringBuilder();
+        Thread streamReader = new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!output.isEmpty()) output.append(System.lineSeparator());
+                    output.append(line);
+                }
+            } catch (IOException e) {
+                logger.warn("Failed to read command output: " + e.getMessage());
+            }
+        });
+        streamReader.start();
+
+        boolean finished = process.waitFor(COMMAND_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        if (!finished) {
+            process.destroyForcibly();
+            streamReader.join(1000);
+            throw new RuntimeException("Command timed out after " + COMMAND_TIMEOUT_SECONDS + "s: " + Arrays.toString(Pcommand));
         }
-        int exitCode = process.waitFor();
+
+        streamReader.join(1000);
+        int exitCode = process.exitValue();
+        String res = output.toString();
         logger.info("Command exit code [" + exitCode + "]");
-        if (!stderr.isBlank()) logger.info("Execution stderr [" + stderr + "]");
-        logger.info("Execution stdout [" + stdout + "]");
-        return stdout.isBlank() ? stderr : stdout;
+        logger.info("Execution result [" + res + "]");
+        return res;
     }
 
     public static String extractWindowsBrowserVersion(String result) {
@@ -123,16 +143,6 @@ public class Utils {
         ABSOLUTE_PATH = Objects.requireNonNullElseGet(USER_ENV_HOME, () -> USER_DIR.replace("\\", "\\\\"));
         logger.info("Using [" + ABSOLUTE_PATH + "] for absolute path...");
         return ABSOLUTE_PATH;
-    }
-
-    private static String readAllLines(BufferedReader reader) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (!sb.isEmpty()) sb.append(System.lineSeparator());
-            sb.append(line);
-        }
-        return sb.toString();
     }
 
 }
