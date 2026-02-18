@@ -265,11 +265,13 @@ public class ChromeDriverSetup extends Utils {
     }
 
     private static String getWindowsBrowserVersionFromBinary(String binaryPath, String prefix) throws Exception {
-        terminal = "cmd";
-        flag = "/C";
-        command = "\"" + binaryPath + "\" --version";
+        terminal = "powershell";
+        flag = "-Command";
+        command = "(Get-Item '" + binaryPath.replace("'", "''") + "').VersionInfo.ProductVersion";
         result = executeCommand(terminal, flag, command);
-        return extractLinuxBrowserVersion(result, prefix);
+        if (result == null) return null;
+        String trimmed = result.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     private static String getWindowsAppPathFromRegistry(String exeName) throws Exception {

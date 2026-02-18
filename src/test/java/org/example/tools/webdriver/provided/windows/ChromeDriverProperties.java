@@ -21,7 +21,7 @@ public class ChromeDriverProperties implements DriverSource {
         ChromeOptions chromeOptions = new ChromeOptions();
         if (setupDone.compareAndSet(false, true)) {
             try { ChromeDriverSetup.main("Windows", chromeOptions); }
-            catch (Exception e) { logger.error("Failed to prepare Chromedriver!"); }
+            catch (Exception e) { logger.error("Failed to prepare Chromedriver!", e); }
         }
         System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/windows/chromedriver-win64/chromedriver.exe");
         if (detectedChromeBinary != null) chromeOptions.setBinary(detectedChromeBinary);

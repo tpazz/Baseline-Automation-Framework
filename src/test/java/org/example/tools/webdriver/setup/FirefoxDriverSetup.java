@@ -252,9 +252,9 @@ public class FirefoxDriverSetup extends Utils {
     private static String getFirefoxVersionFromBinary(String binaryPath, String os) throws Exception {
         switch (os) {
             case "Windows": {
-                terminal = "cmd";
-                flag = "/C";
-                command = "\"" + binaryPath + "\" -version";
+                terminal = "powershell";
+                flag = "-Command";
+                command = "(Get-Item '" + binaryPath.replace("'", "''") + "').VersionInfo.ProductVersion";
             } break;
             case "Linux": {
                 terminal = "bash";
@@ -264,7 +264,9 @@ public class FirefoxDriverSetup extends Utils {
             default: return null;
         }
         result = executeCommand(terminal, flag, command);
-        String version = extractLinuxBrowserVersion(result, "Mozilla Firefox ");
+        String version = "Windows".equalsIgnoreCase(os)
+                ? (result == null || result.trim().isEmpty() ? null : result.trim())
+                : extractLinuxBrowserVersion(result, "Mozilla Firefox ");
         if (version != null) return version;
         String fromRegistry = "Windows".equalsIgnoreCase(os) ? getFirefoxVersionFromRegistryWindows() : null;
         return fromRegistry;

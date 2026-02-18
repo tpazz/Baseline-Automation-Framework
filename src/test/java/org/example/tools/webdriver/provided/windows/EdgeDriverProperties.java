@@ -22,7 +22,7 @@ public class EdgeDriverProperties implements DriverSource {
         EdgeOptions edgeOptions = new EdgeOptions();
         if (setupDone.compareAndSet(false, true)) {
             try { EdgeDriverSetup.main("Windows", edgeOptions); }
-            catch (Exception e) { logger.error("Failed to prepare Edgedriver!"); }
+            catch (Exception e) { logger.error("Failed to prepare Edgedriver!", e); }
         }
         System.setProperty("webdriver.edge.driver", "src/test/resources/webdriver/windows/edgedriver_win64/msedgedriver.exe");
         if (detectedEdgeBinary != null) edgeOptions.setBinary(detectedEdgeBinary);
